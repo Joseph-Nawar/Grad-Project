@@ -1,0 +1,23 @@
+RuralStroke-Assist Triage Report
+
+Triage Level:
+Low concern
+
+Final Risk Score:
+0.345
+
+System Confidence:
+0.385
+
+Evidence:
+- Placeholder face module result.
+- Age is above 60.
+- Hypertension reported.
+- Symptoms started within an urgent time window.
+
+Warnings:
+- Real facial landmark analysis not implemented yet.
+- No speech audio provided.
+
+Important Safety Note:
+This system does not diagnose stroke. It provides decision-support guidance for early triage and escalation.

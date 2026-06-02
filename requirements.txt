@@ -1,0 +1,12 @@
+kaggle
+pandas
+numpy
+matplotlib
+pillow
+opencv-python
+scikit-learn
+jupyter
+ipykernel
+python-dotenv
+pydantic
+tqdm

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "rural-stroke-assist"
+version = "0.0.1"
+description = "A short description of the project."
+authors = [
+  { name = "Joseph" },
+]
+
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    
+]
+requires-python = "==3.14.4"
+
+
+[tool.ruff]
+line-length = 99
+src = ["rural-stroke-assist"]
+include = ["pyproject.toml", "rural-stroke-assist/**/*.py"]
+
+[tool.ruff.lint]
+extend-select = ["I"]  # Add import sorting
+
+[tool.ruff.lint.isort]
+known-first-party = ["rural-stroke-assist"]
+force-sort-within-sections = true
+
