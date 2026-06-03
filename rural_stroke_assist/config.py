@@ -34,3 +34,7 @@ SPEECH_KAGGLE_DATASET = "pranaykoppula/torgo-audio"
 
 # Test reports paths
 SMOKE_TEST_REPORT_PATH = REPORTS_DIR / "milestone_1_smoke_test_report.txt"
+
+FACE_INTERIM_MANIFEST_PATH = INTERIM_DATA_DIR / "face_image_manifest.csv"
+FACE_DUPLICATE_REPORT_PATH = INTERIM_DATA_DIR / "face_duplicate_report.csv"
+FACE_CLEAN_MANIFEST_PATH = PROCESSED_DATA_DIR / "face_clean_manifest.csv"

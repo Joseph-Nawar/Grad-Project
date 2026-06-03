@@ -1,5 +1,6 @@
 from pydantic import ValidationError
 import pytest
+import pandas as pd
 
 from rural_stroke_assist.capture.input_handler import create_assessment_input
 from rural_stroke_assist.capture.schemas import PatientMetadata
@@ -83,3 +84,42 @@ def test_fusion_and_report_generation_produce_valid_output() -> None:
     assert fusion_result.triage_level in {"Low concern", "Moderate concern", "High concern"}
     assert "does not diagnose stroke" in report
     assert "Important Safety Note" in report
+
+from rural_stroke_assist.preprocessing.face_audit import (
+    create_duplicate_report,
+    create_clean_face_manifest,
+)
+
+
+def test_face_duplicate_report_detects_same_class_duplicates():
+    manifest = pd.DataFrame(
+        {
+            "path": ["a.jpg", "b.jpg", "c.jpg"],
+            "class_label": ["Stroke", "Stroke", "NonStroke"],
+            "file_hash": ["hash1", "hash1", "hash2"],
+        }
+    )
+
+    report = create_duplicate_report(manifest)
+
+    duplicate_row = report[report["file_hash"] == "hash1"].iloc[0]
+
+    assert duplicate_row["file_count"] == 2
+    assert duplicate_row["class_count"] == 1
+    assert duplicate_row["is_duplicate"] is True or duplicate_row["is_duplicate"] == True
+    assert duplicate_row["is_cross_class_duplicate"] is False or duplicate_row["is_cross_class_duplicate"] == False
+
+
+def test_clean_face_manifest_removes_cross_class_duplicates():
+    manifest = pd.DataFrame(
+        {
+            "path": ["a.jpg", "b.jpg", "c.jpg"],
+            "class_label": ["Stroke", "NonStroke", "Stroke"],
+            "file_hash": ["hash1", "hash1", "hash2"],
+        }
+    )
+
+    clean_manifest = create_clean_face_manifest(manifest)
+
+    assert len(clean_manifest) == 1
+    assert clean_manifest.iloc[0]["file_hash"] == "hash2"
