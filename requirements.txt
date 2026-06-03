@@ -10,3 +10,8 @@ ipykernel
 python-dotenv
 pydantic
 tqdm
+typer
+loguru
+pytest
+librosa
+soundfile

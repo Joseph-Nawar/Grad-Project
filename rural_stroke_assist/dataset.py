@@ -4,8 +4,10 @@ from pathlib import Path
 from rural_stroke_assist.config import (
     FACE_DATA_DIR,
     METADATA_DATA_DIR,
+    SPEECH_DATA_DIR,
     FACE_KAGGLE_DATASET,
     METADATA_KAGGLE_DATASET,
+    SPEECH_KAGGLE_DATASET,
 )
 
 
@@ -46,6 +48,7 @@ def download_all_datasets() -> None:
     """Download all raw datasets required for the current project milestone."""
     download_kaggle_dataset(FACE_KAGGLE_DATASET, FACE_DATA_DIR)
     download_kaggle_dataset(METADATA_KAGGLE_DATASET, METADATA_DATA_DIR)
+    download_kaggle_dataset(SPEECH_KAGGLE_DATASET, SPEECH_DATA_DIR)
 
 
 if __name__ == "__main__":

@@ -19,6 +19,37 @@ Preprocessing issues:
 - lighting variation
 - possible sourcing limitations
 
+## Speech Dataset
+
+Dataset: TORGO Audio Dataset
+
+Total `.wav` files found:
+17,635
+
+Current readable audio files:
+17,633
+
+Class balance after corrected TORGO folder mapping:
+
+- Control: 11,455 readable files
+- Dysarthric: 6,178 readable files
+
+Raw folder counts before readability filtering:
+
+- F_Con: 4,677
+- M_Con: 6,778
+- F_Dys: 2,391
+- M_Dys: 3,787
+
+Preprocessing issues:
+- TORGO is a dysarthria dataset, not a stroke-specific dataset.
+- Dysarthric speech is used as a proxy for FAST-style speech abnormality.
+- Speaker-level splitting is required to avoid leakage.
+- Audio files vary in duration.
+- Very short clips may be unusable.
+- Long clips may require trimming or segmentation.
+- Audio should be resampled to a consistent sample rate before modeling.
+
 ## Metadata Dataset
 
 Dataset: Stroke Prediction Dataset

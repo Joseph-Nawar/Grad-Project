@@ -13,20 +13,22 @@ authors = [
 readme = "README.md"
 classifiers = [
     "Programming Language :: Python :: 3",
-    
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
-requires-python = "==3.14.4"
+requires-python = ">=3.11,<3.15"
 
 
 [tool.ruff]
 line-length = 99
-src = ["rural-stroke-assist"]
-include = ["pyproject.toml", "rural-stroke-assist/**/*.py"]
+src = ["rural_stroke_assist", "tests"]
+include = ["pyproject.toml", "rural_stroke_assist/**/*.py", "tests/**/*.py"]
 
 [tool.ruff.lint]
 extend-select = ["I"]  # Add import sorting
 
 [tool.ruff.lint.isort]
-known-first-party = ["rural-stroke-assist"]
+known-first-party = ["rural_stroke_assist"]
 force-sort-within-sections = true
 
