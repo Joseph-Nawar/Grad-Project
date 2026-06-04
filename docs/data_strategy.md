@@ -60,3 +60,26 @@ The metadata dataset supports contextual risk modeling.
 ### Planned Strategy
 
 Use the dataset for baseline tabular modeling and later combine it with structured FAST/NIHSS-inspired symptom metadata.
+
+
+
+
+## Split Strategy
+
+### Face
+
+The cleaned face manifest is split using stratified sampling so that the Stroke/NonStroke ratio is preserved across train, validation, and test sets.
+
+Before splitting, exact duplicates and cross-class duplicates are removed to reduce data leakage.
+
+### Speech
+
+Speech data is split by speaker ID rather than by audio file.
+
+This is critical because random audio-level splitting could place the same speaker in both training and testing sets, causing speaker leakage and inflated performance.
+
+### Metadata
+
+Metadata data is split using stratified sampling because the positive stroke class is rare.
+
+This preserves the severe class imbalance across train, validation, and test sets.

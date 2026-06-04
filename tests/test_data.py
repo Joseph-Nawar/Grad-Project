@@ -123,3 +123,71 @@ def test_clean_face_manifest_removes_cross_class_duplicates():
 
     assert len(clean_manifest) == 1
     assert clean_manifest.iloc[0]["file_hash"] == "hash2"
+
+
+from rural_stroke_assist.preprocessing.splitting import (
+    add_stratified_split,
+    add_group_split,
+)
+
+
+def test_stratified_split_assigns_all_rows():
+    df = pd.DataFrame(
+        {
+            "feature": range(20),
+            "label": [0] * 10 + [1] * 10,
+        }
+    )
+
+    split_df = add_stratified_split(df, label_column="label")
+
+    assert "split" in split_df.columns
+    assert split_df["split"].isna().sum() == 0
+    assert set(split_df["split"].unique()) == {"train", "val", "test"}
+
+
+def test_group_split_prevents_group_leakage():
+    rows = []
+
+    # 6 control speakers, 5 files each
+    for speaker_id in ["C1", "C2", "C3", "C4", "C5", "C6"]:
+        for i in range(5):
+            rows.append(
+                {
+                    "speaker_id": speaker_id,
+                    "label": "control",
+                    "file_id": f"{speaker_id}_{i}",
+                }
+            )
+
+    # 6 dysarthric speakers, 5 files each
+    for speaker_id in ["D1", "D2", "D3", "D4", "D5", "D6"]:
+        for i in range(5):
+            rows.append(
+                {
+                    "speaker_id": speaker_id,
+                    "label": "dysarthric",
+                    "file_id": f"{speaker_id}_{i}",
+                }
+            )
+
+    df = pd.DataFrame(rows)
+
+    split_df = add_group_split(
+        df,
+        group_column="speaker_id",
+        label_column="label",
+        train_size=0.5,
+        val_size=0.25,
+        test_size=0.25,
+    )
+
+    group_split_counts = (
+        split_df[["speaker_id", "split"]]
+        .drop_duplicates()
+        .groupby("speaker_id")["split"]
+        .nunique()
+    )
+
+    assert group_split_counts.max() == 1
+    assert set(split_df["split"].unique()) == {"train", "val", "test"}
