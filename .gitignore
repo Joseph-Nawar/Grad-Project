@@ -189,3 +189,11 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Ignore raw/processed datasets (never push images to GitHub)
+data/
+
+# Ignore AutoKeras and Keras Tuner tracking directories
+*.keras
+experiments/
+models/

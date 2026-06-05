@@ -75,3 +75,29 @@ Preprocessing issues:
 The face dataset supports the facial analysis module.  
 The metadata dataset supports the contextual risk module.  
 Together, they provide the first implementation foundation for the multimodal architecture.
+
+
+
+### Face Dataset Duplicate Audit
+
+A duplicate audit was performed using SHA256 file hashing.
+
+Findings:
+
+- Total image files before cleaning: 3749
+- Unique image hashes: 2116
+- Duplicate extra files: 1633
+- Duplicate extra percentage: 43.56%
+- Cross-class duplicate hashes: 1
+- Clean images after deduplication: 2115
+- Removed files: 1634
+
+Cleaning strategy:
+
+- Raw files were left unchanged in `data/raw`.
+- Exact duplicate files were identified using file hashes.
+- Cross-class duplicates were removed entirely due to conflicting labels.
+- Same-class duplicates were reduced to one representative image per unique hash.
+- The cleaned modeling manifest was saved to `data/processed/face_clean_manifest.csv`.
+
+This cleaning step is necessary because duplicate images can cause data leakage and artificially inflate model performance.

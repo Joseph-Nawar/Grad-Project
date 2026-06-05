@@ -34,3 +34,25 @@ SPEECH_KAGGLE_DATASET = "pranaykoppula/torgo-audio"
 
 # Test reports paths
 SMOKE_TEST_REPORT_PATH = REPORTS_DIR / "milestone_1_smoke_test_report.txt"
+
+FACE_INTERIM_MANIFEST_PATH = INTERIM_DATA_DIR / "face_image_manifest.csv"
+FACE_DUPLICATE_REPORT_PATH = INTERIM_DATA_DIR / "face_duplicate_report.csv"
+FACE_CLEAN_MANIFEST_PATH = PROCESSED_DATA_DIR / "face_clean_manifest.csv"
+
+FACE_SPLIT_MANIFEST_PATH = PROCESSED_DATA_DIR / "face_split_manifest.csv"
+SPEECH_INTERIM_MANIFEST_PATH = INTERIM_DATA_DIR / "speech_audio_manifest.csv"
+SPEECH_SPLIT_MANIFEST_PATH = PROCESSED_DATA_DIR / "speech_split_manifest.csv"
+METADATA_SPLIT_MANIFEST_PATH = PROCESSED_DATA_DIR / "metadata_split_manifest.csv"
+
+FACE_IMAGE_SIZE = (160, 160)
+FACE_BATCH_SIZE = 16
+
+FACE_EXPERIMENTS_DIR = MODELS_DIR / "experiments" / "face"
+
+FACE_AUTOKERAS_TRIAL_001_DIR = FACE_EXPERIMENTS_DIR / "trial_001_autokeras_vanilla_160"
+FACE_AUTOKERAS_TRIAL_001_MODEL_PATH = FACE_AUTOKERAS_TRIAL_001_DIR / "model_unusable.keras"
+
+FACE_AUTOKERAS_TRIAL_001_RESULTS_PATH = REPORTS_DIR / "experiments" / "face_trial_001_autokeras_vanilla_160_results.md"
+FACE_AUTOKERAS_TRIAL_001_PREDICTIONS_PATH = PROCESSED_DATA_DIR / "experiments" / "face_trial_001_autokeras_vanilla_160_predictions.csv"
+FACE_AUTOKERAS_TRIAL_001_CONFUSION_MATRIX_PATH = FIGURES_DIR / "experiments" / "face_trial_001_autokeras_vanilla_160_confusion_matrix.png"
+

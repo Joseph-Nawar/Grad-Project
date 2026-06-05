@@ -1,0 +1,13 @@
+tensorflow==2.16.2
+keras==3.14.1
+autokeras==2.0.0
+keras-tuner==1.4.7
+tensorboard==2.16.2
+
+scikit-learn==1.5.2
+pandas==2.2.3
+numpy==1.26.4
+matplotlib==3.9.2
+pillow==10.4.0
+opencv-python==4.10.0.84
+tqdm==4.66.5

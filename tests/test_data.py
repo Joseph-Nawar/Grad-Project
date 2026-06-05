@@ -1,5 +1,6 @@
 from pydantic import ValidationError
 import pytest
+import pandas as pd
 
 from rural_stroke_assist.capture.input_handler import create_assessment_input
 from rural_stroke_assist.capture.schemas import PatientMetadata
@@ -83,3 +84,128 @@ def test_fusion_and_report_generation_produce_valid_output() -> None:
     assert fusion_result.triage_level in {"Low concern", "Moderate concern", "High concern"}
     assert "does not diagnose stroke" in report
     assert "Important Safety Note" in report
+
+from rural_stroke_assist.preprocessing.face_audit import (
+    create_duplicate_report,
+    create_clean_face_manifest,
+)
+
+
+def test_face_duplicate_report_detects_same_class_duplicates():
+    manifest = pd.DataFrame(
+        {
+            "path": ["a.jpg", "b.jpg", "c.jpg"],
+            "class_label": ["Stroke", "Stroke", "NonStroke"],
+            "file_hash": ["hash1", "hash1", "hash2"],
+        }
+    )
+
+    report = create_duplicate_report(manifest)
+
+    duplicate_row = report[report["file_hash"] == "hash1"].iloc[0]
+
+    assert duplicate_row["file_count"] == 2
+    assert duplicate_row["class_count"] == 1
+    assert duplicate_row["is_duplicate"] is True or duplicate_row["is_duplicate"] == True
+    assert duplicate_row["is_cross_class_duplicate"] is False or duplicate_row["is_cross_class_duplicate"] == False
+
+
+def test_clean_face_manifest_removes_cross_class_duplicates():
+    manifest = pd.DataFrame(
+        {
+            "path": ["a.jpg", "b.jpg", "c.jpg"],
+            "class_label": ["Stroke", "NonStroke", "Stroke"],
+            "file_hash": ["hash1", "hash1", "hash2"],
+        }
+    )
+
+    clean_manifest = create_clean_face_manifest(manifest)
+
+    assert len(clean_manifest) == 1
+    assert clean_manifest.iloc[0]["file_hash"] == "hash2"
+
+
+from rural_stroke_assist.preprocessing.splitting import (
+    add_stratified_split,
+    add_group_split,
+)
+
+
+def test_stratified_split_assigns_all_rows():
+    df = pd.DataFrame(
+        {
+            "feature": range(20),
+            "label": [0] * 10 + [1] * 10,
+        }
+    )
+
+    split_df = add_stratified_split(df, label_column="label")
+
+    assert "split" in split_df.columns
+    assert split_df["split"].isna().sum() == 0
+    assert set(split_df["split"].unique()) == {"train", "val", "test"}
+
+
+def test_group_split_prevents_group_leakage():
+    rows = []
+
+    # 6 control speakers, 5 files each
+    for speaker_id in ["C1", "C2", "C3", "C4", "C5", "C6"]:
+        for i in range(5):
+            rows.append(
+                {
+                    "speaker_id": speaker_id,
+                    "label": "control",
+                    "file_id": f"{speaker_id}_{i}",
+                }
+            )
+
+    # 6 dysarthric speakers, 5 files each
+    for speaker_id in ["D1", "D2", "D3", "D4", "D5", "D6"]:
+        for i in range(5):
+            rows.append(
+                {
+                    "speaker_id": speaker_id,
+                    "label": "dysarthric",
+                    "file_id": f"{speaker_id}_{i}",
+                }
+            )
+
+    df = pd.DataFrame(rows)
+
+    split_df = add_group_split(
+        df,
+        group_column="speaker_id",
+        label_column="label",
+        train_size=0.5,
+        val_size=0.25,
+        test_size=0.25,
+    )
+
+    group_split_counts = (
+        split_df[["speaker_id", "split"]]
+        .drop_duplicates()
+        .groupby("speaker_id")["split"]
+        .nunique()
+    )
+
+    assert group_split_counts.max() == 1
+    assert set(split_df["split"].unique()) == {"train", "val", "test"}
+
+
+from rural_stroke_assist.preprocessing.face_dataset import (
+    compute_class_weights_from_manifest,
+)
+
+
+def test_compute_class_weights_from_manifest_returns_both_classes():
+    df = pd.DataFrame(
+        {
+            "class_label": ["NonStroke", "NonStroke", "Stroke"],
+        }
+    )
+
+    weights = compute_class_weights_from_manifest(df)
+
+    assert set(weights.keys()) == {0, 1}
+    assert weights[1] > weights[0]
