@@ -56,3 +56,27 @@ FACE_AUTOKERAS_TRIAL_001_RESULTS_PATH = REPORTS_DIR / "experiments" / "face_tria
 FACE_AUTOKERAS_TRIAL_001_PREDICTIONS_PATH = PROCESSED_DATA_DIR / "experiments" / "face_trial_001_autokeras_vanilla_160_predictions.csv"
 FACE_AUTOKERAS_TRIAL_001_CONFUSION_MATRIX_PATH = FIGURES_DIR / "experiments" / "face_trial_001_autokeras_vanilla_160_confusion_matrix.png"
 
+FACE_AUTOKERAS_TRIAL_002_DIR = (
+    MODELS_DIR / "experiments" / "face" / "trial_002_autokeras_broad_160"
+)
+
+FACE_AUTOKERAS_TRIAL_002_MODEL_PATH = (
+    FACE_AUTOKERAS_TRIAL_002_DIR / "model.keras"
+)
+
+FACE_AUTOKERAS_TRIAL_002_RESULTS_PATH = (
+    REPORTS_DIR / "experiments" / "face_trial_002_autokeras_broad_160_results.md"
+)
+
+FACE_AUTOKERAS_TRIAL_002_PREDICTIONS_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "face_trial_002_autokeras_broad_160_predictions.csv"
+)
+
+FACE_AUTOKERAS_TRIAL_002_CONFUSION_MATRIX_PATH = (
+    FIGURES_DIR / "experiments" / "face_trial_002_autokeras_broad_160_confusion_matrix.png"
+)
+
+FACE_AUTOKERAS_TRIAL_002_HISTORY_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "face_trial_002_autokeras_broad_160_history.csv"
+)
+
