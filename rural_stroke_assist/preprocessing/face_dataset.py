@@ -107,3 +107,5 @@ def compute_class_weights_from_manifest(df: pd.DataFrame) -> dict[int, float]:
     """
     encoded_labels = encode_labels(df["class_label"])
     return compute_class_weights_from_labels(encoded_labels)
+
+

@@ -80,3 +80,50 @@ FACE_AUTOKERAS_TRIAL_002_HISTORY_PATH = (
     PROCESSED_DATA_DIR / "experiments" / "face_trial_002_autokeras_broad_160_history.csv"
 )
 
+
+
+FACE_TRIAL_003_DIR = (
+    MODELS_DIR / "experiments" / "face" / "trial_003_mobilenetv2_balanced_160"
+)
+
+FACE_TRIAL_003_MODEL_PATH = FACE_TRIAL_003_DIR / "model.keras"
+
+FACE_TRIAL_003_RESULTS_PATH = (
+    REPORTS_DIR / "experiments" / "face_trial_003_mobilenetv2_balanced_160_results.md"
+)
+
+FACE_TRIAL_003_PREDICTIONS_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "face_trial_003_mobilenetv2_balanced_160_predictions.csv"
+)
+
+FACE_TRIAL_003_CONFUSION_MATRIX_PATH = (
+    FIGURES_DIR / "experiments" / "face_trial_003_mobilenetv2_balanced_160_confusion_matrix.png"
+)
+
+FACE_TRIAL_003_HISTORY_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "face_trial_003_mobilenetv2_balanced_160_history.csv"
+)
+
+FACE_ERROR_ANALYSIS_DIR = (
+    REPORTS_DIR / "error_analysis"
+)
+
+FACE_FALSE_POSITIVES_PATH = (
+    FACE_ERROR_ANALYSIS_DIR / "face_trial_003_false_positives.csv"
+)
+
+FACE_FALSE_NEGATIVES_PATH = (
+    FACE_ERROR_ANALYSIS_DIR / "face_trial_003_false_negatives.csv"
+)
+
+FACE_LOW_CONFIDENCE_CORRECT_PATH = (
+    FACE_ERROR_ANALYSIS_DIR / "face_trial_003_low_confidence_correct.csv"
+)
+
+FACE_HIGH_CONFIDENCE_ERRORS_PATH = (
+    FACE_ERROR_ANALYSIS_DIR / "face_trial_003_high_confidence_errors.csv"
+)
+
+FACE_ERROR_ANALYSIS_REPORT_PATH = (
+    FACE_ERROR_ANALYSIS_DIR / "face_trial_003_error_analysis.md"
+)
