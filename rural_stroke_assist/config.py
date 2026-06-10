@@ -127,3 +127,41 @@ FACE_HIGH_CONFIDENCE_ERRORS_PATH = (
 FACE_ERROR_ANALYSIS_REPORT_PATH = (
     FACE_ERROR_ANALYSIS_DIR / "face_trial_003_error_analysis.md"
 )
+
+# Multiclass facial expression dataset: FER2013
+FER2013_DATA_DIR = RAW_DATA_DIR / "fer2013"
+FER2013_KAGGLE_DATASET = "msambare/fer2013"
+
+FER2013_INTERIM_MANIFEST_PATH = (
+    INTERIM_DATA_DIR / "fer2013_image_manifest.csv"
+)
+
+FER2013_SPLIT_MANIFEST_PATH = (
+    PROCESSED_DATA_DIR / "fer2013_split_manifest.csv"
+)
+
+FER2013_IMAGE_SIZE = (160, 160)
+FER2013_BATCH_SIZE = 32
+FER2013_RANDOM_STATE = 42
+
+FER2013_TRIAL_001_DIR = (
+    MODELS_DIR / "experiments" / "fer2013" / "trial_001_mobilenetv2_160"
+)
+
+FER2013_TRIAL_001_MODEL_PATH = FER2013_TRIAL_001_DIR / "model.keras"
+
+FER2013_TRIAL_001_RESULTS_PATH = (
+    REPORTS_DIR / "experiments" / "fer2013_trial_001_mobilenetv2_160_results.md"
+)
+
+FER2013_TRIAL_001_PREDICTIONS_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "fer2013_trial_001_mobilenetv2_160_predictions.csv"
+)
+
+FER2013_TRIAL_001_CONFUSION_MATRIX_PATH = (
+    FIGURES_DIR / "experiments" / "fer2013_trial_001_mobilenetv2_160_confusion_matrix.png"
+)
+
+FER2013_TRIAL_001_HISTORY_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "fer2013_trial_001_mobilenetv2_160_history.csv"
+)

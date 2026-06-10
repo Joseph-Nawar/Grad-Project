@@ -130,3 +130,45 @@ def save_markdown_results(
             )
 
     output_path.write_text("\n".join(lines), encoding="utf-8")
+
+
+from sklearn.metrics import balanced_accuracy_score
+
+
+def evaluate_multiclass_classifier(
+    y_true: np.ndarray,
+    y_pred: np.ndarray,
+) -> dict:
+    """
+    Evaluate multiclass classifier.
+
+    Macro F1 is important for imbalanced multiclass datasets.
+    """
+    return {
+        "accuracy": accuracy_score(y_true, y_pred),
+        "balanced_accuracy": balanced_accuracy_score(y_true, y_pred),
+        "macro_precision": precision_score(
+            y_true,
+            y_pred,
+            average="macro",
+            zero_division=0,
+        ),
+        "macro_recall": recall_score(
+            y_true,
+            y_pred,
+            average="macro",
+            zero_division=0,
+        ),
+        "macro_f1": f1_score(
+            y_true,
+            y_pred,
+            average="macro",
+            zero_division=0,
+        ),
+        "weighted_f1": f1_score(
+            y_true,
+            y_pred,
+            average="weighted",
+            zero_division=0,
+        ),
+    }

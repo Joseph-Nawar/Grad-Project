@@ -209,3 +209,26 @@ def test_compute_class_weights_from_manifest_returns_both_classes():
 
     assert set(weights.keys()) == {0, 1}
     assert weights[1] > weights[0]
+
+from pathlib import Path
+
+from rural_stroke_assist.preprocessing.fer2013 import (
+    infer_fer2013_label_from_path,
+    infer_fer2013_split_from_path,
+    FER2013_LABEL_MAPPING,
+)
+
+
+def test_fer2013_label_inference():
+    path = Path("data/raw/fer2013/train/happy/example.png")
+
+    assert infer_fer2013_label_from_path(path) == "happy"
+    assert FER2013_LABEL_MAPPING["happy"] == 3
+
+
+def test_fer2013_split_inference():
+    train_path = Path("data/raw/fer2013/train/angry/example.png")
+    test_path = Path("data/raw/fer2013/test/angry/example.png")
+
+    assert infer_fer2013_split_from_path(train_path) == "train"
+    assert infer_fer2013_split_from_path(test_path) == "test"

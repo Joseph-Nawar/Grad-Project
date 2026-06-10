@@ -8,6 +8,8 @@ from rural_stroke_assist.config import (
     FACE_KAGGLE_DATASET,
     METADATA_KAGGLE_DATASET,
     SPEECH_KAGGLE_DATASET,
+    FER2013_DATA_DIR,
+    FER2013_KAGGLE_DATASET,
 )
 
 
@@ -49,7 +51,13 @@ def download_all_datasets() -> None:
     download_kaggle_dataset(FACE_KAGGLE_DATASET, FACE_DATA_DIR)
     download_kaggle_dataset(METADATA_KAGGLE_DATASET, METADATA_DATA_DIR)
     download_kaggle_dataset(SPEECH_KAGGLE_DATASET, SPEECH_DATA_DIR)
+    download_kaggle_dataset(FER2013_KAGGLE_DATASET, FER2013_DATA_DIR)
 
 
 if __name__ == "__main__":
     download_all_datasets()
+
+
+def download_fer2013_dataset() -> None:
+    """Download only the FER2013 dataset."""
+    download_kaggle_dataset(FER2013_KAGGLE_DATASET, FER2013_DATA_DIR)

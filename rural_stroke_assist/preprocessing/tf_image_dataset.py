@@ -155,3 +155,40 @@ def create_balanced_binary_training_dataset(
     balanced_ds = balanced_ds.prefetch(tf.data.AUTOTUNE)
 
     return balanced_ds
+
+
+def dataframe_to_multiclass_tf_dataset(
+    df: pd.DataFrame,
+    image_size: tuple[int, int],
+    batch_size: int,
+    label_column: str = "label_encoded",
+    shuffle: bool = False,
+    seed: int = 42,
+) -> tf.data.Dataset:
+    """
+    Create a TensorFlow dataset for multiclass image classification.
+
+    Images are loaded from disk, resized, normalized to 0-1,
+    and paired with integer class labels.
+    """
+    paths = df["path"].astype(str).to_list()
+    labels = df[label_column].astype("int32").to_list()
+
+    dataset = tf.data.Dataset.from_tensor_slices((paths, labels))
+
+    if shuffle:
+        dataset = dataset.shuffle(
+            buffer_size=len(df),
+            seed=seed,
+            reshuffle_each_iteration=True,
+        )
+
+    dataset = dataset.map(
+        lambda path, label: load_and_preprocess_image(path, label, image_size),
+        num_parallel_calls=tf.data.AUTOTUNE,
+    )
+
+    dataset = dataset.batch(batch_size)
+    dataset = dataset.prefetch(tf.data.AUTOTUNE)
+
+    return dataset

@@ -52,3 +52,46 @@ def build_mobilenetv2_binary_classifier(
     )
 
     return model
+
+def build_mobilenetv2_multiclass_classifier(
+    image_size: tuple[int, int] = (160, 160),
+    num_classes: int = 7,
+    dropout_rate: float = 0.3,
+    learning_rate: float = 1e-4,
+) -> tf.keras.Model:
+    """
+    Build a MobileNetV2 transfer-learning multiclass classifier.
+
+    Used for FER2013 facial expression recognition.
+    """
+    inputs = tf.keras.Input(shape=(image_size[0], image_size[1], 3))
+
+    backbone = tf.keras.applications.MobileNetV2(
+        input_shape=(image_size[0], image_size[1], 3),
+        include_top=False,
+        weights="imagenet",
+    )
+
+    backbone.trainable = False
+
+    x = tf.keras.applications.mobilenet_v2.preprocess_input(inputs * 255.0)
+    x = backbone(x, training=False)
+    x = tf.keras.layers.GlobalAveragePooling2D()(x)
+    x = tf.keras.layers.Dropout(dropout_rate)(x)
+    outputs = tf.keras.layers.Dense(num_classes, activation="softmax")(x)
+
+    model = tf.keras.Model(
+        inputs=inputs,
+        outputs=outputs,
+        name="mobilenetv2_fer2013_multiclass_classifier",
+    )
+
+    model.compile(
+        optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
+        loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+        metrics=[
+            tf.keras.metrics.SparseCategoricalAccuracy(name="accuracy"),
+        ],
+    )
+
+    return model
