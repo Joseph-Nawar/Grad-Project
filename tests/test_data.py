@@ -232,3 +232,63 @@ def test_fer2013_split_inference():
 
     assert infer_fer2013_split_from_path(train_path) == "train"
     assert infer_fer2013_split_from_path(test_path) == "test"
+
+
+import numpy as np
+import pandas as pd
+
+from rural_stroke_assist.features.speech_features import (
+    extract_mfcc_summary_features,
+    extract_basic_audio_features,
+)
+from rural_stroke_assist.modeling.speech_baselines import (
+    get_speech_feature_columns,
+)
+
+
+def test_extract_mfcc_summary_features_returns_expected_keys():
+    sample_rate = 16000
+    signal = np.random.randn(sample_rate).astype(np.float32)
+
+    features = extract_mfcc_summary_features(
+        signal=signal,
+        sample_rate=sample_rate,
+        n_mfcc=13,
+    )
+
+    assert "mfcc_1_mean" in features
+    assert "mfcc_13_std" in features
+    assert len(features) == 26
+
+
+def test_extract_basic_audio_features_returns_duration():
+    sample_rate = 16000
+    signal = np.random.randn(sample_rate).astype(np.float32)
+
+    features = extract_basic_audio_features(
+        signal=signal,
+        sample_rate=sample_rate,
+    )
+
+    assert "duration_seconds" in features
+    assert features["duration_seconds"] > 0
+
+
+def test_get_speech_feature_columns_excludes_metadata():
+    df = pd.DataFrame(
+        {
+            "path": ["a.wav"],
+            "label": ["control"],
+            "label_encoded": [0],
+            "speaker_id": ["FC01"],
+            "split": ["train"],
+            "mfcc_1_mean": [0.1],
+            "rms_mean": [0.2],
+        }
+    )
+
+    feature_columns = get_speech_feature_columns(df)
+
+    assert "mfcc_1_mean" in feature_columns
+    assert "rms_mean" in feature_columns
+    assert "label" not in feature_columns

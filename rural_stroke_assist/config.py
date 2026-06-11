@@ -165,3 +165,41 @@ FER2013_TRIAL_001_CONFUSION_MATRIX_PATH = (
 FER2013_TRIAL_001_HISTORY_PATH = (
     PROCESSED_DATA_DIR / "experiments" / "fer2013_trial_001_mobilenetv2_160_history.csv"
 )
+
+
+SPEECH_SPLIT_MANIFEST_PATH = PROCESSED_DATA_DIR / "speech_split_manifest.csv"
+SPEECH_FEATURES_PATH = PROCESSED_DATA_DIR / "speech_features.csv"
+
+SPEECH_TRIAL_001_DIR = MODELS_DIR / "experiments" / "speech" / "trial_001_mfcc_random_forest"
+SPEECH_TRIAL_001_MODEL_PATH = SPEECH_TRIAL_001_DIR / "model.pkl"
+
+SPEECH_TRIAL_001_RESULTS_PATH = REPORTS_DIR / "experiments" / "speech_trial_001_mfcc_random_forest_results.md"
+SPEECH_TRIAL_001_PREDICTIONS_PATH = PROCESSED_DATA_DIR / "experiments" / "speech_trial_001_mfcc_random_forest_predictions.csv"
+SPEECH_TRIAL_001_CONFUSION_MATRIX_PATH = FIGURES_DIR / "experiments" / "speech_trial_001_mfcc_random_forest_confusion_matrix.png"
+
+SPEECH_FEATURE_EXTRACTION_FAILURES_PATH = (
+    PROCESSED_DATA_DIR / "speech_feature_extraction_failures.csv"
+)
+
+
+SPEECH_TRIAL_002_DIR = (
+    MODELS_DIR / "experiments" / "speech" / "trial_002_pycaret_benchmark"
+)
+
+SPEECH_TRIAL_002_MODEL_PATH = SPEECH_TRIAL_002_DIR / "model"
+
+SPEECH_TRIAL_002_RESULTS_PATH = (
+    REPORTS_DIR / "experiments" / "speech_trial_002_pycaret_benchmark_results.md"
+)
+
+SPEECH_TRIAL_002_LEADERBOARD_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "speech_trial_002_pycaret_leaderboard.csv"
+)
+
+SPEECH_TRIAL_002_PREDICTIONS_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "speech_trial_002_pycaret_predictions.csv"
+)
+
+SPEECH_TRIAL_002_CONFUSION_MATRIX_PATH = (
+    FIGURES_DIR / "experiments" / "speech_trial_002_pycaret_confusion_matrix.png"
+)

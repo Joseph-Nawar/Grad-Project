@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Optional
 
 import librosa
+import numpy as np
 
 
 AUDIO_EXTENSIONS = {".wav", ".mp3", ".flac", ".ogg", ".m4a"}
@@ -23,10 +24,22 @@ def list_audio_files(directory: Path) -> list[Path]:
 
 
 def is_audio_readable(audio_path: Path) -> bool:
-    """Check whether an audio file can be loaded."""
+    """
+    Check whether an audio file can be loaded and contains samples.
+
+    A file can be technically readable but still empty, so we require
+    a non-empty signal.
+    """
     try:
-        _signal, _sample_rate = librosa.load(audio_path, sr=None, mono=True, duration=1.0)
-        return True
+        signal, _sample_rate = librosa.load(
+            audio_path,
+            sr=None,
+            mono=True,
+            duration=1.0,
+        )
+
+        return signal is not None and len(signal) > 0
+
     except Exception:
         return False
 
@@ -39,13 +52,19 @@ def get_audio_metadata(audio_path: Path) -> dict:
     - duration_seconds
     - sample_rate
     - number of samples
+    - is_empty_audio
     """
     signal, sample_rate = librosa.load(audio_path, sr=None, mono=True)
 
+    is_empty_audio = len(signal) == 0
+
     return {
-        "duration_seconds": round(librosa.get_duration(y=signal, sr=sample_rate), 3),
+        "duration_seconds": round(librosa.get_duration(y=signal, sr=sample_rate), 3)
+        if not is_empty_audio
+        else 0.0,
         "sample_rate": sample_rate,
         "num_samples": len(signal),
+        "is_empty_audio": is_empty_audio,
     }
 
 
