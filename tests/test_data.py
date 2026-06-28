@@ -292,3 +292,79 @@ def test_get_speech_feature_columns_excludes_metadata():
     assert "mfcc_1_mean" in feature_columns
     assert "rms_mean" in feature_columns
     assert "label" not in feature_columns
+
+
+import pandas as pd
+import pytest
+
+from rural_stroke_assist.preprocessing.metadata import (
+    FEATURE_COLUMNS,
+    TARGET_COLUMN,
+    prepare_metadata_modeling_frame,
+    validate_metadata_columns,
+    build_metadata_preprocessor,
+)
+
+def test_prepare_metadata_modeling_frame_drops_id():
+    df = pd.DataFrame(
+        {
+            "id": [1],
+            "gender": ["Male"],
+            "age": [70],
+            "hypertension": [1],
+            "heart_disease": [0],
+            "ever_married": ["Yes"],
+            "work_type": ["Private"],
+            "Residence_type": ["Urban"],
+            "avg_glucose_level": [120.0],
+            "bmi": [28.0],
+            "smoking_status": ["formerly smoked"],
+            "stroke": [1],
+            "split": ["train"],
+        }
+    )
+
+    result = prepare_metadata_modeling_frame(df)
+
+    assert "id" not in result.columns
+    assert TARGET_COLUMN in result.columns
+    assert "split" in result.columns
+
+
+def test_validate_metadata_columns_raises_for_missing_column():
+    df = pd.DataFrame({"age": [70], "stroke": [1]})
+
+    with pytest.raises(ValueError):
+        validate_metadata_columns(df)
+
+
+def test_build_metadata_preprocessor_transforms_dataframe():
+    df = pd.DataFrame(
+        {
+            "gender": ["Male", "Female"],
+            "age": [70, 55],
+            "hypertension": [1, 0],
+            "heart_disease": [0, 1],
+            "ever_married": ["Yes", "No"],
+            "work_type": ["Private", "Self-employed"],
+            "Residence_type": ["Urban", "Rural"],
+            "avg_glucose_level": [120.0, 90.0],
+            "bmi": [28.0, None],
+            "smoking_status": ["formerly smoked", "never smoked"],
+        }
+    )
+
+    preprocessor = build_metadata_preprocessor()
+    transformed = preprocessor.fit_transform(df[FEATURE_COLUMNS])
+
+    assert transformed.shape[0] == 2
+
+from rural_stroke_assist.modeling.metadata_baselines import (
+    build_logistic_regression_metadata_pipeline,
+)
+
+def test_build_logistic_regression_metadata_pipeline_has_expected_steps():
+    pipeline = build_logistic_regression_metadata_pipeline()
+
+    assert "preprocessor" in pipeline.named_steps
+    assert "model" in pipeline.named_steps

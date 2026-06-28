@@ -11,6 +11,7 @@ MODELS_DIR = PROJECT_ROOT / "models"
 
 REPORTS_DIR = PROJECT_ROOT / "reports"
 FIGURES_DIR = REPORTS_DIR / "figures"
+REFERENCES_DIR = PROJECT_ROOT / "references"
 
 FACE_DATA_DIR = RAW_DATA_DIR / "face_stroke_images"
 METADATA_DATA_DIR = RAW_DATA_DIR / "stroke_prediction"
@@ -202,4 +203,74 @@ SPEECH_TRIAL_002_PREDICTIONS_PATH = (
 
 SPEECH_TRIAL_002_CONFUSION_MATRIX_PATH = (
     FIGURES_DIR / "experiments" / "speech_trial_002_pycaret_confusion_matrix.png"
+)
+
+
+METADATA_FEATURE_CONTRACT_PATH = (
+    REFERENCES_DIR / "metadata_feature_contract.md"
+)
+
+METADATA_TRIAL_001_DIR = (
+    MODELS_DIR / "experiments" / "metadata" / "trial_001_sklearn_baseline"
+)
+
+METADATA_TRIAL_001_MODEL_PATH = METADATA_TRIAL_001_DIR / "model.pkl"
+
+METADATA_TRIAL_001_RESULTS_PATH = (
+    REPORTS_DIR / "experiments" / "metadata_trial_001_sklearn_baseline_results.md"
+)
+
+METADATA_TRIAL_001_PREDICTIONS_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "metadata_trial_001_sklearn_baseline_predictions.csv"
+)
+
+METADATA_TRIAL_001_CONFUSION_MATRIX_PATH = (
+    FIGURES_DIR / "experiments" / "metadata_trial_001_sklearn_baseline_confusion_matrix.png"
+)
+
+METADATA_TRIAL_002_DIR = (
+    MODELS_DIR / "experiments" / "metadata" / "trial_002_pycaret_benchmark"
+)
+
+METADATA_TRIAL_002_MODEL_PATH = METADATA_TRIAL_002_DIR / "model"
+
+METADATA_TRIAL_002_RESULTS_PATH = (
+    REPORTS_DIR / "experiments" / "metadata_trial_002_pycaret_benchmark_results.md"
+)
+
+METADATA_TRIAL_002_LEADERBOARD_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "metadata_trial_002_pycaret_leaderboard.csv"
+)
+
+METADATA_TRIAL_002_PREDICTIONS_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "metadata_trial_002_pycaret_predictions.csv"
+)
+
+METADATA_TRIAL_002_CONFUSION_MATRIX_PATH = (
+    FIGURES_DIR / "experiments" / "metadata_trial_002_pycaret_confusion_matrix.png"
+)
+
+
+METADATA_TRIAL_003_FEATURE_IMPORTANCE_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "metadata_trial_003_feature_importance.csv"
+)
+
+METADATA_TRIAL_003_FEATURE_IMPORTANCE_FIGURE_PATH = (
+    FIGURES_DIR / "experiments" / "metadata_trial_003_feature_importance.png"
+)
+
+METADATA_TRIAL_003_RESULTS_PATH = (
+    REPORTS_DIR / "experiments" / "metadata_trial_003_feature_importance_results.md"
+)
+
+METADATA_TRIAL_004_THRESHOLD_SUMMARY_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "metadata_trial_004_threshold_summary.csv"
+)
+
+METADATA_TRIAL_004_RESULTS_PATH = (
+    REPORTS_DIR / "experiments" / "metadata_trial_004_threshold_optimization_results.md"
+)
+
+METADATA_MVP_MODEL_PATH = (
+    MODELS_DIR / "experiments" / "metadata" / "mvp_metadata_risk_model.pkl"
 )
