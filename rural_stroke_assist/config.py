@@ -293,3 +293,31 @@ FACE_ROC_CURVE_PATH = (
 FACE_DEMO_PREDICTION_FIGURE_PATH = (
     FIGURES_DIR / "experiments" / "face_demo_prediction.png"
 )
+
+METADATA_TRIAL_005_RISK_STRATIFICATION_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "metadata_trial_005_risk_stratification.csv"
+)
+
+METADATA_TRIAL_005_LIFT_TABLE_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "metadata_trial_005_lift_table.csv"
+)
+
+METADATA_TRIAL_005_RESULTS_PATH = (
+    REPORTS_DIR / "experiments" / "metadata_trial_005_risk_stratification_results.md"
+)
+
+METADATA_TRIAL_005_DECILE_FIGURE_PATH = (
+    FIGURES_DIR / "experiments" / "metadata_trial_005_risk_deciles.png"
+)
+
+METADATA_TRIAL_006_CALIBRATION_FIGURE_PATH = (
+    FIGURES_DIR / "experiments" / "metadata_trial_006_calibration_curve.png"
+)
+
+METADATA_TRIAL_006_RESULTS_PATH = (
+    REPORTS_DIR / "experiments" / "metadata_trial_006_calibration_results.md"
+)
+
+ACUTE_SYMPTOM_ASSESSMENT_REPORT_PATH = (
+    REPORTS_DIR / "experiments" / "acute_symptom_assessment_design.md"
+)

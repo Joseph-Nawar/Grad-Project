@@ -368,3 +368,121 @@ def test_build_logistic_regression_metadata_pipeline_has_expected_steps():
 
     assert "preprocessor" in pipeline.named_steps
     assert "model" in pipeline.named_steps
+
+
+from rural_stroke_assist.capture.acute_symptom_schema import AcuteStrokeSymptoms
+from rural_stroke_assist.modules.acute_symptom_module import (
+    assess_acute_stroke_symptoms,
+)
+
+
+ACUTE_RISK_ORDER = {
+    "LOW": 0,
+    "MODERATE": 1,
+    "HIGH": 2,
+    "URGENT": 3,
+}
+
+
+def test_acute_symptom_assessment_low_case():
+    symptoms = AcuteStrokeSymptoms()
+
+    result = assess_acute_stroke_symptoms(symptoms)
+
+    assert 0.0 <= result.acute_symptom_score <= 1.0
+    assert result.risk_band == "LOW"
+    assert result.hard_escalation is False
+
+
+def test_acute_symptom_assessment_urgent_fast_case():
+    symptoms = AcuteStrokeSymptoms(
+        face_drooping=True,
+        arm_weakness=True,
+        speech_difficulty=True,
+        symptom_onset_minutes=60,
+    )
+
+    result = assess_acute_stroke_symptoms(symptoms)
+
+    assert result.acute_symptom_score >= 0.85
+    assert result.risk_band == "URGENT"
+    assert result.hard_escalation is True
+
+
+@pytest.mark.parametrize(
+    "symptoms",
+    [
+        AcuteStrokeSymptoms(face_drooping=True),
+        AcuteStrokeSymptoms(arm_weakness=True),
+        AcuteStrokeSymptoms(speech_difficulty=True),
+    ],
+)
+def test_single_fast_sign_is_at_least_moderate(symptoms: AcuteStrokeSymptoms):
+    result = assess_acute_stroke_symptoms(symptoms)
+
+    assert ACUTE_RISK_ORDER[result.risk_band] >= ACUTE_RISK_ORDER["MODERATE"]
+    assert result.hard_escalation is False
+
+
+def test_two_fast_signs_trigger_urgent_hard_escalation():
+    symptoms = AcuteStrokeSymptoms(
+        face_drooping=True,
+        arm_weakness=True,
+    )
+
+    result = assess_acute_stroke_symptoms(symptoms)
+
+    assert result.risk_band == "URGENT"
+    assert result.hard_escalation is True
+
+
+def test_balance_and_vision_are_at_least_moderate():
+    symptoms = AcuteStrokeSymptoms(
+        balance_or_coordination_loss=True,
+        vision_disturbance=True,
+    )
+
+    result = assess_acute_stroke_symptoms(symptoms)
+
+    assert ACUTE_RISK_ORDER[result.risk_band] >= ACUTE_RISK_ORDER["MODERATE"]
+    assert result.hard_escalation is False
+
+
+def test_core_fast_plus_extension_is_high_or_urgent():
+    symptoms = AcuteStrokeSymptoms(
+        speech_difficulty=True,
+        confusion_or_understanding_difficulty=True,
+    )
+
+    result = assess_acute_stroke_symptoms(symptoms)
+
+    assert ACUTE_RISK_ORDER[result.risk_band] >= ACUTE_RISK_ORDER["HIGH"]
+    assert result.hard_escalation is False
+
+
+def test_acute_symptom_assessment_onset_unknown_warning():
+    symptoms = AcuteStrokeSymptoms(face_drooping=True)
+
+    result = assess_acute_stroke_symptoms(symptoms)
+
+    assert any("unknown" in warning.lower() for warning in result.warnings)
+
+
+@pytest.mark.parametrize(
+    "symptoms",
+    [
+        AcuteStrokeSymptoms(),
+        AcuteStrokeSymptoms(face_drooping=True),
+        AcuteStrokeSymptoms(balance_or_coordination_loss=True, vision_disturbance=True),
+        AcuteStrokeSymptoms(
+            face_drooping=True,
+            arm_weakness=True,
+            speech_difficulty=True,
+            symptom_onset_minutes=30,
+        ),
+    ],
+)
+def test_acute_symptom_assessment_score_is_bounded(symptoms: AcuteStrokeSymptoms):
+    result = assess_acute_stroke_symptoms(symptoms)
+
+    assert 0.0 <= result.acute_symptom_score <= 1.0
