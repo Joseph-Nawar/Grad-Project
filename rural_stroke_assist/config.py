@@ -274,3 +274,22 @@ METADATA_TRIAL_004_RESULTS_PATH = (
 METADATA_MVP_MODEL_PATH = (
     MODELS_DIR / "experiments" / "metadata" / "mvp_metadata_risk_model.pkl"
 )
+
+
+FACE_LEARNING_CURVES_PATH = (
+    FIGURES_DIR
+    / "experiments"
+    / "face_learning_curves.png"
+)
+
+
+FACE_ROC_CURVE_PATH = (
+    FIGURES_DIR
+    / "experiments"
+    / "face_trial_003_roc_curve.png"
+)
+
+
+FACE_DEMO_PREDICTION_FIGURE_PATH = (
+    FIGURES_DIR / "experiments" / "face_demo_prediction.png"
+)

@@ -172,3 +172,60 @@ def evaluate_multiclass_classifier(
             zero_division=0,
         ),
     }
+
+
+from sklearn.metrics import roc_curve
+from sklearn.metrics import auc
+
+import matplotlib.pyplot as plt
+
+def save_binary_roc_curve(
+    y_true,
+    y_score,
+    save_path,
+):
+    """
+    Save a binary ROC curve and return its AUC.
+
+    y_true and y_score can be arrays, lists, pandas Series, or NumPy arrays.
+    """
+    fpr, tpr, _ = roc_curve(
+        y_true,
+        y_score,
+    )
+
+    roc_auc = auc(
+        fpr,
+        tpr,
+    )
+
+    plt.figure(figsize=(6,6))
+
+    plt.plot(
+        fpr,
+        tpr,
+        label=f"AUC = {roc_auc:.3f}",
+    )
+
+    plt.plot(
+        [0,1],
+        [0,1],
+        "--",
+    )
+
+    plt.xlabel("False Positive Rate")
+    plt.ylabel("True Positive Rate")
+    plt.legend()
+
+    plt.tight_layout()
+
+    save_path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    plt.savefig(save_path)
+
+    plt.close()
+
+    return roc_auc
