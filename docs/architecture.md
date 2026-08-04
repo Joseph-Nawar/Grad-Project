@@ -23,6 +23,8 @@ The selected artifacts and exact hashes are recorded in `config/baseline_registr
 
 The trained face, speech, and metadata models are verified artifacts but are not connected to the live runtime. The acute symptom module and canonical fusion are source-level components with smoke tests; they are not yet connected to a real assessment orchestrator. Real modality adapters, end-to-end inference, and a user interface are deferred to Phase 1.
 
+Phase 1 adapters now live under `rural_stroke_assist/inference/` and return the common immutable `ModalityEvidence` contract. `rural_stroke_assist/quality/` contains pluggable face and audio quality checks. These adapters are independently testable and artifact-backed, but are intentionally not connected to either fusion engine in this phase.
+
 ## Baseline verification
 
 From the repository root, use the validated Python 3.11 environment and run:

@@ -3,6 +3,8 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
+from rural_stroke_assist.capture.acute_symptom_schema import AcuteStrokeSymptoms
+
 
 class PatientMetadata(BaseModel):
     """Structured metadata collected during a stroke triage session."""
@@ -24,3 +26,4 @@ class AssessmentInput(BaseModel):
     speech_audio_path: Optional[Path] = None
     face_image_path: Optional[Path] = None
     metadata: PatientMetadata
+    acute_symptoms: Optional[AcuteStrokeSymptoms] = None

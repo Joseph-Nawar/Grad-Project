@@ -1,34 +1,22 @@
 from pathlib import Path
 from pydantic import BaseModel
 
+from rural_stroke_assist.inference.speech_adapter import SpeechAdapter
+
 
 class SpeechModuleResult(BaseModel):
-    speech_abnormality_score: float
-    confidence: float
+    speech_abnormality_score: float | None
+    confidence: float | None
     evidence: list[str]
     warnings: list[str]
 
 
 def analyze_speech_audio(audio_path: Path | None) -> SpeechModuleResult:
-    """
-    Placeholder speech analysis module.
-
-    Later, this will:
-    - validate audio quality
-    - extract acoustic features
-    - analyze speech clarity
-    """
-    if audio_path is None:
-        return SpeechModuleResult(
-            speech_abnormality_score=0.0,
-            confidence=0.0,
-            evidence=[],
-            warnings=["No speech audio provided."],
-        )
-
+    """Compatibility façade over the canonical artifact-backed speech adapter."""
+    result = SpeechAdapter().infer(audio_path)
     return SpeechModuleResult(
-        speech_abnormality_score=0.50,
-        confidence=0.50,
-        evidence=["Placeholder speech module result."],
-        warnings=["Real speech analysis not implemented yet."],
+        speech_abnormality_score=result.score,
+        confidence=result.confidence,
+        evidence=[result.label] if result.label else [],
+        warnings=list(result.warnings),
     )
