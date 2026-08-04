@@ -25,4 +25,5 @@ class SymptomAdapter:
             score_semantics="deterministic_acute_symptom_evidence", label=result.risk_band,
             confidence=None, quality_status=QualityStatus.PASS, quality_findings=(),
             warnings=tuple(result.warnings), provenance=component.path,
+            details={"hard_escalation": result.hard_escalation, "evidence": tuple(result.evidence)},
         )

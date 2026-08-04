@@ -25,6 +25,6 @@ The verifier checks `config/baseline_registry.json`, artifact hashes, model load
 
 ## Current runtime boundary
 
-The saved face, speech, and metadata models are verified research artifacts but are not connected to the live runtime yet. The canonical post-MVP fusion source is `rural_stroke_assist/modules/fusion_module.py`; `rural_stroke_assist/fusion/fusion_engine.py` is retained as a legacy placeholder path. Real adapters, end-to-end inference, and a user interface are Phase 1 work.
+The saved face, speech, and metadata models are verified research artifacts used by the Phase 1 adapters and Phase 2 assessment service. The canonical fusion source is `rural_stroke_assist/modules/fusion_module.py`; `rural_stroke_assist/fusion/fusion_engine.py` is retained as a legacy path and warns when called. No UI or API is included in Phase 2.
 
-Phase 1 provides independently testable artifact-backed adapters in `rural_stroke_assist/inference/` for face, speech, contextual metadata, and acute symptoms. Run their tests with `python -m pytest tests/test_inference_adapters.py tests/test_inference_integration.py tests/test_quality_assessment.py -q`. The adapters do not perform fusion or orchestration.
+Phase 1 provides independently testable artifact-backed adapters in `rural_stroke_assist/inference/` for face, speech, contextual metadata, and acute symptoms. Phase 2 provides `create_default_assessment_service()` and `AssessmentService.assess(...)` in `rural_stroke_assist/assessment/`. Verify the real path with `python scripts/run_assessment_smoke.py`; it returns research `evidence_score` and risk-band output, never a clinical probability.

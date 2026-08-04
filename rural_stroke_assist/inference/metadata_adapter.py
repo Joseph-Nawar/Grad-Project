@@ -17,7 +17,7 @@ from rural_stroke_assist.inference.registry import BaselineRegistry, load_baseli
 class MetadataInput(BaseModel):
     """Exact ten-feature input contract for the saved metadata pipeline."""
 
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     age: float | None = Field(default=None, ge=0, le=120)
     hypertension: int | None = Field(default=None, ge=0, le=1)
@@ -75,6 +75,8 @@ class MetadataAdapter:
                 modality="metadata_context", score_semantics="contextual_risk_evidence", provenance=component.path,
                 warning="No contextual metadata was provided.",
             )
+        if not isinstance(input_data, MetadataInput):
+            raise FeatureContractError("Metadata input does not match the canonical ten-feature schema.")
         columns = component.feature_columns
         frame = input_data.to_model_frame(columns)
         model = self._load_model()

@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import StrEnum
-from typing import Literal, Protocol, Sequence, TypeAlias
+from typing import Literal, Mapping, Protocol, Sequence, TypeAlias
 
 
 ModalityName: TypeAlias = Literal["face", "speech", "metadata_context", "acute_symptoms"]
@@ -38,6 +38,7 @@ class ModalityEvidence:
     quality_status: QualityStatus = QualityStatus.PASS
     quality_findings: tuple[QualityFinding, ...] = ()
     warnings: tuple[str, ...] = ()
+    details: Mapping[str, object] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         if self.available:

@@ -34,6 +34,14 @@ def fuse_results(
     - weighted late fusion
     - face and speech are more important than metadata
     """
+    import warnings
+
+    warnings.warn(
+        "rural_stroke_assist.fusion.fusion_engine is legacy; use the Phase 2 assessment service.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+
     face_weight = 0.45
     speech_weight = 0.35
     metadata_weight = 0.20

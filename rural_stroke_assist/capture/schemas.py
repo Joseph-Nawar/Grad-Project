@@ -4,6 +4,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 from rural_stroke_assist.capture.acute_symptom_schema import AcuteStrokeSymptoms
+from rural_stroke_assist.inference.metadata_adapter import MetadataInput
 
 
 class PatientMetadata(BaseModel):
@@ -25,5 +26,5 @@ class AssessmentInput(BaseModel):
     face_video_path: Optional[Path] = None
     speech_audio_path: Optional[Path] = None
     face_image_path: Optional[Path] = None
-    metadata: PatientMetadata
+    metadata: MetadataInput | PatientMetadata | None = None
     acute_symptoms: Optional[AcuteStrokeSymptoms] = None

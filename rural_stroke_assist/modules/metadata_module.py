@@ -12,9 +12,10 @@ class MetadataModuleResult(BaseModel):
 
 def analyze_metadata(metadata: PatientMetadata) -> MetadataModuleResult:
     """
-    Simple rule-based metadata analysis.
+    Legacy rule-based metadata analysis.
 
-    This is not a diagnosis model.
+    This path is retained for compatibility and is not the canonical metadata
+    adapter. It is not a diagnosis model.
     It only flags contextual risk factors.
     """
     score = 0.0
