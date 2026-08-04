@@ -486,3 +486,113 @@ def test_acute_symptom_assessment_score_is_bounded(symptoms: AcuteStrokeSymptoms
     result = assess_acute_stroke_symptoms(symptoms)
 
     assert 0.0 <= result.acute_symptom_score <= 1.0
+
+
+
+from rural_stroke_assist.modules.fusion_module import (
+    FusionInput,
+    fuse_multimodal_scores,
+)
+
+
+FUSION_RISK_ORDER = {
+    "LOW": 0,
+    "MODERATE": 1,
+    "HIGH": 2,
+    "URGENT": 3,
+}
+
+
+def test_fusion_low_concern_case():
+    result = fuse_multimodal_scores(
+        FusionInput(
+            face_acute_score=0.1,
+            speech_acute_score=0.1,
+            acute_symptom_score=0.0,
+            metadata_contextual_risk_score=0.2,
+        )
+    )
+
+    assert 0.0 <= result.fused_score <= 1.0
+    assert result.risk_band == "LOW"
+
+
+def test_fusion_metadata_high_only_remains_low():
+    result = fuse_multimodal_scores(
+        FusionInput(
+            face_acute_score=0.05,
+            speech_acute_score=0.05,
+            acute_symptom_score=0.05,
+            metadata_contextual_risk_score=0.95,
+        )
+    )
+
+    assert result.risk_band == "LOW"
+
+
+def test_fusion_hard_escalation_forces_urgent():
+    result = fuse_multimodal_scores(
+        FusionInput(
+            face_acute_score=0.2,
+            speech_acute_score=0.2,
+            acute_symptom_score=0.85,
+            metadata_contextual_risk_score=0.1,
+            acute_symptom_hard_escalation=True,
+        )
+    )
+
+    assert result.fused_score >= 0.85
+    assert result.risk_band == "URGENT"
+
+
+def test_fusion_missing_modality_renormalizes_weights():
+    result = fuse_multimodal_scores(
+        FusionInput(
+            face_acute_score=None,
+            speech_acute_score=0.8,
+            acute_symptom_score=0.4,
+            metadata_contextual_risk_score=0.2,
+        )
+    )
+
+    assert "face" not in result.normalized_weights_used
+    assert abs(sum(result.normalized_weights_used.values()) - 1.0) < 1e-8
+    assert 0.0 <= result.fused_score <= 1.0
+
+
+def test_fusion_speech_very_high_plus_symptoms_moderate_is_at_least_moderate():
+    result = fuse_multimodal_scores(
+        FusionInput(
+            face_acute_score=0.25,
+            speech_acute_score=0.92,
+            acute_symptom_score=0.35,
+            metadata_contextual_risk_score=0.40,
+        )
+    )
+
+    assert FUSION_RISK_ORDER[result.risk_band] >= FUSION_RISK_ORDER["MODERATE"]
+
+
+def test_fusion_face_and_speech_high_reaches_high_band():
+    result = fuse_multimodal_scores(
+        FusionInput(
+            face_acute_score=0.88,
+            speech_acute_score=0.81,
+            acute_symptom_score=0.35,
+            metadata_contextual_risk_score=0.55,
+        )
+    )
+
+    assert result.risk_band == "HIGH"
+
+
+def test_fusion_rejects_invalid_score():
+    import pytest
+
+    with pytest.raises(ValueError):
+        fuse_multimodal_scores(
+            FusionInput(
+                face_acute_score=1.5,
+                speech_acute_score=0.2,
+            )
+        )

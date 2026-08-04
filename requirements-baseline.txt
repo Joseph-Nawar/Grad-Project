@@ -1,0 +1,28 @@
+# Reproducible Phase 0 installation route.
+# Use Python 3.11.9 and install with:
+#   python -m pip install -r requirements-baseline.txt
+-c constraints-baseline.txt
+
+kaggle
+pandas
+numpy
+matplotlib
+pillow
+opencv-python
+scikit-learn
+jupyter
+ipykernel
+python-dotenv
+pydantic
+tqdm
+typer
+loguru
+pytest
+librosa
+soundfile
+tensorflow
+keras
+autokeras
+keras-tuner
+tensorboard
+joblib

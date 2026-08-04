@@ -1,0 +1,25 @@
+# Phase 0 direct dependency constraints for the validated Python 3.11.9 environment.
+# These are the versions observed in ..\autokeras_env on 2026-08-04.
+kaggle==2.2.1
+pandas==2.2.3
+numpy==1.26.4
+matplotlib==3.9.2
+pillow==10.4.0
+opencv-python==4.10.0.84
+scikit-learn==1.5.2
+jupyter==1.1.1
+ipykernel==7.3.0
+python-dotenv==1.2.2
+pydantic==2.13.4
+tqdm==4.66.5
+typer==0.25.1
+loguru==0.7.3
+pytest==9.0.3
+librosa==0.11.0
+soundfile==0.14.0
+tensorflow==2.19.1
+keras==3.14.1
+autokeras==2.0.0
+keras-tuner==1.4.7
+tensorboard==2.19.0
+joblib==1.5.3

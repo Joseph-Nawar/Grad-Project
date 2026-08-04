@@ -321,3 +321,12 @@ METADATA_TRIAL_006_RESULTS_PATH = (
 ACUTE_SYMPTOM_ASSESSMENT_REPORT_PATH = (
     REPORTS_DIR / "experiments" / "acute_symptom_assessment_design.md"
 )
+
+
+FUSION_MVP_REPORT_PATH = (
+    REPORTS_DIR / "experiments" / "fusion_mvp_design.md"
+)
+
+FUSION_MVP_DEMO_PATH = (
+    PROCESSED_DATA_DIR / "experiments" / "fusion_mvp_demo_cases.csv"
+)
