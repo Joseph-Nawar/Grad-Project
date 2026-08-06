@@ -1,0 +1,19 @@
+# Case data flow
+
+```mermaid
+flowchart TD
+  Draft[Draft case] --> Inputs[Metadata, symptoms, image, audio]
+  Inputs --> Assess[AssessmentService]
+  Assess --> Result[AssessmentResult]
+  Result --> Submitted[Submitted immutable snapshot]
+  Inputs --> Media[(Managed media attachments)]
+  Submitted --> Repo[(SQLite repository)]
+  Media --> Repo
+  Repo --> Queue[Clinician queue]
+  Queue --> Review[Clinician review]
+  Review --> Agree[Reviewed agreed]
+  Review --> Override[Reviewed overridden]
+  Review -. never mutates .-> Submitted
+```
+
+Clinician agreement or override is stored separately from the submitted assessment snapshot.

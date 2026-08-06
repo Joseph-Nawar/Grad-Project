@@ -1,0 +1,35 @@
+{
+  "runs": [
+    {
+      "assessment_ms": 3527.0262,
+      "construction_ms": 19.7388,
+      "exit_status": 0,
+      "peak_child_rss_bytes": 736636928,
+      "per_modality_ms": "{\"face\": 1537.3233, \"speech\": 1910.2073, \"metadata_context\": 5.8742, \"acute_symptoms\": 0.0265}",
+      "process_wall_ms": 8907.249,
+      "run": 1,
+      "successful_fusion": true
+    },
+    {
+      "assessment_ms": 3479.891,
+      "construction_ms": 20.1154,
+      "exit_status": 0,
+      "peak_child_rss_bytes": 737734656,
+      "per_modality_ms": "{\"face\": 1513.4365, \"speech\": 1892.2787, \"metadata_context\": 5.4652, \"acute_symptoms\": 0.0284}",
+      "process_wall_ms": 8688.3025,
+      "run": 2,
+      "successful_fusion": true
+    },
+    {
+      "assessment_ms": 3488.9107,
+      "construction_ms": 19.8495,
+      "exit_status": 0,
+      "peak_child_rss_bytes": 732254208,
+      "per_modality_ms": "{\"face\": 1557.1166, \"speech\": 1859.9767, \"metadata_context\": 5.6327, \"acute_symptoms\": 0.0284}",
+      "process_wall_ms": 8586.5804,
+      "run": 3,
+      "successful_fusion": true
+    }
+  ],
+  "successful_runs": 3
+}

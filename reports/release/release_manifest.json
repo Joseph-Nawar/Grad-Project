@@ -1,0 +1,37 @@
+{
+  "version": "0.0.1",
+  "label": "Research MVP — not clinically validated",
+  "final_evaluation_path": "reports/evaluation/phase4/final_complete",
+  "canonical_hashes": {
+    "face": "C969C473CD369AEFE11815208407320D559AA7683998CA0EE28C53280C7011AC",
+    "speech": "1BDED0B3850EE71E2B775E7B8E3BF80F708EE2FAEE1F74CA64D8102BAE01C925",
+    "metadata_context": "350545A6AB71A58373FD11BC2EF9F37BAADCC8420D66186EB6F4BD2B8AA1E8F5",
+    "acute_symptoms": "1BF06538714670F6CA89A645B7667C64B4AE72672F0B19B62E333BCBB3B121B4",
+    "fusion": "1025E553D023A37CB583E719E6D2636B4998597DC0BF07E7CD07A49D0120B2E0"
+  },
+  "verification_results": {
+    "pytest": "119 passed",
+    "baseline": "46 checks, 0 failures",
+    "compileall": "passed",
+    "phase4_evaluation_tests": "12 passed",
+    "phase4_full": "completed",
+    "release_readiness": "PASS",
+    "ruff": "PASS for scoped Phase 5 release tooling"
+  },
+  "clinical_review_status": "PENDING",
+  "known_limitations": [
+    "Face adapter coverage is 33.65% on the held-out test split.",
+    "Proxy datasets are not paired multimodal clinical data.",
+    "Scores are non-diagnostic evidence or contextual-risk scores.",
+    "No production authentication, encryption, remote synchronization, or compliance controls.",
+    "Clinical wording approval is pending."
+  ],
+  "manual_gates": {
+    "screenshots": "PENDING; see docs/demo/SHOT_LIST.md",
+    "video": "PENDING; use docs/demo/DEMO_SCRIPT.md",
+    "clinical_review": "PENDING",
+    "browser_workflow": "PENDING",
+    "git_tag_or_release": "MANUAL ONLY"
+  },
+  "manual_git_command_example": "git tag -a v0.0.1 -m \"RuralStroke-Assist 0.0.1 Research MVP\""
+}

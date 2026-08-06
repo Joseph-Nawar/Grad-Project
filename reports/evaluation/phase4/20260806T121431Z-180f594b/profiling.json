@@ -1,0 +1,8 @@
+{
+  "cold_runs": 1,
+  "memory_increase_bytes": 289517568,
+  "peak_rss_bytes": 746704896,
+  "warm_median_ms": 122.7559,
+  "warm_p95_ms": 122.7559,
+  "warm_runs": 3
+}

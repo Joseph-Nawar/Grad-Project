@@ -1,5 +1,6 @@
 # Data
 /data/
+/runtime_data/
 
 # Mac OS-specific storage files
 .DS_Store
@@ -147,6 +148,8 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.phase5-test-venv/
+baseline_phase5.log
 env/
 venv/
 ENV/

@@ -1,0 +1,47 @@
+{
+  "acute_symptoms": {
+    "band_consistent": true,
+    "label_consistent": true,
+    "max_absolute_difference": 0.0,
+    "quality_consistent": true,
+    "runs": 20,
+    "score_max": 0.35,
+    "score_min": 0.35
+  },
+  "assessment_service": {
+    "band_consistent": true,
+    "label_consistent": true,
+    "max_absolute_difference": 0.0,
+    "quality_consistent": true,
+    "runs": 20,
+    "score_max": 0.5072364544197587,
+    "score_min": 0.5072364544197587
+  },
+  "face": {
+    "band_consistent": true,
+    "label_consistent": true,
+    "max_absolute_difference": 0.0,
+    "quality_consistent": true,
+    "runs": 20,
+    "score_max": 0.1502818465232849,
+    "score_min": 0.1502818465232849
+  },
+  "metadata_context": {
+    "band_consistent": true,
+    "label_consistent": true,
+    "max_absolute_difference": 0.0,
+    "quality_consistent": true,
+    "runs": 20,
+    "score_max": 0.9013780813660891,
+    "score_min": 0.9013780813660891
+  },
+  "speech": {
+    "band_consistent": true,
+    "label_consistent": true,
+    "max_absolute_difference": 0.0,
+    "quality_consistent": true,
+    "runs": 20,
+    "score_max": 0.9233333333333333,
+    "score_min": 0.9233333333333333
+  }
+}

@@ -1,0 +1,5 @@
+band,fusion,missing_branch,score,status
+MODERATE,True,face,0.6994427817486291,partial
+LOW,True,speech,0.3289092205996552,partial
+MODERATE,True,metadata_context,0.5,partial
+MODERATE,True,acute_symptoms,0.5596486058930116,partial

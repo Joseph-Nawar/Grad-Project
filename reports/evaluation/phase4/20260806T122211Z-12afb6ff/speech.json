@@ -1,0 +1,46 @@
+{
+  "accepted": 5,
+  "artifacts": [
+    "reports\\evaluation\\phase4\\20260806T122211Z-12afb6ff\\plots\\speech_score_distribution.png",
+    "reports\\evaluation\\phase4\\20260806T122211Z-12afb6ff\\plots\\speech_roc.png",
+    "reports\\evaluation\\phase4\\20260806T122211Z-12afb6ff\\plots\\speech_pr.png",
+    "reports\\evaluation\\phase4\\20260806T122211Z-12afb6ff\\plots\\speech_calibration.png"
+  ],
+  "failures": {},
+  "metrics": {
+    "brier": 0.015348888888888884,
+    "calibration_error": 0.1166666666666666,
+    "confusion_matrix": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "f1": 1.0,
+    "n": 5,
+    "negative": 0,
+    "positive": 5,
+    "pr_auc": null,
+    "precision": 1.0,
+    "roc_auc": null,
+    "sensitivity": 1.0,
+    "specificity": null
+  },
+  "n": 5,
+  "quality_states": {
+    "PASS": 5
+  },
+  "speaker_bootstrap": {
+    "estimate": null,
+    "iterations": 25,
+    "lower": null,
+    "metric": "roc_auc",
+    "seed": 42,
+    "unit": "group",
+    "upper": null
+  }
+}

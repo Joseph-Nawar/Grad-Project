@@ -1,0 +1,10 @@
+seed: 42
+bootstrap_iterations: 1000
+smoke_bootstrap_iterations: 25
+warm_runs: 20
+cold_runs: 3
+test_split: test
+output_root: reports/evaluation/phase4
+face_manifest: data/processed/face_split_manifest.csv
+speech_manifest: data/processed/speech_split_manifest.csv
+metadata_manifest: data/processed/metadata_split_manifest.csv

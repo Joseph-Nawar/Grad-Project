@@ -26,3 +26,5 @@ autokeras
 keras-tuner
 tensorboard
 joblib
+streamlit==1.39.0
+PyYAML==6.0.3

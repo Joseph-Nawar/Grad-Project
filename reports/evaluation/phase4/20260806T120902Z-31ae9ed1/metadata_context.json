@@ -1,0 +1,36 @@
+{
+  "bootstrap": {
+    "estimate": null,
+    "iterations": 25,
+    "lower": null,
+    "metric": "roc_auc",
+    "seed": 42,
+    "unit": "sample-stratified",
+    "upper": null
+  },
+  "failures": {},
+  "metrics": {
+    "brier": 0.16916632051248753,
+    "calibration_error": 0.2978539409259218,
+    "confusion_matrix": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "f1": 0.8888888888888888,
+    "n": 5,
+    "negative": 0,
+    "positive": 5,
+    "pr_auc": null,
+    "precision": 1.0,
+    "roc_auc": null,
+    "sensitivity": 0.8,
+    "specificity": null
+  },
+  "n": 5
+}

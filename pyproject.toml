@@ -20,13 +20,23 @@ classifiers = [
 requires-python = ">=3.11,<3.15"
 dependencies = [
     "pydantic>=2,<3",
+    "streamlit==1.39.0",
+    "PyYAML==6.0.3",
 ]
 
 
 [tool.ruff]
 line-length = 99
 src = ["rural_stroke_assist", "tests"]
-include = ["pyproject.toml", "rural_stroke_assist/**/*.py", "tests/**/*.py"]
+include = [
+    "scripts/bootstrap_local.py",
+    "scripts/clear_runtime_data.py",
+    "scripts/check_release_readiness.py",
+    "scripts/prepare_demo_state.py",
+]
+
+# Phase 5 validates its newly added release tooling without reformatting the
+# functioning application, evaluation, and historical test modules.
 
 [tool.ruff.lint]
 extend-select = ["I"]  # Add import sorting
@@ -38,5 +48,7 @@ force-sort-within-sections = true
 [tool.pytest.ini_options]
 markers = [
     "integration: loads selected model artifacts and validates cross-component contracts",
+    "evaluation: runs Phase 4 evaluation code",
+    "slow: may take longer than normal unit tests",
 ]
 

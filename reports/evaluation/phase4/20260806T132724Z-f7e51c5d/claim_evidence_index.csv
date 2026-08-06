@@ -1,0 +1,9 @@
+claim,status,evidence,rationale
+Canonical modality metrics are reproducible on held-out proxy partitions,supported,face.json; speech.json; metadata_context.json,
+Face runtime adapter coverage is materially lower than direct model coverage,supported,face_adapter_coverage.json; face_rejection_by_reason.csv,
+Speech accepted-subset results are not full held-out coverage results,supported,speech_per_speaker.csv; speech_speaker_summary.json,
+Acute symptom rules reach documented deterministic scenarios,supported,symptoms.json,
+The fusion implementation is deterministic under missing-modality scenarios,supported,missing_modality_matrix.csv; ablations.json,
+Fusion improves clinical stroke performance,unsupported,,No paired multimodal clinical dataset is available.
+The system has end-to-end stroke diagnostic accuracy,unsupported,,"The repository contains proxy branch datasets, not paired clinical outcomes."
+Clinical safety wording is approved,pending human review,,Requires a real clinical reviewer response.

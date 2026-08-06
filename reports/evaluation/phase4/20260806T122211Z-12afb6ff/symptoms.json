@@ -1,0 +1,72 @@
+{
+  "rule_verification_only": true,
+  "scenario_count": 7,
+  "scenarios": {
+    "all_fast": {
+      "hard_escalation": true,
+      "label": "URGENT",
+      "score": 0.85,
+      "warnings": [
+        "Multiple FAST warning signs reported. Treat as urgent screening concern.",
+        "Reported onset is within a commonly referenced emergency treatment window.",
+        "This module is a research screening component and is not a clinical diagnosis."
+      ]
+    },
+    "face": {
+      "hard_escalation": false,
+      "label": "MODERATE",
+      "score": 0.35,
+      "warnings": [
+        "Symptom onset time is unknown.",
+        "This module is a research screening component and is not a clinical diagnosis."
+      ]
+    },
+    "none": {
+      "hard_escalation": false,
+      "label": "LOW",
+      "score": 0.0,
+      "warnings": [
+        "Symptom onset time is unknown.",
+        "This module is a research screening component and is not a clinical diagnosis."
+      ]
+    },
+    "resolved": {
+      "hard_escalation": false,
+      "label": "MODERATE",
+      "score": 0.35,
+      "warnings": [
+        "Reported onset is within a commonly referenced emergency treatment window.",
+        "Symptoms are reported as resolved. Transient symptoms may still require urgent assessment.",
+        "This module is a research screening component and is not a clinical diagnosis."
+      ]
+    },
+    "speech": {
+      "hard_escalation": false,
+      "label": "MODERATE",
+      "score": 0.35,
+      "warnings": [
+        "Symptom onset time is unknown.",
+        "This module is a research screening component and is not a clinical diagnosis."
+      ]
+    },
+    "two_core": {
+      "hard_escalation": true,
+      "label": "URGENT",
+      "score": 0.85,
+      "warnings": [
+        "Multiple FAST warning signs reported. Treat as urgent screening concern.",
+        "Reported onset is within a commonly referenced emergency treatment window.",
+        "This module is a research screening component and is not a clinical diagnosis."
+      ]
+    },
+    "unknown_onset": {
+      "hard_escalation": false,
+      "label": "MODERATE",
+      "score": 0.35,
+      "warnings": [
+        "Symptom onset time is unknown.",
+        "This module is a research screening component and is not a clinical diagnosis."
+      ]
+    }
+  }
+}

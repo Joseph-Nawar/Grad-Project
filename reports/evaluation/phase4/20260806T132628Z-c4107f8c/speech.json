@@ -1,0 +1,73 @@
+{
+  "accepted": 5,
+  "adapter_aware": {
+    "brier": 0.015348888888888884,
+    "calibration_error": 0.1166666666666666,
+    "confusion_matrix": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "f1": 1.0,
+    "n": 5,
+    "negative": 0,
+    "positive": 5,
+    "pr_auc": null,
+    "precision": 1.0,
+    "roc_auc": null,
+    "sensitivity": 1.0,
+    "specificity": null
+  },
+  "adapter_failures": {},
+  "artifacts": [
+    "reports\\evaluation\\phase4\\20260806T132628Z-c4107f8c\\plots\\speech_score_distribution.png",
+    "reports\\evaluation\\phase4\\20260806T132628Z-c4107f8c\\plots\\speech_roc.png",
+    "reports\\evaluation\\phase4\\20260806T132628Z-c4107f8c\\plots\\speech_pr.png",
+    "reports\\evaluation\\phase4\\20260806T132628Z-c4107f8c\\plots\\speech_calibration.png"
+  ],
+  "coverage": 1.0,
+  "direct": {
+    "brier": 0.015348888888888884,
+    "calibration_error": 0.1166666666666666,
+    "confusion_matrix": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "f1": 1.0,
+    "n": 5,
+    "negative": 0,
+    "positive": 5,
+    "pr_auc": null,
+    "precision": 1.0,
+    "roc_auc": null,
+    "sensitivity": 1.0,
+    "specificity": null
+  },
+  "direct_failures": {},
+  "processed_direct": 5,
+  "quality_states": {
+    "PASS": 5
+  },
+  "rejected": 0,
+  "speaker_bootstrap": {
+    "estimate": null,
+    "iterations": 25,
+    "lower": null,
+    "metric": "roc_auc",
+    "seed": 42,
+    "unit": "group",
+    "upper": null
+  },
+  "total_held_out": 5
+}

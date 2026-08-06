@@ -1,0 +1,30 @@
+{
+  "canonical_hashes": {
+    "acute_symptoms": "1BF06538714670F6CA89A645B7667C64B4AE72672F0B19B62E333BCBB3B121B4",
+    "face": "C969C473CD369AEFE11815208407320D559AA7683998CA0EE28C53280C7011AC",
+    "fusion": "1025E553D023A37CB583E719E6D2636B4998597DC0BF07E7CD07A49D0120B2E0",
+    "metadata_context": "350545A6AB71A58373FD11BC2EF9F37BAADCC8420D66186EB6F4BD2B8AA1E8F5",
+    "speech": "1BDED0B3850EE71E2B775E7B8E3BF80F708EE2FAEE1F74CA64D8102BAE01C925"
+  },
+  "command": "python scripts/run_phase4_evaluation.py",
+  "config": "config/evaluation/phase4.yaml",
+  "dependencies": {
+    "joblib": "1.5.3",
+    "numpy": "1.26.4",
+    "pandas": "2.2.3",
+    "psutil": "7.2.2",
+    "scikit-learn": "1.5.2",
+    "tensorflow": "2.19.1"
+  },
+  "generated_artifacts": [],
+  "iterations": 25,
+  "platform": {
+    "python": "3.11.9",
+    "system": "Windows-10-10.0.26200-SP0"
+  },
+  "run_id": "20260806T120813Z-c592d727",
+  "seed": 42,
+  "suite": "smoke",
+  "utc_started": "2026-08-06T12:08:18.398902+00:00",
+  "warnings": []
+}

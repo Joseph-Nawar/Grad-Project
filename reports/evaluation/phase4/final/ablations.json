@@ -1,0 +1,181 @@
+{
+  "scenarios": {
+    "all_high": {
+      "balanced_acute": {
+        "band": "HIGH",
+        "contributions": {
+          "acute_symptoms": 0.24000000000000005,
+          "face": 0.24000000000000005,
+          "metadata_context": 0.08000000000000002,
+          "speech": 0.24000000000000005
+        },
+        "evidence_score": 0.8000000000000003,
+        "normalized_weights": {
+          "acute_symptoms": 0.30000000000000004,
+          "face": 0.30000000000000004,
+          "metadata_context": 0.10000000000000002,
+          "speech": 0.30000000000000004
+        }
+      },
+      "canonical": {
+        "band": "HIGH",
+        "contributions": {
+          "acute_symptoms": 0.20000000000000007,
+          "face": 0.28,
+          "metadata_context": 0.08000000000000002,
+          "speech": 0.24000000000000005
+        },
+        "evidence_score": 0.8,
+        "normalized_weights": {
+          "acute_symptoms": 0.25000000000000006,
+          "face": 0.35000000000000003,
+          "metadata_context": 0.10000000000000002,
+          "speech": 0.30000000000000004
+        }
+      },
+      "symptom_emphasis": {
+        "band": "HIGH",
+        "contributions": {
+          "acute_symptoms": 0.27999999999999997,
+          "face": 0.24,
+          "metadata_context": 0.08000000000000002,
+          "speech": 0.2
+        },
+        "evidence_score": 0.8,
+        "normalized_weights": {
+          "acute_symptoms": 0.35,
+          "face": 0.3,
+          "metadata_context": 0.1,
+          "speech": 0.25
+        }
+      }
+    },
+    "face_missing": {
+      "balanced_acute": {
+        "band": "HIGH",
+        "contributions": {
+          "acute_symptoms": 0.3428571428571429,
+          "metadata_context": 0.11428571428571431,
+          "speech": 0.3428571428571429
+        },
+        "evidence_score": 0.8000000000000002,
+        "normalized_weights": {
+          "acute_symptoms": 0.4285714285714286,
+          "metadata_context": 0.14285714285714288,
+          "speech": 0.4285714285714286
+        }
+      },
+      "canonical": {
+        "band": "HIGH",
+        "contributions": {
+          "acute_symptoms": 0.3076923076923077,
+          "metadata_context": 0.12307692307692308,
+          "speech": 0.36923076923076925
+        },
+        "evidence_score": 0.8,
+        "normalized_weights": {
+          "acute_symptoms": 0.3846153846153846,
+          "metadata_context": 0.15384615384615385,
+          "speech": 0.4615384615384615
+        }
+      },
+      "symptom_emphasis": {
+        "band": "HIGH",
+        "contributions": {
+          "acute_symptoms": 0.4,
+          "metadata_context": 0.11428571428571431,
+          "speech": 0.28571428571428575
+        },
+        "evidence_score": 0.8,
+        "normalized_weights": {
+          "acute_symptoms": 0.5,
+          "metadata_context": 0.14285714285714288,
+          "speech": 0.35714285714285715
+        }
+      }
+    },
+    "metadata_only": {
+      "balanced_acute": {
+        "band": "HIGH",
+        "contributions": {
+          "metadata_context": 0.8
+        },
+        "evidence_score": 0.8,
+        "normalized_weights": {
+          "metadata_context": 1.0
+        }
+      },
+      "canonical": {
+        "band": "HIGH",
+        "contributions": {
+          "metadata_context": 0.8
+        },
+        "evidence_score": 0.8,
+        "normalized_weights": {
+          "metadata_context": 1.0
+        }
+      },
+      "symptom_emphasis": {
+        "band": "HIGH",
+        "contributions": {
+          "metadata_context": 0.8
+        },
+        "evidence_score": 0.8,
+        "normalized_weights": {
+          "metadata_context": 1.0
+        }
+      }
+    },
+    "urgent": {
+      "balanced_acute": {
+        "band": "URGENT",
+        "contributions": {
+          "acute_symptoms": 0.28500000000000003,
+          "face": 0.030000000000000006,
+          "metadata_context": 0.010000000000000002,
+          "speech": 0.030000000000000006
+        },
+        "evidence_score": 0.85,
+        "normalized_weights": {
+          "acute_symptoms": 0.30000000000000004,
+          "face": 0.30000000000000004,
+          "metadata_context": 0.10000000000000002,
+          "speech": 0.30000000000000004
+        }
+      },
+      "canonical": {
+        "band": "URGENT",
+        "contributions": {
+          "acute_symptoms": 0.23750000000000004,
+          "face": 0.035,
+          "metadata_context": 0.010000000000000002,
+          "speech": 0.030000000000000006
+        },
+        "evidence_score": 0.85,
+        "normalized_weights": {
+          "acute_symptoms": 0.25000000000000006,
+          "face": 0.35000000000000003,
+          "metadata_context": 0.10000000000000002,
+          "speech": 0.30000000000000004
+        }
+      },
+      "symptom_emphasis": {
+        "band": "URGENT",
+        "contributions": {
+          "acute_symptoms": 0.33249999999999996,
+          "face": 0.03,
+          "metadata_context": 0.010000000000000002,
+          "speech": 0.025
+        },
+        "evidence_score": 0.85,
+        "normalized_weights": {
+          "acute_symptoms": 0.35,
+          "face": 0.3,
+          "metadata_context": 0.1,
+          "speech": 0.25
+        }
+      }
+    }
+  },
+  "scope": "sensitivity analysis; no alternative is claimed more accurate"
+}

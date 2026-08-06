@@ -1,0 +1,137 @@
+schema_version: 1
+source_of_truth:
+  baseline_registry: config/baseline_registry.json
+  evaluation_run: reports/evaluation/phase4/final_complete
+  assessment_package: rural_stroke_assist/assessment
+  case_package: rural_stroke_assist/cases
+categories:
+  ACTIVE:
+    - path: rural_stroke_assist/inference
+      purpose: Registry-backed face, speech, metadata, and symptom adapters.
+      active_runtime_usage: AssessmentService adapter dependencies.
+      replacement_path: null
+      evidence: Phase 1 adapter tests and Phase 4 final_complete outputs.
+      limitations: Proxy scores are not clinical probabilities.
+    - path: rural_stroke_assist/assessment
+      purpose: Sequential four-input assessment and canonical late fusion.
+      active_runtime_usage: Collector workflow and developer smoke paths.
+      replacement_path: null
+      evidence: Assessment integration tests and canonical fusion source.
+      limitations: No paired clinical validation.
+    - path: rural_stroke_assist/modules/fusion_module.py
+      purpose: Canonical deterministic four-input fusion.
+      active_runtime_usage: CanonicalLateFusionStrategy.
+      replacement_path: null
+      evidence: baseline registry and assessment/fusion_strategy.py.
+      limitations: Fixed engineering weights and thresholds.
+    - path: rural_stroke_assist/cases
+      purpose: Immutable case lifecycle, SQLite persistence, attachments, and reports.
+      active_runtime_usage: Collector and clinician apps.
+      replacement_path: null
+      evidence: Phase 3 workflow integration tests.
+      limitations: Local demonstration storage without production authentication or encryption.
+    - path: apps/collector_app.py
+      purpose: Rural collector input and assessment workflow.
+      active_runtime_usage: Phase 3 collector application.
+      replacement_path: null
+      evidence: Streamlit AppTest coverage.
+      limitations: Local Streamlit demonstration.
+    - path: apps/clinician_app.py
+      purpose: Submitted-case review and separate agreement/override decision.
+      active_runtime_usage: Phase 3 clinician application.
+      replacement_path: null
+      evidence: Streamlit AppTest and workflow integration tests.
+      limitations: No production identity, remote synchronization, or clinical approval.
+    - path: models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras
+      purpose: Canonical face branch artifact.
+      active_runtime_usage: FaceAdapter lazy loading.
+      replacement_path: null
+      evidence: baseline_registry.json and final_complete/face.json.
+      limitations: Public proxy image dataset; runtime face coverage is 33.65%.
+    - path: models/experiments/speech/trial_001_mfcc_random_forest/model.pkl
+      purpose: Canonical speech dysarthria proxy artifact.
+      active_runtime_usage: SpeechAdapter lazy loading.
+      replacement_path: null
+      evidence: baseline_registry.json and final_complete/speech.json.
+      limitations: TORGO dysarthria is not stroke-specific; sklearn version warning.
+    - path: models/experiments/metadata/mvp_metadata_risk_model.pkl
+      purpose: Canonical contextual-risk ranking artifact.
+      active_runtime_usage: MetadataAdapter lazy loading.
+      replacement_path: null
+      evidence: baseline_registry.json and final_complete/metadata_context.json.
+      limitations: Imbalanced non-acute risk dataset; contextual evidence only.
+    - path: rural_stroke_assist/modules/acute_symptom_module.py
+      purpose: Deterministic FAST/BE-FAST symptom rules.
+      active_runtime_usage: SymptomAdapter.
+      replacement_path: null
+      evidence: baseline registry and final_complete/symptoms.json.
+      limitations: Rules are not clinically validated.
+    - path: reports/evaluation/phase4/final_complete
+      purpose: Authoritative reproducible Phase 4 evidence.
+      active_runtime_usage: Release documentation and claim validation.
+      replacement_path: null
+      evidence: final_complete/run_manifest.json.
+      limitations: Proxy datasets and engineering robustness only.
+  AUXILIARY:
+    - path: data/processed/face_split_manifest.csv
+      purpose: Canonical face train/validation/test manifest.
+      active_runtime_usage: Face training provenance and Phase 4 test evaluation.
+      replacement_path: null
+      evidence: baseline_registry.json and final_complete/run_manifest.json.
+      limitations: Public annotated image proxy data.
+    - path: data/processed/speech_split_manifest.csv
+      purpose: Speaker-held-out TORGO manifest.
+      active_runtime_usage: Speech Phase 4 held-out evaluation.
+      replacement_path: null
+      evidence: baseline_registry.json and final_complete/run_manifest.json.
+      limitations: Dysarthria proxy, not stroke data.
+    - path: data/processed/metadata_split_manifest.csv
+      purpose: Metadata train/validation/test manifest.
+      active_runtime_usage: Metadata Phase 4 held-out evaluation.
+      replacement_path: null
+      evidence: baseline_registry.json and final_complete/run_manifest.json.
+      limitations: Imbalanced general-risk dataset.
+    - path: data/processed/speech_features.csv
+      purpose: Historical extracted speech feature table.
+      active_runtime_usage: Provenance and experiment analysis.
+      replacement_path: null
+      evidence: baseline_registry.json.
+      limitations: Generated feature artifact, not a clinical dataset.
+    - path: rural_stroke_assist/evaluation
+      purpose: Offline metrics, robustness, profiling, claims, and reports.
+      active_runtime_usage: Phase 4 evaluation CLI.
+      replacement_path: null
+      evidence: final_complete/run_manifest.json.
+      limitations: Does not establish clinical accuracy.
+  LEGACY:
+    - path: rural_stroke_assist/fusion/fusion_engine.py
+      purpose: Older rule-based fusion compatibility path.
+      active_runtime_usage: No active assessment imports; retained for compatibility.
+      replacement_path: rural_stroke_assist/modules/fusion_module.py
+      evidence: DeprecationWarning and baseline legacy classification.
+      limitations: Different result contract and superseded weights.
+    - path: rural_stroke_assist/fusion
+      purpose: Legacy fusion package.
+      active_runtime_usage: Compatibility only.
+      replacement_path: rural_stroke_assist/assessment/fusion_strategy.py
+      evidence: Repository architecture and tests.
+      limitations: Must not be used for new runtime code.
+  HISTORICAL:
+    - path: models/experiments/fer2013
+      purpose: Auxiliary facial-expression experiment.
+      active_runtime_usage: None; not fusion evidence.
+      replacement_path: models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras
+      evidence: baseline registry auxiliary status.
+      limitations: FER2013 is unrelated auxiliary evidence.
+    - path: notebooks
+      purpose: Historical exploration, training, and experiment notebooks.
+      active_runtime_usage: None for live runtime.
+      replacement_path: rural_stroke_assist/inference and rural_stroke_assist/assessment
+      evidence: Repository structure and baseline integration status.
+      limitations: Manual steps and superseded experiments may not reproduce the active baseline.
+    - path: reports/figures
+      purpose: Historical paper and presentation figures.
+      active_runtime_usage: None for inference.
+      replacement_path: reports/evaluation/phase4/final_complete
+      evidence: Existing report organization.
+      limitations: Figure provenance varies; not an executable evaluation source.

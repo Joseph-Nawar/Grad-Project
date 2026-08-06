@@ -1,0 +1,4 @@
+assessment_ms,construction_ms,exit_status,peak_child_rss_bytes,per_modality_ms,process_wall_ms,run,successful_fusion
+3527.0262,19.7388,0,736636928,"{""face"": 1537.3233, ""speech"": 1910.2073, ""metadata_context"": 5.8742, ""acute_symptoms"": 0.0265}",8907.249,1,True
+3479.891,20.1154,0,737734656,"{""face"": 1513.4365, ""speech"": 1892.2787, ""metadata_context"": 5.4652, ""acute_symptoms"": 0.0284}",8688.3025,2,True
+3488.9107,19.8495,0,732254208,"{""face"": 1557.1166, ""speech"": 1859.9767, ""metadata_context"": 5.6327, ""acute_symptoms"": 0.0284}",8586.5804,3,True

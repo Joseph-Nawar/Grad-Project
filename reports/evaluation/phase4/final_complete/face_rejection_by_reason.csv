@@ -1,0 +1,6 @@
+value,count
+pose_not_assessed;dimensions,2
+pose_not_assessed;dimensions;face_too_small,10
+pose_not_assessed;dimensions;no_face,23
+pose_not_assessed;face_too_small,8
+pose_not_assessed;no_face,168

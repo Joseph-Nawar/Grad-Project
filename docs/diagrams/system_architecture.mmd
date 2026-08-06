@@ -1,0 +1,20 @@
+flowchart LR
+  Collector[Collector Streamlit app] --> Workflow[CaseWorkflowService]
+  Workflow --> Assessment[AssessmentService]
+  Assessment --> Face[Face adapter]
+  Assessment --> Speech[Speech adapter]
+  Assessment --> Metadata[Contextual metadata adapter]
+  Assessment --> Symptoms[Acute symptom adapter]
+  Face --> Fusion[Canonical late fusion]
+  Speech --> Fusion
+  Metadata --> Fusion
+  Symptoms --> Fusion
+  Fusion --> Snapshot[Immutable AssessmentResult snapshot]
+  Snapshot --> SQLite[(SQLite case repository)]
+  Snapshot --> Attachments[(Managed attachment store)]
+  SQLite --> Clinician[Clinician Streamlit app]
+  Attachments --> Clinician
+  Evaluation[Offline Phase 4 evaluation] -. reads canonical artifacts and manifests .-> Face
+  Evaluation -. reads canonical artifacts and manifests .-> Speech
+  Evaluation -. reads canonical artifacts and manifests .-> Metadata
+  Legacy[Legacy fusion_engine.py] -. retained compatibility only .-> Fusion

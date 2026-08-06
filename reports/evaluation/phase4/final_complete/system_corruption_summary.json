@@ -1,0 +1,106 @@
+{
+  "count": 10,
+  "passed": 10,
+  "results": [
+    {
+      "actual_status": "ok",
+      "case": "empty_random_image",
+      "expected": "isolated_or_schema_rejection",
+      "failure_code": "decode_failed",
+      "fusion_available": true,
+      "pass": true,
+      "usable_modalities": 3,
+      "validation_or_isolation": "adapter_isolation_or_success"
+    },
+    {
+      "actual_status": "ok",
+      "case": "no_face_image",
+      "expected": "isolated_or_schema_rejection",
+      "failure_code": "pose_not_assessed;no_face",
+      "fusion_available": true,
+      "pass": true,
+      "usable_modalities": 3,
+      "validation_or_isolation": "adapter_isolation_or_success"
+    },
+    {
+      "actual_status": "ok",
+      "case": "very_small_image",
+      "expected": "isolated_or_schema_rejection",
+      "failure_code": "pose_not_assessed;dimensions;no_face",
+      "fusion_available": true,
+      "pass": true,
+      "usable_modalities": 3,
+      "validation_or_isolation": "adapter_isolation_or_success"
+    },
+    {
+      "actual_status": "ok",
+      "case": "blurred_image",
+      "expected": "isolated_or_schema_rejection",
+      "failure_code": "pose_not_assessed;no_face",
+      "fusion_available": true,
+      "pass": true,
+      "usable_modalities": 3,
+      "validation_or_isolation": "adapter_isolation_or_success"
+    },
+    {
+      "actual_status": "ok",
+      "case": "empty_random_audio",
+      "expected": "isolated_or_schema_rejection",
+      "failure_code": "decode_failed",
+      "fusion_available": true,
+      "pass": true,
+      "usable_modalities": 3,
+      "validation_or_isolation": "adapter_isolation_or_success"
+    },
+    {
+      "actual_status": "ok",
+      "case": "silent_audio",
+      "expected": "isolated_or_schema_rejection",
+      "failure_code": "low_energy",
+      "fusion_available": true,
+      "pass": true,
+      "usable_modalities": 3,
+      "validation_or_isolation": "adapter_isolation_or_success"
+    },
+    {
+      "actual_status": "ok",
+      "case": "short_audio",
+      "expected": "isolated_or_schema_rejection",
+      "failure_code": "too_short",
+      "fusion_available": true,
+      "pass": true,
+      "usable_modalities": 3,
+      "validation_or_isolation": "adapter_isolation_or_success"
+    },
+    {
+      "actual_status": "ok",
+      "case": "clipped_audio",
+      "expected": "isolated_or_schema_rejection",
+      "failure_code": "clipping",
+      "fusion_available": true,
+      "pass": true,
+      "usable_modalities": 3,
+      "validation_or_isolation": "adapter_isolation_or_success"
+    },
+    {
+      "actual_status": "ok",
+      "case": "missing_metadata",
+      "expected": "isolated_or_schema_rejection",
+      "failure_code": "",
+      "fusion_available": true,
+      "pass": true,
+      "usable_modalities": 3,
+      "validation_or_isolation": "adapter_isolation_or_success"
+    },
+    {
+      "actual_status": "AssessmentInputError",
+      "case": "invalid_symptoms",
+      "expected": "isolated_or_schema_rejection",
+      "failure_code": "AssessmentInputError",
+      "fusion_available": false,
+      "pass": true,
+      "usable_modalities": 0,
+      "validation_or_isolation": "schema_validation"
+    }
+  ]
+}

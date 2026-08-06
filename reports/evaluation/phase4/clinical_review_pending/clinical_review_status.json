@@ -1,0 +1,12 @@
+{
+  "status": "PENDING",
+  "validated_at_utc": "2026-08-06T12:26:14.057554+00:00",
+  "source": "docs\\clinical_review\\clinical_review_response_template.json",
+  "missing_fields": [
+    "reviewer_name",
+    "reviewer_role",
+    "reviewer_organisation",
+    "decision",
+    "reviewed_at_utc"
+  ]
+}

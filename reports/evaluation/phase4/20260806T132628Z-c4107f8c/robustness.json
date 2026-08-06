@@ -1,0 +1,69 @@
+{
+  "count": 15,
+  "no_usable_modalities": "insufficient_evidence",
+  "non_empty_combinations": [
+    [
+      "face"
+    ],
+    [
+      "speech"
+    ],
+    [
+      "metadata_context"
+    ],
+    [
+      "acute_symptoms"
+    ],
+    [
+      "face",
+      "speech"
+    ],
+    [
+      "face",
+      "metadata_context"
+    ],
+    [
+      "face",
+      "acute_symptoms"
+    ],
+    [
+      "speech",
+      "metadata_context"
+    ],
+    [
+      "speech",
+      "acute_symptoms"
+    ],
+    [
+      "metadata_context",
+      "acute_symptoms"
+    ],
+    [
+      "face",
+      "speech",
+      "metadata_context"
+    ],
+    [
+      "face",
+      "speech",
+      "acute_symptoms"
+    ],
+    [
+      "face",
+      "metadata_context",
+      "acute_symptoms"
+    ],
+    [
+      "speech",
+      "metadata_context",
+      "acute_symptoms"
+    ],
+    [
+      "face",
+      "speech",
+      "metadata_context",
+      "acute_symptoms"
+    ]
+  ],
+  "scope": "engineering robustness and deterministic scenario consistency"
+}

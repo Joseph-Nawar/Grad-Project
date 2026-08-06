@@ -1,0 +1,17 @@
+band,combination,fusion,normalized_weights,score,status,weight_sum
+HIGH,face,True,"{""face"": 1.0}",0.8,partial,1.0
+HIGH,speech,True,"{""speech"": 1.0}",0.8,partial,1.0
+HIGH,metadata_context,True,"{""metadata_context"": 1.0}",0.8,partial,1.0
+HIGH,acute_symptoms,True,"{""acute_symptoms"": 1.0}",0.8,partial,1.0
+HIGH,face+speech,True,"{""face"": 0.5384615384615385, ""speech"": 0.46153846153846156}",0.8,partial,1.0
+HIGH,face+metadata_context,True,"{""face"": 0.7777777777777778, ""metadata_context"": 0.22222222222222227}",0.8,partial,1.0
+HIGH,face+acute_symptoms,True,"{""face"": 0.5833333333333334, ""acute_symptoms"": 0.4166666666666667}",0.8,partial,1.0
+HIGH,speech+metadata_context,True,"{""speech"": 0.7499999999999999, ""metadata_context"": 0.25}",0.8,partial,0.9999999999999999
+HIGH,speech+acute_symptoms,True,"{""speech"": 0.5454545454545454, ""acute_symptoms"": 0.45454545454545453}",0.8,partial,1.0
+HIGH,metadata_context+acute_symptoms,True,"{""acute_symptoms"": 0.7142857142857143, ""metadata_context"": 0.28571428571428575}",0.8000000000000002,partial,1.0
+HIGH,face+speech+metadata_context,True,"{""face"": 0.46666666666666673, ""speech"": 0.4, ""metadata_context"": 0.13333333333333336}",0.8000000000000002,partial,1.0
+HIGH,face+speech+acute_symptoms,True,"{""face"": 0.3888888888888889, ""speech"": 0.33333333333333337, ""acute_symptoms"": 0.2777777777777778}",0.8,partial,1.0
+HIGH,face+metadata_context+acute_symptoms,True,"{""face"": 0.5, ""acute_symptoms"": 0.35714285714285715, ""metadata_context"": 0.14285714285714288}",0.8,partial,1.0
+HIGH,speech+metadata_context+acute_symptoms,True,"{""speech"": 0.4615384615384615, ""acute_symptoms"": 0.3846153846153846, ""metadata_context"": 0.15384615384615385}",0.8,partial,0.9999999999999999
+HIGH,face+speech+metadata_context+acute_symptoms,True,"{""face"": 0.35000000000000003, ""speech"": 0.30000000000000004, ""acute_symptoms"": 0.25000000000000006, ""metadata_context"": 0.10000000000000002}",0.8,complete,1.0000000000000002
+,none,False,{},,insufficient_evidence,0

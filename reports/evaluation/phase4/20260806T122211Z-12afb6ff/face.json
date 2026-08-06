@@ -1,0 +1,79 @@
+{
+  "adapter_aware": {
+    "brier": 0.01228156845365131,
+    "calibration_error": 0.09738110937178135,
+    "confusion_matrix": [
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "f1": null,
+    "n": 2,
+    "negative": 2,
+    "positive": 0,
+    "pr_auc": null,
+    "precision": null,
+    "roc_auc": null,
+    "sensitivity": null,
+    "specificity": 1.0
+  },
+  "adapter_coverage": {
+    "accepted": 2,
+    "quality_states": {
+      "REJECT": 3,
+      "WARN": 2
+    },
+    "rejected": 3,
+    "rejection_reasons": {
+      "dimensions": 1,
+      "face_too_small": 1,
+      "no_face": 2,
+      "pose_not_assessed": 3
+    }
+  },
+  "artifacts": [
+    "reports\\evaluation\\phase4\\20260806T122211Z-12afb6ff\\plots\\face_score_distribution.png",
+    "reports\\evaluation\\phase4\\20260806T122211Z-12afb6ff\\plots\\face_roc.png",
+    "reports\\evaluation\\phase4\\20260806T122211Z-12afb6ff\\plots\\face_pr.png",
+    "reports\\evaluation\\phase4\\20260806T122211Z-12afb6ff\\plots\\face_calibration.png"
+  ],
+  "bootstrap": {
+    "estimate": null,
+    "iterations": 25,
+    "lower": null,
+    "metric": "roc_auc",
+    "seed": 42,
+    "unit": "sample-stratified",
+    "upper": null
+  },
+  "direct": {
+    "brier": 0.16252718409224987,
+    "calibration_error": 0.288933839276433,
+    "confusion_matrix": [
+      [
+        3,
+        2
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "f1": 0.0,
+    "n": 5,
+    "negative": 5,
+    "positive": 0,
+    "pr_auc": null,
+    "precision": 0.0,
+    "roc_auc": null,
+    "sensitivity": null,
+    "specificity": 0.6
+  },
+  "mean_inference_ms": 195.49266,
+  "n": 5
+}

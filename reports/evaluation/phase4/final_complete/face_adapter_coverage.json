@@ -1,0 +1,12 @@
+{
+  "accepted": 107,
+  "class_conditional_rejection_rate": {
+    "NonStroke": 0.625,
+    "Stroke": 0.7363636363636363
+  },
+  "coverage": 0.33647798742138363,
+  "positive_class": "Stroke",
+  "processed": 318,
+  "rejected": 211,
+  "total": 318
+}

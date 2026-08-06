@@ -1,0 +1,43 @@
+{
+  "accepted": 2744,
+  "failures": {
+    "quality_rejected": 105
+  },
+  "metrics": {
+    "brier": 0.1243919622610949,
+    "calibration_error": 0.1616217201166181,
+    "confusion_matrix": [
+      [
+        1357,
+        508
+      ],
+      [
+        31,
+        848
+      ]
+    ],
+    "f1": 0.7588366890380314,
+    "n": 2744,
+    "negative": 1865,
+    "positive": 879,
+    "pr_auc": 0.8993224002159479,
+    "precision": 0.6253687315634219,
+    "roc_auc": 0.9512442545300381,
+    "sensitivity": 0.9647326507394767,
+    "specificity": 0.7276139410187668
+  },
+  "n": 2849,
+  "quality_states": {
+    "PASS": 2744,
+    "REJECT": 105
+  },
+  "speaker_bootstrap": {
+    "estimate": 0.9512442545300381,
+    "iterations": 1000,
+    "lower": 0.8589854288264691,
+    "metric": "roc_auc",
+    "seed": 42,
+    "unit": "group",
+    "upper": 0.9940171249521722
+  }
+}

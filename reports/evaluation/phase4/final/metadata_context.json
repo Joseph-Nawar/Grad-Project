@@ -1,0 +1,42 @@
+{
+  "artifacts": [
+    "reports\\evaluation\\phase4\\final\\plots\\metadata_score_distribution.png",
+    "reports\\evaluation\\phase4\\final\\plots\\metadata_roc.png",
+    "reports\\evaluation\\phase4\\final\\plots\\metadata_pr.png",
+    "reports\\evaluation\\phase4\\final\\plots\\metadata_calibration.png"
+  ],
+  "bootstrap": {
+    "estimate": 0.8337665150530646,
+    "iterations": 1000,
+    "lower": 0.7744431809977619,
+    "metric": "roc_auc",
+    "seed": 42,
+    "unit": "sample-stratified",
+    "upper": 0.8909907226915024
+  },
+  "failures": {},
+  "metrics": {
+    "brier": 0.18132749525271655,
+    "calibration_error": 0.28445717377951973,
+    "confusion_matrix": [
+      [
+        524,
+        205
+      ],
+      [
+        7,
+        31
+      ]
+    ],
+    "f1": 0.22627737226277372,
+    "n": 767,
+    "negative": 729,
+    "positive": 38,
+    "pr_auc": 0.18565119693955895,
+    "precision": 0.13135593220338984,
+    "roc_auc": 0.8337665150530646,
+    "sensitivity": 0.8157894736842105,
+    "specificity": 0.7187928669410151
+  },
+  "n": 767
+}

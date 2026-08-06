@@ -23,3 +23,5 @@ autokeras==2.0.0
 keras-tuner==1.4.7
 tensorboard==2.19.0
 joblib==1.5.3
+streamlit==1.39.0
+PyYAML==6.0.3

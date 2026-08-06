@@ -1,0 +1,41 @@
+{
+  "adapters": {
+    "face": {
+      "cold_runs": 3,
+      "memory_increase_bytes": 0,
+      "peak_rss_bytes": 788045824,
+      "warm_median_ms": 76.80535,
+      "warm_p95_ms": 81.0086,
+      "warm_runs": 20
+    },
+    "metadata_context": {
+      "cold_runs": 3,
+      "memory_increase_bytes": 0,
+      "peak_rss_bytes": 788824064,
+      "warm_median_ms": 2.34575,
+      "warm_p95_ms": 2.7037,
+      "warm_runs": 20
+    },
+    "speech": {
+      "cold_runs": 3,
+      "memory_increase_bytes": 1114112,
+      "peak_rss_bytes": 788869120,
+      "warm_median_ms": 37.897149999999996,
+      "warm_p95_ms": 38.6656,
+      "warm_runs": 20
+    }
+  },
+  "assessment_service": {
+    "cold_runs": 3,
+    "memory_increase_bytes": 0,
+    "peak_rss_bytes": 794652672,
+    "warm_median_ms": 120.5898,
+    "warm_p95_ms": 133.2414,
+    "warm_runs": 20
+  },
+  "model_sizes_bytes": {
+    "face": 9641144,
+    "metadata_context": 6407,
+    "speech": 29499167
+  }
+}

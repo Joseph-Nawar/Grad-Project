@@ -1,0 +1,43 @@
+{
+  "canonical_hashes": {
+    "acute_symptoms": "1BF06538714670F6CA89A645B7667C64B4AE72672F0B19B62E333BCBB3B121B4",
+    "face": "C969C473CD369AEFE11815208407320D559AA7683998CA0EE28C53280C7011AC",
+    "fusion": "1025E553D023A37CB583E719E6D2636B4998597DC0BF07E7CD07A49D0120B2E0",
+    "metadata_context": "350545A6AB71A58373FD11BC2EF9F37BAADCC8420D66186EB6F4BD2B8AA1E8F5",
+    "speech": "1BDED0B3850EE71E2B775E7B8E3BF80F708EE2FAEE1F74CA64D8102BAE01C925"
+  },
+  "command": "python scripts/run_phase4_evaluation.py",
+  "config": "config/evaluation/phase4.yaml",
+  "config_sha256": "e20d329c284155fedc0136719c704c2560c4202e55e5689c5e482e1214c8b80b",
+  "dependencies": {
+    "joblib": "1.5.3",
+    "numpy": "1.26.4",
+    "pandas": "2.2.3",
+    "psutil": "7.2.2",
+    "scikit-learn": "1.5.2",
+    "tensorflow": "2.19.1"
+  },
+  "generated_artifacts": [
+    "PHASE_4_EVALUATION_REPORT.md",
+    "ablations.json",
+    "claim_evidence_index.csv",
+    "profiling.json",
+    "robustness.json",
+    "symptoms.json"
+  ],
+  "iterations": 1000,
+  "manifest_hashes": {
+    "face_split": "1e7759a6b772273eae8cb715e3676ec52b4459f8a15e89b108b54b0fa0c5866a",
+    "metadata_split": "750110fff761405c194b3d149918f0d49eb643baea6129f39c8e02c3900108cb",
+    "speech_split": "1d8674156a2b8da590ab512affce749355ae92243609c4be2e3ba992f516a5e2"
+  },
+  "platform": {
+    "python": "3.11.9",
+    "system": "Windows-10-10.0.26200-SP0"
+  },
+  "run_id": "20260806T121431Z-180f594b",
+  "seed": 42,
+  "suite": "system",
+  "utc_started": "2026-08-06T12:14:35.692058+00:00",
+  "warnings": []
+}
