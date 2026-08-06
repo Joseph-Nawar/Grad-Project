@@ -1,0 +1,111 @@
+{
+  "baselines": {
+    "assessment_service": {
+      "evidence": [
+        "profiling.json"
+      ],
+      "peak_rss_bytes": 826687488,
+      "warm_median_ms": 121.7612,
+      "warm_p95_ms": 124.56,
+      "warm_runs": 20
+    },
+    "cold_start": {
+      "assessment_ms": [
+        3527.0262,
+        3479.891,
+        3488.9107
+      ],
+      "evidence": [
+        "cold_start.json",
+        "cold_start_subprocess_runs.csv"
+      ],
+      "peak_child_rss_bytes": [
+        736636928,
+        737734656,
+        732254208
+      ],
+      "process_wall_ms": [
+        8907.249,
+        8688.3025,
+        8586.5804
+      ],
+      "successful_runs": 3
+    },
+    "corruption": {
+      "all_passed": true,
+      "evidence": [
+        "system_corruption_summary.json",
+        "corruption.json"
+      ],
+      "passed": 10,
+      "scenario_count": 10
+    },
+    "face": {
+      "accepted": 107,
+      "accepted_subset_roc_auc": 0.9606542882404951,
+      "coverage": 0.33647798742138363,
+      "direct_roc_auc": 0.9817744755244755,
+      "evidence": [
+        "face.json",
+        "face_adapter_coverage.json"
+      ],
+      "held_out": 318,
+      "rejected": 211
+    },
+    "memory": {
+      "adapter_peak_rss_bytes": {
+        "face": 826650624,
+        "metadata_context": 827133952,
+        "speech": 827187200
+      },
+      "assessment_memory_increase_bytes": 50466816,
+      "assessment_peak_rss_bytes": 826687488,
+      "evidence": [
+        "profiling.json"
+      ]
+    },
+    "metadata_context": {
+      "direct_roc_auc": 0.8337665150530646,
+      "evidence": [
+        "metadata_context.json"
+      ],
+      "held_out": 767,
+      "precision": 0.13135593220338984
+    },
+    "modality_combinations": {
+      "combination_count": 16,
+      "evidence": [
+        "missing_modalities.json",
+        "robustness.json"
+      ],
+      "real_check_count": 4,
+      "robustness_non_empty_combinations": 15
+    },
+    "speech": {
+      "accepted": 2744,
+      "accepted_subset_roc_auc": 0.9512442545300381,
+      "coverage": 0.9631449631449631,
+      "direct_roc_auc": 0.9426279894010781,
+      "evidence": [
+        "speech.json"
+      ],
+      "held_out": 2849,
+      "rejected": 105
+    },
+    "stability": {
+      "all_checked_components_consistent": true,
+      "assessment_runs": 20,
+      "assessment_score_max_absolute_difference": 0.0,
+      "evidence": [
+        "stability.json",
+        "stability_results.json"
+      ]
+    }
+  },
+  "schema_version": 1,
+  "source": {
+    "evaluation_root": "reports/evaluation/phase4/final_complete",
+    "method": "Parsed existing Phase 4 JSON/CSV artifacts; no evaluation was rerun.",
+    "run_manifest": "20260806T131613Z-7df48bdd"
+  }
+}

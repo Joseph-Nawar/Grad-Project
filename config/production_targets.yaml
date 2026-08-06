@@ -1,0 +1,218 @@
+schema_version: 1
+project: RuralStroke-Assist
+target_policy: Numeric targets carry units, environment, measurement method, rationale, and evidence or a promotion gate.
+targets:
+  - id: assessment_warm_median
+    roadmap_stage: Stage 1
+    status: measured_baseline
+    value: 121.7612
+    unit: ms per assessment
+    environment: Phase 4 validated local Python 3.11.9 environment on Windows
+    measurement_method: 20 warm AssessmentService runs; report the median
+    rationale: Establishes the current local inference orchestration baseline before API work.
+    evidence: reports/production/stage1_engineering_baseline.json#baselines.assessment_service.warm_median_ms
+  - id: assessment_warm_p95
+    roadmap_stage: Stage 1
+    status: measured_baseline
+    value: 124.56
+    unit: ms per assessment
+    environment: Phase 4 validated local Python 3.11.9 environment on Windows
+    measurement_method: 20 warm AssessmentService runs; report the 95th percentile
+    rationale: Captures tail behavior for a future service latency budget.
+    evidence: reports/production/stage1_engineering_baseline.json#baselines.assessment_service.warm_p95_ms
+  - id: cold_start_successful_runs
+    roadmap_stage: Stage 1
+    status: measured_baseline
+    value: 3
+    unit: successful subprocess runs
+    environment: Phase 4 validated local Python 3.11.9 environment on Windows
+    measurement_method: Three fresh-process assessments with exit status and successful fusion checked
+    rationale: Records startup repeatability without claiming a production cold-start SLO.
+    evidence: reports/production/stage1_engineering_baseline.json#baselines.cold_start.successful_runs
+  - id: assessment_peak_memory
+    roadmap_stage: Stage 1
+    status: measured_baseline
+    value: 826687488
+    unit: bytes peak RSS
+    environment: Phase 4 validated local Python 3.11.9 environment on Windows
+    measurement_method: psutil peak RSS during the profiling run
+    rationale: Provides a measured memory reference for future container sizing.
+    evidence: reports/production/stage1_engineering_baseline.json#baselines.memory.assessment_peak_rss_bytes
+  - id: face_runtime_coverage
+    roadmap_stage: Stage 1
+    status: measured_baseline
+    value: 0.33647798742138363
+    unit: fraction of held-out inputs accepted
+    environment: Phase 4 face adapter evaluation on 318 held-out proxy images
+    measurement_method: Accepted adapter inputs divided by processed held-out inputs
+    rationale: Makes the dominant current availability limitation visible to Stage 2.
+    evidence: reports/production/stage1_engineering_baseline.json#baselines.face.coverage
+  - id: speech_runtime_coverage
+    roadmap_stage: Stage 1
+    status: measured_baseline
+    value: 0.9631449631449631
+    unit: fraction of held-out inputs accepted
+    environment: Phase 4 speech adapter evaluation on 2849 held-out proxy recordings
+    measurement_method: Accepted adapter inputs divided by processed held-out inputs
+    rationale: Establishes the current speech quality-gate reference.
+    evidence: reports/production/stage1_engineering_baseline.json#baselines.speech.coverage
+  - id: stability_runs
+    roadmap_stage: Stage 1
+    status: measured_baseline
+    value: 20
+    unit: repeated fixed-input runs
+    environment: Phase 4 local stability evaluation
+    measurement_method: Compare scores, labels, bands, and quality states across repeated runs
+    rationale: Shows deterministic behavior for the frozen MVP evidence path.
+    evidence: reports/production/stage1_engineering_baseline.json#baselines.stability.assessment_runs
+  - id: modality_combination_count
+    roadmap_stage: Stage 1
+    status: measured_baseline
+    value: 16
+    unit: non-empty and empty modality combinations
+    environment: Phase 4 fusion robustness evaluation
+    measurement_method: Enumerated modality availability matrix
+    rationale: Defines the current missing-modality coverage of the engineering tests.
+    evidence: reports/production/stage1_engineering_baseline.json#baselines.modality_combinations.combination_count
+  - id: corruption_scenarios_passed
+    roadmap_stage: Stage 1
+    status: measured_baseline
+    value: 10
+    unit: scenarios passed
+    environment: Phase 4 corruption robustness evaluation
+    measurement_method: Count cases meeting isolated rejection, schema rejection, or successful-fusion expectation
+    rationale: Records the current failure-isolation evidence.
+    evidence: reports/production/stage1_engineering_baseline.json#baselines.corruption.passed
+  - id: api_read_latency_budget
+    roadmap_stage: Stage 2
+    status: candidate_budget
+    value: 300
+    unit: ms p95 for authenticated read endpoints
+    environment: Stage 2 local Compose demonstration with representative seeded data
+    measurement_method: Load test 100 sequential and 20 concurrent requests after API implementation
+    rationale: A practical portfolio demonstration budget with headroom over the local inference baseline.
+    verification: unverified until the API implementation stage
+    promotion_gate: Stage 2 load-test report with p95 and error rate recorded from the tested image digest
+  - id: api_write_latency_budget
+    roadmap_stage: Stage 2
+    status: candidate_budget
+    value: 500
+    unit: ms p95 for case and submission writes excluding attachment transfer
+    environment: Stage 2 local Compose demonstration
+    measurement_method: Load test authenticated writes with idempotency keys and database transactions
+    rationale: Covers durable workflow writes without pretending the API exists today.
+    verification: unverified until the API implementation stage
+    promotion_gate: Stage 2 integration and load tests against the API contract
+  - id: service_memory_budget
+    roadmap_stage: Stage 3
+    status: candidate_budget
+    value: 1024
+    unit: MiB per API or worker container
+    environment: Stage 2 tested container image
+    measurement_method: Peak RSS under representative assessment and workflow load
+    rationale: Bounds container sizing while allowing for the measured local model footprint.
+    verification: unverified until containerization and model-loading work
+    promotion_gate: Container profiling report with no OOM termination during the defined workload
+  - id: stack_readiness_time
+    roadmap_stage: Stage 3
+    status: candidate_budget
+    value: 15
+    unit: minutes from clean checkout to healthy demo stack
+    environment: Local all-in-one Docker Compose demonstration
+    measurement_method: Timed scripted setup and health-check run on a clean machine
+    rationale: Demonstrates reproducible portfolio setup rather than production operations.
+    verification: unverified until the Compose stage
+    promotion_gate: Repeatable setup test from documented instructions on two clean environments
+  - id: synchronization_delivery_reliability
+    roadmap_stage: Stage 4
+    status: candidate_budget
+    value: 0.999
+    unit: fraction of outbox items reaching an acknowledged server in test replay
+    environment: Offline-capable collector synchronization integration test
+    measurement_method: Replay disconnect, retry, duplicate, and restart scenarios; compare acknowledged IDs
+    rationale: Measures durable delivery behavior while retaining at-least-once transport semantics.
+    verification: unverified until synchronization implementation
+    promotion_gate: Fault-injection test demonstrates idempotent exactly-once effect for every acknowledged case
+  - id: drift_alert_delay
+    roadmap_stage: Stage 6
+    status: candidate_budget
+    value: 24
+    unit: hours from completed monitoring window to alert
+    environment: AWS reference environment after observability implementation
+    measurement_method: Inject synthetic input, quality, and prediction drift and measure alert timestamp
+    rationale: Sets a reviewable monitoring objective without claiming clinical-performance monitoring.
+    verification: unverified until observability implementation
+    promotion_gate: End-to-end telemetry test records alert delivery and excludes PII
+  - id: future_conversion_parity
+    roadmap_stage: Stage 5
+    status: candidate_budget
+    value: 0.001
+    unit: maximum absolute score difference on a frozen parity corpus
+    environment: Future model-conversion validation environment
+    measurement_method: Compare converted and reference outputs on a versioned representative corpus
+    rationale: Defines a future numerical parity gate before any converted model can replace a reference artifact.
+    verification: unverified until model conversion is explicitly in scope
+    promotion_gate: Pre-specified corpus, tolerance, metadata, and rollback evidence approved in the conversion stage
+  - id: modality_failure_isolation
+    roadmap_stage: Stage 1
+    status: committed_invariant
+    value: true
+    unit: boolean contract
+    environment: Every future profile
+    measurement_method: Contract and integration tests force one modality failure and inspect the remaining result
+    rationale: A failed optional modality must not silently become a false negative or crash unrelated evidence.
+    evidence: reports/evaluation/phase4/final_complete/system_corruption_summary.json
+  - id: score_bound_enforcement
+    roadmap_stage: Stage 1
+    status: committed_invariant
+    value: true
+    unit: boolean contract
+    environment: Every future profile
+    measurement_method: Schema and fusion tests reject non-finite scores outside the closed interval [0, 1]
+    rationale: Preserves the current typed evidence boundary.
+    evidence: reports/evaluation/phase4/final_complete/robustness.json
+  - id: immutable_submitted_snapshots
+    roadmap_stage: Stage 2
+    status: committed_invariant
+    value: true
+    unit: boolean contract
+    environment: Collector and clinician workflows
+    measurement_method: Attempt post-submission mutation and require a new explicit revision
+    rationale: Clinician review must refer to the exact submitted assessment.
+    evidence: rural_stroke_assist/cases/repository.py
+  - id: no_clinician_side_inference
+    roadmap_stage: Stage 2
+    status: committed_invariant
+    value: true
+    unit: boolean contract
+    environment: Clinician application and future cloud clinician application
+    measurement_method: Architecture test and code review confirm review reads stored snapshots only
+    rationale: Review must not silently change because model artifacts or runtime state changed.
+    evidence: docs/production/PORTFOLIO_PRODUCTION_SPEC.md
+  - id: idempotent_case_creation
+    roadmap_stage: Stage 2
+    status: committed_invariant
+    value: true
+    unit: boolean contract
+    environment: Future API and synchronization boundary
+    measurement_method: Repeat a request with the same idempotency key and compare the returned resource
+    rationale: Retries must have one case-creation effect.
+    promotion_gate: Stage 2 API contract test
+  - id: tested_image_digest_deployment
+    roadmap_stage: Stage 7
+    status: committed_invariant
+    value: true
+    unit: boolean release contract
+    environment: Future CI deployment pipeline
+    measurement_method: Deploy only an image digest that passed the required test and security gates
+    rationale: Runtime provenance must be reproducible.
+    promotion_gate: Stage 2 CI pipeline evidence
+  - id: clinical_performance_drift
+    roadmap_stage: Stage 8
+    status: deferred
+    value: null
+    unit: not available
+    environment: No clinical deployment in Stage 1
+    measurement_method: Not defined until paired clinical outcomes and governance exist
+    rationale: Current proxy evidence cannot support clinical-performance drift claims.
+    promotion_gate: Approved clinical validation protocol and outcome data
