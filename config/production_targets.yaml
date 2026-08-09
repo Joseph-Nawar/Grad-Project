@@ -20,6 +20,42 @@ targets:
     measurement_method: 20 warm AssessmentService runs; report the 95th percentile
     rationale: Captures tail behavior for a future service latency budget.
     evidence: reports/production/stage1_engineering_baseline.json#baselines.assessment_service.warm_p95_ms
+  - id: api_assessment_warm_p50
+    roadmap_stage: Stage 2
+    status: measured_baseline
+    value: 41.12915007863194
+    unit: ms per authenticated API assessment
+    environment: Local FastAPI process on Python 3.11.9 with PostgreSQL 16.14 and real AssessmentService
+    measurement_method: One excluded warm-up followed by 20 sequential HTTP assessment requests; median recorded by benchmark script
+    rationale: Records the observed API boundary latency without presenting the Stage 1 candidate budget as an achieved result.
+    evidence: reports/production/stage2_api_baseline.json#latency_ms.p50
+  - id: api_assessment_warm_p95
+    roadmap_stage: Stage 2
+    status: measured_baseline
+    value: 46.67780012823641
+    unit: ms per authenticated API assessment
+    environment: Local FastAPI process on Python 3.11.9 with PostgreSQL 16.14 and real AssessmentService
+    measurement_method: One excluded warm-up followed by 20 sequential HTTP assessment requests; p95 recorded by benchmark script
+    rationale: Provides actual Stage 2 tail latency evidence for promotion review against the 500 ms candidate budget.
+    evidence: reports/production/stage2_api_baseline.json#latency_ms.p95
+  - id: api_assessment_success_count
+    roadmap_stage: Stage 2
+    status: measured_baseline
+    value: 20
+    unit: successful responses out of 20 measured requests
+    environment: Local FastAPI process on Python 3.11.9 with PostgreSQL 16.14 and real AssessmentService
+    measurement_method: Count HTTP 201 responses from the sequential benchmark run
+    rationale: Confirms the measured latency sample was complete and successful.
+    evidence: reports/production/stage2_api_baseline.json#success_count
+  - id: api_assessment_p95_overhead
+    roadmap_stage: Stage 2
+    status: measured_baseline
+    value: 32.05400030128658
+    unit: ms p95 API-over-direct-service overhead
+    environment: Local FastAPI process on Python 3.11.9 with PostgreSQL 16.14 and real AssessmentService
+    measurement_method: API p95 minus independently measured direct AssessmentService p95 on the same metadata-only input
+    rationale: Separates central API, serialization, authentication, and persistence overhead from model-service time.
+    evidence: reports/production/stage2_api_baseline.json#api_overhead_ms.p95
   - id: cold_start_successful_runs
     roadmap_stage: Stage 1
     status: measured_baseline

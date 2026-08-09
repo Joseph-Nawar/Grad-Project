@@ -147,6 +147,8 @@ celerybeat.pid
 
 # Environments
 .env
+.env.*
+!.env.example
 .venv
 .phase5-test-venv/
 baseline_phase5.log

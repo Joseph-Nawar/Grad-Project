@@ -7,9 +7,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-from rural_stroke_assist.cases.factory import create_default_workflow_service
-
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -20,15 +17,18 @@ def port_open(port: int) -> bool:
 
 
 def main() -> None:
-    create_default_workflow_service()
     processes: list[subprocess.Popen] = []
-    commands = [("collector", 8501, ROOT / "apps" / "collector_app.py"), ("clinician", 8502, ROOT / "apps" / "clinician_app.py")]
+    commands = [("api", 8000, None), ("collector", 8501, ROOT / "apps" / "collector_app.py"), ("clinician", 8502, ROOT / "apps" / "clinician_app.py")]
     try:
         for name, port, app in commands:
             if port_open(port):
                 print(f"{name.title()} already running: http://localhost:{port}")
                 continue
-            process = subprocess.Popen([sys.executable, "-m", "streamlit", "run", str(app), "--server.port", str(port), "--server.headless", "true"], cwd=ROOT)
+            if name == "api":
+                command = [sys.executable, "-m", "uvicorn", "rural_stroke_assist.server.main:app", "--host", "127.0.0.1", "--port", str(port)]
+            else:
+                command = [sys.executable, "-m", "streamlit", "run", str(app), "--server.port", str(port), "--server.headless", "true"]
+            process = subprocess.Popen(command, cwd=ROOT)
             processes.append(process)
             print(f"{name.title()} started: http://localhost:{port}")
         print("Press Ctrl+C to stop applications launched by this command.")
