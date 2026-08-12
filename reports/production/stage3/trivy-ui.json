@@ -1,0 +1,1584 @@
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2026-08-09T19:59:28.334360529Z",
+  "ArtifactName": "ruralstroke-ui:stage3-local",
+  "ArtifactType": "container_image",
+  "Metadata": {
+    "OS": {
+      "Family": "debian",
+      "Name": "12.15"
+    },
+    "ImageID": "sha256:15ac9a9b4f5bc637aac4bcf95b7e7399461c878dcaaca2791d8f51728b1c1846",
+    "DiffIDs": [
+      "sha256:66462cc862fe2053b9863fefa3866e07bb5dfb06f6b3ce3177cc096e4021aabe",
+      "sha256:54c5eda61868d7dbad42805ea56c87d48d0815597ddc095caddf3e72b81ebe4f",
+      "sha256:04165bb9c9967c1f86a946005f39b3173b579df051ba5e74b7c440b5a823cf77",
+      "sha256:28bcd18f93ba7019548c762541202753207f26b316a4ca5ce96bc356d8032c7f",
+      "sha256:a6950b70788daaad19d67788ac3dddd3c71ca12ed78cc87a6af6d4a2edab7db5",
+      "sha256:efd9ae706457ec5478f6abcf304bff78f396f2a5b4e78be6ef2c34d9ea89633d",
+      "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895",
+      "sha256:2e9ef61d303edb2c59301b21cd1bccbf3765b36fd9355e2d7c017582ca6a3656",
+      "sha256:8a5d1fb5e48e09e72da48a3f859156b9de1f4595c3b7885adbf74cf76623e24a",
+      "sha256:0dbb999a5f6197529d286d126006698ee21c393a37c1c5fc897ec073828a2055",
+      "sha256:9775764b588615da7dbcf1f4bf5c90a888ac20745577753e03d6a46df35c1554",
+      "sha256:a1be5945d36ce0389a16d08ad7418d1edef29a3b683d55851cd8e11c603a3d53",
+      "sha256:51f159f9f7f076fd77d1d848ff537829bdb234dc2045c81fb104d36af694e5f0",
+      "sha256:5cfa413957a8f9c970d0e6e0943b9333b0cf80fbe577a0ca35b9e341da8f636d",
+      "sha256:a81e877b468dd31c55f8ce31829251248dafcf9b2b16de8bc4c4745c1c6aac31",
+      "sha256:fdd845e6be00f772b842780b63f2849869edc49a8c1e59399da19c039094a3bd",
+      "sha256:72222188614415769d2bd7c913703049f67ae027a0691389d6c1ef5c4bde95f2",
+      "sha256:faceee60fd4aef78d44d12c1ef44d5a3428cb288522db32cee59651c3d7ae359"
+    ],
+    "RepoTags": [
+      "ruralstroke-ui:stage3-local"
+    ],
+    "RepoDigests": [
+      "ruralstroke-ui@sha256:15ac9a9b4f5bc637aac4bcf95b7e7399461c878dcaaca2791d8f51728b1c1846"
+    ],
+    "ImageConfig": {
+      "architecture": "amd64",
+      "created": "2026-08-09T17:21:58.727170181Z",
+      "history": [
+        {
+          "created": "2026-08-03T00:00:00Z",
+          "created_by": "# debian.sh --arch 'amd64' out/ 'bookworm' '@1785715200'",
+          "comment": "debuerreotype 0.17"
+        },
+        {
+          "created": "2026-08-05T01:05:30Z",
+          "created_by": "ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-08-05T01:05:30Z",
+          "created_by": "ENV LANG=C.UTF-8",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-08-05T01:05:30Z",
+          "created_by": "RUN /bin/sh -c set -eux; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tca-certificates \t\tnetbase \t\ttzdata \t; \trm -rf /var/lib/apt/lists/* # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-05T01:05:30Z",
+          "created_by": "ENV GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-08-05T01:05:30Z",
+          "created_by": "ENV PYTHON_VERSION=3.11.15",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-08-05T01:05:30Z",
+          "created_by": "ENV PYTHON_SHA256=272179ddd9a2e41a0fc8e42e33dfbdca0b3711aa5abf372d3f2d51543d09b625",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-08-05T01:14:12Z",
+          "created_by": "RUN /bin/sh -c set -eux; \t\tsavedAptMark=\"$(apt-mark showmanual)\"; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tdpkg-dev \t\tgcc \t\tgnupg \t\tlibbluetooth-dev \t\tlibbz2-dev \t\tlibc6-dev \t\tlibdb-dev \t\tlibffi-dev \t\tlibgdbm-dev \t\tliblzma-dev \t\tlibncursesw5-dev \t\tlibreadline-dev \t\tlibsqlite3-dev \t\tlibssl-dev \t\tmake \t\ttk-dev \t\tuuid-dev \t\twget \t\txz-utils \t\tzlib1g-dev \t; \t\twget -O python.tar.xz \"https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz\"; \techo \"$PYTHON_SHA256 *python.tar.xz\" | sha256sum -c -; \twget -O python.tar.xz.asc \"https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc\"; \tGNUPGHOME=\"$(mktemp -d)\"; export GNUPGHOME; \tgpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$GPG_KEY\"; \tgpg --batch --verify python.tar.xz.asc python.tar.xz; \tgpgconf --kill all; \trm -rf \"$GNUPGHOME\" python.tar.xz.asc; \tmkdir -p /usr/src/python; \ttar --extract --directory /usr/src/python --strip-components=1 --file python.tar.xz; \trm python.tar.xz; \t\tcd /usr/src/python; \tgnuArch=\"$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)\"; \t./configure \t\t--build=\"$gnuArch\" \t\t--enable-loadable-sqlite-extensions \t\t--enable-optimizations \t\t--enable-option-checking=fatal \t\t--enable-shared \t\t$(test \"${gnuArch%%-*}\" != 'riscv64' \u0026\u0026 echo '--with-lto') \t\t--with-ensurepip \t; \tnproc=\"$(nproc)\"; \tEXTRA_CFLAGS=\"$(dpkg-buildflags --get CFLAGS)\"; \tLDFLAGS=\"$(dpkg-buildflags --get LDFLAGS)\"; \tLDFLAGS=\"${LDFLAGS:-} -Wl,--strip-all\"; \tmake -j \"$nproc\" \t\t\"EXTRA_CFLAGS=${EXTRA_CFLAGS:-}\" \t\t\"LDFLAGS=${LDFLAGS:-}\" \t; \trm python; \tmake -j \"$nproc\" \t\t\"EXTRA_CFLAGS=${EXTRA_CFLAGS:-}\" \t\t\"LDFLAGS=${LDFLAGS:-} -Wl,-rpath='\\$\\$ORIGIN/../lib'\" \t\tpython \t; \tmake install; \t\tcd /; \trm -rf /usr/src/python; \t\tfind /usr/local -depth \t\t\\( \t\t\t\\( -type d -a \\( -name test -o -name tests -o -name idle_test \\) \\) \t\t\t-o \\( -type f -a \\( -name '*.pyc' -o -name '*.pyo' -o -name 'libpython*.a' \\) \\) \t\t\\) -exec rm -rf '{}' + \t; \t\tldconfig; \t\tapt-mark auto '.*' \u003e /dev/null; \tapt-mark manual $savedAptMark; \tfind /usr/local -type f -executable -not \\( -name '*tkinter*' \\) -exec ldd '{}' ';' \t\t| awk '/=\u003e/ { so = $(NF-1); if (index(so, \"/usr/local/\") == 1) { next }; gsub(\"^/(usr/)?\", \"\", so); printf \"*%s\\n\", so }' \t\t| sort -u \t\t| xargs -rt dpkg-query --search \t\t| awk 'sub(\":$\", \"\", $1) { print $1 }' \t\t| sort -u \t\t| xargs -r apt-mark manual \t; \tapt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \trm -rf /var/lib/apt/lists/*; \t\texport PYTHONDONTWRITEBYTECODE=1; \tpython3 --version; \t\tpip3 install \t\t--disable-pip-version-check \t\t--no-cache-dir \t\t--no-compile \t\t'setuptools==79.0.1' \t\t'wheel==0.46.3' \t; \tpip3 --version # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-05T01:14:12Z",
+          "created_by": "RUN /bin/sh -c set -eux; \tfor src in idle3 pip3 pydoc3 python3 python3-config; do \t\tdst=\"$(echo \"$src\" | tr -d 3)\"; \t\t[ -s \"/usr/local/bin/$src\" ]; \t\t[ ! -e \"/usr/local/bin/$dst\" ]; \t\tln -svT \"$src\" \"/usr/local/bin/$dst\"; \tdone # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-05T01:14:12Z",
+          "created_by": "CMD [\"python3\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-08-09T16:49:51Z",
+          "created_by": "ENV VIRTUAL_ENV=/opt/venv PATH=/opt/venv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-08-09T16:49:51Z",
+          "created_by": "RUN /bin/sh -c python -m venv \"$VIRTUAL_ENV\" # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:12:35Z",
+          "created_by": "COPY requirements-ui-runtime.txt /tmp/requirements-ui-runtime.txt # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:21:57Z",
+          "created_by": "RUN /bin/sh -c pip install --no-cache-dir --upgrade pip setuptools wheel     \u0026\u0026 pip install --no-cache-dir -r /tmp/requirements-ui-runtime.txt     \u0026\u0026 pip uninstall -y pip setuptools wheel # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:21:57Z",
+          "created_by": "ENV VIRTUAL_ENV=/opt/venv PATH=/opt/venv/bin:/opt/venv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-08-09T17:21:57Z",
+          "created_by": "WORKDIR /app",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:21:57Z",
+          "created_by": "RUN /bin/sh -c groupadd --system ruralstroke \u0026\u0026 useradd --system --gid ruralstroke --home-dir /nonexistent --shell /usr/sbin/nologin ruralstroke     \u0026\u0026 chown -R ruralstroke:ruralstroke /app # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:21:57Z",
+          "created_by": "COPY --chown=ruralstroke:ruralstroke apps /app/apps # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:21:57Z",
+          "created_by": "COPY --chown=ruralstroke:ruralstroke rural_stroke_assist/__init__.py /app/rural_stroke_assist/__init__.py # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:21:57Z",
+          "created_by": "COPY --chown=ruralstroke:ruralstroke rural_stroke_assist/client /app/rural_stroke_assist/client # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:21:58Z",
+          "created_by": "COPY --chown=ruralstroke:ruralstroke rural_stroke_assist/capture /app/rural_stroke_assist/capture # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:21:58Z",
+          "created_by": "COPY --chown=ruralstroke:ruralstroke rural_stroke_assist/inference /app/rural_stroke_assist/inference # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:21:58Z",
+          "created_by": "COPY --chown=ruralstroke:ruralstroke rural_stroke_assist/quality /app/rural_stroke_assist/quality # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:21:58Z",
+          "created_by": "COPY --chown=ruralstroke:ruralstroke rural_stroke_assist/ui /app/rural_stroke_assist/ui # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:21:58Z",
+          "created_by": "COPY --chown=ruralstroke:ruralstroke docker/ui-entrypoint.sh /usr/local/bin/ruralstroke-ui # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:21:58Z",
+          "created_by": "RUN /bin/sh -c chmod 0555 /usr/local/bin/ruralstroke-ui     \u0026\u0026 rm -rf /usr/local/bin/pip /usr/local/bin/pip3 /usr/local/bin/pip3.11         /usr/local/lib/python3.11/site-packages/pip         /usr/local/lib/python3.11/site-packages/pip-*.dist-info         /usr/local/lib/python3.11/site-packages/setuptools         /usr/local/lib/python3.11/site-packages/setuptools-*.dist-info         /usr/local/lib/python3.11/site-packages/wheel         /usr/local/lib/python3.11/site-packages/wheel-*.dist-info # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-08-09T17:21:58Z",
+          "created_by": "USER ruralstroke",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-08-09T17:21:58Z",
+          "created_by": "EXPOSE map[8501/tcp:{}]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-08-09T17:21:58Z",
+          "created_by": "HEALTHCHECK \u0026{[\"CMD-SHELL\" \"python -c \\\"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8501/_stcore/health', timeout=2)\\\"\"] \"10s\" \"3s\" \"20s\" \"0s\" '\\f'}",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-08-09T17:21:58Z",
+          "created_by": "ENTRYPOINT [\"/usr/local/bin/ruralstroke-ui\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        }
+      ],
+      "os": "linux",
+      "rootfs": {
+        "type": "layers",
+        "diff_ids": [
+          "sha256:66462cc862fe2053b9863fefa3866e07bb5dfb06f6b3ce3177cc096e4021aabe",
+          "sha256:54c5eda61868d7dbad42805ea56c87d48d0815597ddc095caddf3e72b81ebe4f",
+          "sha256:04165bb9c9967c1f86a946005f39b3173b579df051ba5e74b7c440b5a823cf77",
+          "sha256:28bcd18f93ba7019548c762541202753207f26b316a4ca5ce96bc356d8032c7f",
+          "sha256:a6950b70788daaad19d67788ac3dddd3c71ca12ed78cc87a6af6d4a2edab7db5",
+          "sha256:efd9ae706457ec5478f6abcf304bff78f396f2a5b4e78be6ef2c34d9ea89633d",
+          "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895",
+          "sha256:2e9ef61d303edb2c59301b21cd1bccbf3765b36fd9355e2d7c017582ca6a3656",
+          "sha256:8a5d1fb5e48e09e72da48a3f859156b9de1f4595c3b7885adbf74cf76623e24a",
+          "sha256:0dbb999a5f6197529d286d126006698ee21c393a37c1c5fc897ec073828a2055",
+          "sha256:9775764b588615da7dbcf1f4bf5c90a888ac20745577753e03d6a46df35c1554",
+          "sha256:a1be5945d36ce0389a16d08ad7418d1edef29a3b683d55851cd8e11c603a3d53",
+          "sha256:51f159f9f7f076fd77d1d848ff537829bdb234dc2045c81fb104d36af694e5f0",
+          "sha256:5cfa413957a8f9c970d0e6e0943b9333b0cf80fbe577a0ca35b9e341da8f636d",
+          "sha256:a81e877b468dd31c55f8ce31829251248dafcf9b2b16de8bc4c4745c1c6aac31",
+          "sha256:fdd845e6be00f772b842780b63f2849869edc49a8c1e59399da19c039094a3bd",
+          "sha256:72222188614415769d2bd7c913703049f67ae027a0691389d6c1ef5c4bde95f2",
+          "sha256:faceee60fd4aef78d44d12c1ef44d5a3428cb288522db32cee59651c3d7ae359"
+        ]
+      },
+      "config": {
+        "Healthcheck": {
+          "Test": [
+            "CMD-SHELL",
+            "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8501/_stcore/health', timeout=2)\""
+          ],
+          "Interval": 10000000000,
+          "Timeout": 3000000000,
+          "StartPeriod": 20000000000,
+          "Retries": 12
+        },
+        "Entrypoint": [
+          "/usr/local/bin/ruralstroke-ui"
+        ],
+        "Env": [
+          "PATH=/opt/venv/bin:/opt/venv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "LANG=C.UTF-8",
+          "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+          "PYTHON_VERSION=3.11.15",
+          "PYTHON_SHA256=272179ddd9a2e41a0fc8e42e33dfbdca0b3711aa5abf372d3f2d51543d09b625",
+          "VIRTUAL_ENV=/opt/venv",
+          "PYTHONDONTWRITEBYTECODE=1",
+          "PYTHONUNBUFFERED=1"
+        ],
+        "User": "ruralstroke",
+        "WorkingDir": "/app"
+      }
+    }
+  },
+  "Results": [
+    {
+      "Target": "ruralstroke-ui:stage3-local (debian 12.15)",
+      "Class": "os-pkgs",
+      "Type": "debian"
+    },
+    {
+      "Target": "Python",
+      "Class": "lang-pkgs",
+      "Type": "python-pkg",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2026-25990",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.1.1",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-25990",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "pillow: Pillow: Out-of-bounds Write via Specially Crafted PSD Image",
+          "Description": "Pillow is a Python imaging library. From 10.3.0 to before 12.1.1, an out-of-bounds write may be triggered when loading a specially crafted PSD image. This vulnerability is fixed in 12.1.1.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-787"
+          ],
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 3,
+            "ghsa": 3,
+            "nvd": 3,
+            "redhat": 3,
+            "ubuntu": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V40Vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+              "V40Score": 8.6
+            },
+            "ghsa": {
+              "V40Vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+              "V40Score": 8.6
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+              "V3Score": 7.3
+            }
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2026/02/12/1",
+            "https://access.redhat.com/errata/RHSA-2026:10184",
+            "https://access.redhat.com/errata/RHSA-2026:14873",
+            "https://access.redhat.com/errata/RHSA-2026:14874",
+            "https://access.redhat.com/errata/RHSA-2026:16174",
+            "https://access.redhat.com/errata/RHSA-2026:19712",
+            "https://access.redhat.com/errata/RHSA-2026:28385",
+            "https://access.redhat.com/errata/RHSA-2026:3461",
+            "https://access.redhat.com/errata/RHSA-2026:3462",
+            "https://access.redhat.com/errata/RHSA-2026:4128",
+            "https://access.redhat.com/errata/RHSA-2026:42644",
+            "https://access.redhat.com/errata/RHSA-2026:4942",
+            "https://access.redhat.com/errata/RHSA-2026:5168",
+            "https://access.redhat.com/errata/RHSA-2026:5665",
+            "https://access.redhat.com/errata/RHSA-2026:6277",
+            "https://access.redhat.com/errata/RHSA-2026:6278",
+            "https://access.redhat.com/errata/RHSA-2026:6308",
+            "https://access.redhat.com/errata/RHSA-2026:6309",
+            "https://access.redhat.com/errata/RHSA-2026:6497",
+            "https://access.redhat.com/errata/RHSA-2026:6567",
+            "https://access.redhat.com/errata/RHSA-2026:6568",
+            "https://access.redhat.com/security/cve/CVE-2026-25990",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2439170",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/commit/54ba4db542ad3c7b918812a4e2d69c27735a3199",
+            "https://github.com/python-pillow/Pillow/commit/9000313cc5d4a31bdcdd6d7f0781101abab553aa",
+            "https://github.com/python-pillow/Pillow/pull/9427",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-cfh3-3jmp-rvhc",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-25990",
+            "https://pillow.readthedocs.io/en/stable/releasenotes/12.1.1.html",
+            "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-25990.json",
+            "https://ubuntu.com/security/notices/USN-8047-1",
+            "https://www.cve.org/CVERecord?id=CVE-2026-25990"
+          ],
+          "PublishedDate": "2026-02-11T21:16:20.67Z",
+          "LastModifiedDate": "2026-07-21T12:17:47.257Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-40192",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.2.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-40192",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "Pillow: Pillow: Denial of Service via decompression bomb in FITS image processing",
+          "Description": "Pillow is a Python imaging library. Versions 10.3.0 through 12.1.1 did not limit the amount of GZIP-compressed data read when decoding a FITS image, making them vulnerable to decompression bomb attacks. A specially crafted FITS file could cause unbounded memory consumption, leading to denial of service (OOM crash or severe performance degradation). If users are unable to immediately upgrade, they should only open specific image formats, excluding FITS, as a workaround.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-400",
+            "CWE-770",
+            "CWE-409"
+          ],
+          "VendorSeverity": {
+            "bitnami": 3,
+            "ghsa": 3,
+            "nvd": 3,
+            "redhat": 3,
+            "ubuntu": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+              "V40Score": 8.7
+            },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+              "V3Score": 7.5,
+              "V40Score": 8.7
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2026:16008",
+            "https://access.redhat.com/errata/RHSA-2026:16009",
+            "https://access.redhat.com/errata/RHSA-2026:16030",
+            "https://access.redhat.com/errata/RHSA-2026:16174",
+            "https://access.redhat.com/errata/RHSA-2026:17609",
+            "https://access.redhat.com/errata/RHSA-2026:17611",
+            "https://access.redhat.com/errata/RHSA-2026:19375",
+            "https://access.redhat.com/errata/RHSA-2026:19712",
+            "https://access.redhat.com/errata/RHSA-2026:21017",
+            "https://access.redhat.com/errata/RHSA-2026:22465",
+            "https://access.redhat.com/errata/RHSA-2026:22629",
+            "https://access.redhat.com/errata/RHSA-2026:22840",
+            "https://access.redhat.com/errata/RHSA-2026:23361",
+            "https://access.redhat.com/errata/RHSA-2026:24761",
+            "https://access.redhat.com/errata/RHSA-2026:24762",
+            "https://access.redhat.com/errata/RHSA-2026:24853",
+            "https://access.redhat.com/errata/RHSA-2026:24866",
+            "https://access.redhat.com/errata/RHSA-2026:24977",
+            "https://access.redhat.com/errata/RHSA-2026:27076",
+            "https://access.redhat.com/errata/RHSA-2026:34365",
+            "https://access.redhat.com/errata/RHSA-2026:34366",
+            "https://access.redhat.com/errata/RHSA-2026:34368",
+            "https://access.redhat.com/errata/RHSA-2026:37275",
+            "https://access.redhat.com/security/cve/CVE-2026-40192",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2458856",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/commit/3cb854e8b2bab43f40e342e665f9340d861aa628",
+            "https://github.com/python-pillow/Pillow/pull/9521",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-whj4-6x5x-4v2j",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-40192",
+            "https://pillow.readthedocs.io/en/stable/releasenotes/12.2.0.html#prevent-fits-decompression-bomb",
+            "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-40192.json",
+            "https://ubuntu.com/security/notices/USN-8211-1",
+            "https://www.cve.org/CVERecord?id=CVE-2026-40192"
+          ],
+          "PublishedDate": "2026-04-15T23:16:10.053Z",
+          "LastModifiedDate": "2026-07-20T12:19:05.59Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-42311",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.2.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-42311",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "Pillow: python-pillow: Pillow: Arbitrary code execution via malicious PSD file processing",
+          "Description": "Pillow is a Python imaging library. From version 10.3.0 to before version 12.2.0, processing a malicious PSD file could lead to memory corruption, potentially resulting in a crash or arbitrary code execution. This issue has been patched in version 12.2.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-190",
+            "CWE-787"
+          ],
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 3,
+            "ghsa": 3,
+            "nvd": 3,
+            "redhat": 3,
+            "ubuntu": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V40Vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+              "V40Score": 8.6
+            },
+            "ghsa": {
+              "V40Vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+              "V40Score": 8.6
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+              "V3Score": 7.8
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+              "V3Score": 7.8
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-42311",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/commit/58f9a1d166dcb0c274807d4423522d205b0c35ea",
+            "https://github.com/python-pillow/Pillow/pull/9520",
+            "https://github.com/python-pillow/Pillow/releases/tag/12.2.0",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-cfh3-3jmp-rvhc",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-pwv6-vv43-88gr",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-42311",
+            "https://ubuntu.com/security/notices/USN-8399-1",
+            "https://www.cve.org/CVERecord?id=CVE-2026-42311"
+          ],
+          "PublishedDate": "2026-05-09T06:16:10.43Z",
+          "LastModifiedDate": "2026-07-24T21:10:00.143Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-54058",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.3.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-54058",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "Pillow: Pillow: Memory disclosure or denial of service via crafted McIdas AREA image",
+          "Description": "Pillow is a Python imaging library. Prior to 12.3.0, when Pillow loads an uncompressed McIdas AREA image from a filename through the mmap raw codec path, attacker-controlled header words can set a row stride smaller than the natural row width, causing pixel access such as Image.tobytes(), getpixel, convert, or save to read beyond the mapped region and disclose adjacent process memory or fault. This issue is fixed in version 12.3.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-125"
+          ],
+          "VendorSeverity": {
+            "alma": 3,
+            "amazon": 3,
+            "bitnami": 3,
+            "ghsa": 3,
+            "nvd": 4,
+            "oracle-oval": 3,
+            "redhat": 3,
+            "rocky": 3
+          },
+          "CVSS": {
+            "bitnami": {
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:N/VA:H/SC:N/SI:N/SA:N",
+              "V40Score": 8.3
+            },
+            "ghsa": {
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:N/VA:H/SC:N/SI:N/SA:N",
+              "V40Score": 8.3
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+              "V3Score": 9.1
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+              "V3Score": 9.1
+            }
+          },
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2026:48021",
+            "https://access.redhat.com/security/cve/CVE-2026-54058",
+            "https://bugzilla.redhat.com/2500043",
+            "https://bugzilla.redhat.com/2500057",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2500043",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2500057",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54058",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-59197",
+            "https://errata.almalinux.org/8/ALSA-2026-48021.html",
+            "https://errata.rockylinux.org/RLSA-2026:48021",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/commit/6a8de891fb00968e5ea79bfa84368ed90b3cfc1d",
+            "https://github.com/python-pillow/Pillow/pull/9719",
+            "https://github.com/python-pillow/Pillow/releases/tag/12.3.0",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-62p4-gmf7-7g93",
+            "https://linux.oracle.com/cve/CVE-2026-54058.html",
+            "https://linux.oracle.com/errata/ELSA-2026-48021.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-54058",
+            "https://www.cve.org/CVERecord?id=CVE-2026-54058"
+          ],
+          "PublishedDate": "2026-07-14T17:17:03.433Z",
+          "LastModifiedDate": "2026-08-06T15:46:05.867Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-54059",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.3.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-54059",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "python-pillow: Pillow: Denial of Service via crafted PCF font data",
+          "Description": "Pillow is a Python imaging library. Prior to 12.3.0, PIL/PcfFontFile.py _load_bitmaps() read glyph dimensions from the PCF METRICS section and passed them directly to Image.frombytes() without calling Image._decompression_bomb_check(), allowing crafted PCF font data to cause excessive memory allocation. This issue is fixed in version 12.3.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-789"
+          ],
+          "VendorSeverity": {
+            "alma": 3,
+            "amazon": 3,
+            "bitnami": 3,
+            "ghsa": 3,
+            "oracle-oval": 3,
+            "redhat": 3,
+            "rocky": 3
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2026:39127",
+            "https://access.redhat.com/security/cve/CVE-2026-54059",
+            "https://bugzilla.redhat.com/2497452",
+            "https://bugzilla.redhat.com/2497455",
+            "https://bugzilla.redhat.com/2497464",
+            "https://bugzilla.redhat.com/2497466",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497452",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497455",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497464",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497466",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54059",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54060",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-55379",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-55380",
+            "https://errata.almalinux.org/8/ALSA-2026-39127.html",
+            "https://errata.rockylinux.org/RLSA-2026:39127",
+            "https://github.com/pypa/advisory-database/tree/main/vulns/pillow/PYSEC-2026-2253.yaml",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/blob/main/docs/releasenotes/12.3.0.rst",
+            "https://github.com/python-pillow/Pillow/commit/0a263e6264aa5399988d9acd3bbfbca2ca3ec77d",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-8v84-f9pq-wr9x",
+            "https://linux.oracle.com/cve/CVE-2026-54059.html",
+            "https://linux.oracle.com/errata/ELSA-2026-39127.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-54059",
+            "https://www.cve.org/CVERecord?id=CVE-2026-54059"
+          ],
+          "PublishedDate": "2026-07-06T19:17:08.127Z",
+          "LastModifiedDate": "2026-07-07T18:58:26.73Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-54060",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.3.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-54060",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "python-pillow: Pillow: Denial of Service via excessive memory allocation when processing font files",
+          "Description": "Pillow is a Python imaging library. Prior to 12.3.0, PIL/FontFile.py FontFile.compile() assembled per-glyph images into a combined bitmap with Image.new(\"1\", (xsize, ysize)) without calling Image._decompression_bomb_check(), allowing a font to trigger excessive allocation during conversion or saving. This issue is fixed in version 12.3.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-789"
+          ],
+          "VendorSeverity": {
+            "alma": 3,
+            "amazon": 3,
+            "bitnami": 3,
+            "ghsa": 3,
+            "oracle-oval": 3,
+            "redhat": 3,
+            "rocky": 3
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2026:39127",
+            "https://access.redhat.com/security/cve/CVE-2026-54060",
+            "https://bugzilla.redhat.com/2497452",
+            "https://bugzilla.redhat.com/2497455",
+            "https://bugzilla.redhat.com/2497464",
+            "https://bugzilla.redhat.com/2497466",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497452",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497455",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497464",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497466",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54059",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54060",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-55379",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-55380",
+            "https://errata.almalinux.org/8/ALSA-2026-39127.html",
+            "https://errata.rockylinux.org/RLSA-2026:39127",
+            "https://github.com/pypa/advisory-database/tree/main/vulns/pillow/PYSEC-2026-2254.yaml",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/blob/main/docs/releasenotes/12.3.0.rst",
+            "https://github.com/python-pillow/Pillow/commit/0a263e6264aa5399988d9acd3bbfbca2ca3ec77d",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-5x94-69rx-g8h2",
+            "https://linux.oracle.com/cve/CVE-2026-54060.html",
+            "https://linux.oracle.com/errata/ELSA-2026-39127.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-54060",
+            "https://www.cve.org/CVERecord?id=CVE-2026-54060"
+          ],
+          "PublishedDate": "2026-07-06T19:17:08.27Z",
+          "LastModifiedDate": "2026-07-07T18:58:45.827Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-55379",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.3.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-55379",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "python-pillow: Pillow: Denial of Service via crafted BDF font file",
+          "Description": "Pillow is a Python imaging library. Prior to 12.3.0, PIL/BdfFontFile.py bdf_char() read the BBX width and height field from a BDF font file and passed attacker-controlled dimensions to Image.new() without calling Image._decompression_bomb_check(), bypassing Pillow's documented decompression bomb protection and allowing excessive memory allocation. This issue is fixed in version 12.3.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-789"
+          ],
+          "VendorSeverity": {
+            "alma": 3,
+            "amazon": 3,
+            "bitnami": 3,
+            "ghsa": 3,
+            "oracle-oval": 3,
+            "redhat": 3,
+            "rocky": 3
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2026:39127",
+            "https://access.redhat.com/security/cve/CVE-2026-55379",
+            "https://bugzilla.redhat.com/2497452",
+            "https://bugzilla.redhat.com/2497455",
+            "https://bugzilla.redhat.com/2497464",
+            "https://bugzilla.redhat.com/2497466",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497452",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497455",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497464",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497466",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54059",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54060",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-55379",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-55380",
+            "https://errata.almalinux.org/8/ALSA-2026-39127.html",
+            "https://errata.rockylinux.org/RLSA-2026:39127",
+            "https://github.com/pypa/advisory-database/tree/main/vulns/pillow/PYSEC-2026-2255.yaml",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/blob/main/docs/releasenotes/12.3.0.rst",
+            "https://github.com/python-pillow/Pillow/commit/0a263e6264aa5399988d9acd3bbfbca2ca3ec77d",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-45hq-cxwh-f6vc",
+            "https://linux.oracle.com/cve/CVE-2026-55379.html",
+            "https://linux.oracle.com/errata/ELSA-2026-39127.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-55379",
+            "https://www.cve.org/CVERecord?id=CVE-2026-55379"
+          ],
+          "PublishedDate": "2026-07-06T19:17:08.577Z",
+          "LastModifiedDate": "2026-07-07T18:59:01.817Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-55380",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.3.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-55380",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "python-pillow: Pillow: Denial of Service via crafted GD 2.x image file",
+          "Description": "Pillow is a Python imaging library. Prior to 12.3.0, PIL/GdImageFile.py GdImageFile._open() read image dimensions from the GD 2.x header and stored them in self._size without calling Image._decompression_bomb_check(), allowing a crafted .gd file to trigger excessive C-heap allocation when loaded. This issue is fixed in version 12.3.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-789"
+          ],
+          "VendorSeverity": {
+            "alma": 3,
+            "amazon": 3,
+            "bitnami": 3,
+            "ghsa": 3,
+            "oracle-oval": 3,
+            "redhat": 3,
+            "rocky": 3
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2026:39127",
+            "https://access.redhat.com/security/cve/CVE-2026-55380",
+            "https://bugzilla.redhat.com/2497452",
+            "https://bugzilla.redhat.com/2497455",
+            "https://bugzilla.redhat.com/2497464",
+            "https://bugzilla.redhat.com/2497466",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497452",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497455",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497464",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2497466",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54059",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54060",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-55379",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-55380",
+            "https://errata.almalinux.org/8/ALSA-2026-39127.html",
+            "https://errata.rockylinux.org/RLSA-2026:39127",
+            "https://github.com/pypa/advisory-database/tree/main/vulns/pillow/PYSEC-2026-2256.yaml",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/blob/main/docs/releasenotes/12.3.0.rst",
+            "https://github.com/python-pillow/Pillow/commit/f39b0ae6624eb2d7c5c5d651d9bb5fdbd96a8675",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-phj9-mv4w-65pm",
+            "https://linux.oracle.com/cve/CVE-2026-55380.html",
+            "https://linux.oracle.com/errata/ELSA-2026-39127.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-55380",
+            "https://www.cve.org/CVERecord?id=CVE-2026-55380"
+          ],
+          "PublishedDate": "2026-07-06T19:17:08.703Z",
+          "LastModifiedDate": "2026-07-07T18:58:54.647Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-59197",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.3.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-59197",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "Pillow: Pillow: Native heap out-of-bounds write",
+          "Description": "Pillow is a Python imaging library. Prior to 12.3.0, Pillow's public rank-filter API can trigger a native heap out-of-bounds write when given a very large odd filter size because ImageFilter.RankFilter.filter() calls image.expand(size // 2, size // 2) before rank-filter size validation and ImagingExpand() computes output dimensions with unchecked signed int arithmetic. This issue is fixed in version 12.3.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-190",
+            "CWE-787"
+          ],
+          "VendorSeverity": {
+            "alma": 3,
+            "amazon": 3,
+            "bitnami": 3,
+            "ghsa": 3,
+            "oracle-oval": 3,
+            "redhat": 3,
+            "rocky": 3
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H",
+              "V3Score": 8.2
+            },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H",
+              "V3Score": 8.2
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H",
+              "V3Score": 8.2
+            }
+          },
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2026:48021",
+            "https://access.redhat.com/security/cve/CVE-2026-59197",
+            "https://bugzilla.redhat.com/2500043",
+            "https://bugzilla.redhat.com/2500057",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2500043",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2500057",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54058",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-59197",
+            "https://errata.almalinux.org/8/ALSA-2026-48021.html",
+            "https://errata.rockylinux.org/RLSA-2026:48021",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/commit/cce3bdb867c77a3420261ed1bfdb6b0787ec8fc1",
+            "https://github.com/python-pillow/Pillow/pull/9695",
+            "https://github.com/python-pillow/Pillow/releases/tag/12.3.0",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-xj96-63gp-2gmr",
+            "https://linux.oracle.com/cve/CVE-2026-59197.html",
+            "https://linux.oracle.com/errata/ELSA-2026-48021.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-59197",
+            "https://www.cve.org/CVERecord?id=CVE-2026-59197"
+          ],
+          "PublishedDate": "2026-07-14T17:17:14.487Z",
+          "LastModifiedDate": "2026-07-21T19:17:11.907Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-59199",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.3.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-59199",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "Pillow: Pillow: Denial of Service via out-of-bounds write in image processing",
+          "Description": "Pillow is a Python imaging library. Prior to 12.3.0, Pillow public image coordinate APIs can trigger a native heap out-of-bounds write when given coordinates near the signed 32-bit integer limits in Image.paste(), Image.crop(), or Image.alpha_composite(). This issue is fixed in version 12.3.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-190",
+            "CWE-787"
+          ],
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 3,
+            "ghsa": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-59199",
+            "https://github.com/pypa/advisory-database/tree/main/vulns/pillow/PYSEC-2026-3451.yaml",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/commit/ceefc348eb3c3844c7f9796ef2cc3a7dd5fbba7b",
+            "https://github.com/python-pillow/Pillow/pull/9703",
+            "https://github.com/python-pillow/Pillow/releases/tag/12.3.0",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-6r8x-57c9-28j4",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-59199",
+            "https://www.cve.org/CVERecord?id=CVE-2026-59199"
+          ],
+          "PublishedDate": "2026-07-14T16:17:01.937Z",
+          "LastModifiedDate": "2026-07-15T16:16:49.487Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-59200",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.3.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-59200",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "Pillow: Pillow: Denial of service via crafted PDF stream",
+          "Description": "Pillow is a Python imaging library. From 5.1.0 until 12.3.0, PdfParser.PdfStream.decode() in PIL/PdfParser.py calls zlib.decompress() with bufsize set to the PDF stream Length field without bounding the decompressed output size, allowing a crafted FlateDecode PDF stream to exhaust memory from a small file. This issue is fixed in version 12.3.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-400",
+            "CWE-770"
+          ],
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 3,
+            "ghsa": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-59200",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/commit/f7a31ea75e460e108c37126da1f47812f21f6b09",
+            "https://github.com/python-pillow/Pillow/pull/9718",
+            "https://github.com/python-pillow/Pillow/releases/tag/12.3.0",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-jjj6-mw9f-p565",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-59200",
+            "https://www.cve.org/CVERecord?id=CVE-2026-59200"
+          ],
+          "PublishedDate": "2026-07-14T17:17:14.62Z",
+          "LastModifiedDate": "2026-07-21T15:52:40.107Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-59204",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.3.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-59204",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "Pillow: Pillow: Denial of Service via crafted JPEG2000 image",
+          "Description": "Pillow is a Python imaging library. From 8.2.0 through 12.2.0, src/libImaging/Jpeg2KDecode.c accumulates total_component_width across every tile in a JPEG2000 image instead of recomputing it per tile, allowing a crafted tiled JPEG2000 file to force substantially higher transient memory usage and trigger out-of-memory failures during decoding. This issue is fixed in version 12.3.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-789",
+            "CWE-770"
+          ],
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 3,
+            "ghsa": 3,
+            "nvd": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "bitnami": {
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+              "V40Score": 8.7
+            },
+            "ghsa": {
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+              "V40Score": 8.7
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-59204",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/commit/13ada41172142f2fd9f0906f615a00ea623a11ca",
+            "https://github.com/python-pillow/Pillow/pull/9704",
+            "https://github.com/python-pillow/Pillow/releases/tag/12.3.0",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-vjc4-5qp5-m44j",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-59204",
+            "https://www.cve.org/CVERecord?id=CVE-2026-59204"
+          ],
+          "PublishedDate": "2026-07-14T16:17:02.227Z",
+          "LastModifiedDate": "2026-07-21T19:17:12.02Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-59205",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.3.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-59205",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "Pillow: Pillow: Controlled native heap corruption in ImageCms.ImageCmsTransform.apply API",
+          "Description": "Pillow is a Python imaging library. Prior to 12.3.0, Pillow's ImageCms.ImageCmsTransform.apply(im, imOut) API can trigger controlled native heap corruption when the caller supplies an output image whose mode does not match the transform's declared output mode. This issue is fixed in version 12.3.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-787"
+          ],
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 3,
+            "ghsa": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-59205",
+            "https://github.com/pypa/advisory-database/tree/main/vulns/pillow/PYSEC-2026-3453.yaml",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/commit/a9ffc42bedf4fc0a7ef8d6486e7f9e81e3397721",
+            "https://github.com/python-pillow/Pillow/pull/9715",
+            "https://github.com/python-pillow/Pillow/releases/tag/12.3.0",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-9hw9-ch79-4vh6",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-59205",
+            "https://www.cve.org/CVERecord?id=CVE-2026-59205"
+          ],
+          "PublishedDate": "2026-07-14T16:17:02.37Z",
+          "LastModifiedDate": "2026-07-14T20:09:27.77Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-42308",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.2.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-42308",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "Pillow: python: Pillow: Denial of Service via integer overflow in font processing",
+          "Description": "Pillow is a Python imaging library. Prior to version 12.2.0, if a font advances for each glyph by an exceeding large amount, when Pillow keeps track of the current position, it may lead to an integer overflow. This issue has been patched in version 12.2.0.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-190"
+          ],
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 2,
+            "ghsa": 2,
+            "nvd": 2,
+            "redhat": 2,
+            "ubuntu": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V40Vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N",
+              "V40Score": 5.1
+            },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+              "V40Vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N",
+              "V3Score": 5.5,
+              "V40Score": 5.1
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 5.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 6.2
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-42308",
+            "https://github.com/pypa/advisory-database/tree/main/vulns/pillow/PYSEC-2026-165.yaml",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/pull/9518/changes%20%28suspected%20fix%29",
+            "https://github.com/python-pillow/Pillow/releases/tag/12.2.0",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-wjx4-4jcj-g98j",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-42308",
+            "https://ubuntu.com/security/notices/USN-8399-1",
+            "https://www.cve.org/CVERecord?id=CVE-2026-42308"
+          ],
+          "PublishedDate": "2026-05-09T06:16:09.793Z",
+          "LastModifiedDate": "2026-07-24T21:10:00.143Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-42310",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.2.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-42310",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "Pillow: Pillow: Denial of Service via malicious PDF processing",
+          "Description": "Pillow is a Python imaging library. From version 4.2.0 to before version 12.2.0, an attacker can supply a malicious PDF that causes the process to hang indefinitely, consuming 100% CPU and making the application unresponsive. This issue has been patched in version 12.2.0.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-835"
+          ],
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 2,
+            "ghsa": 2,
+            "nvd": 2,
+            "redhat": 2,
+            "ubuntu": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V40Vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N",
+              "V40Score": 5.1
+            },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+              "V40Vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N",
+              "V3Score": 5.5,
+              "V40Score": 5.1
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 5.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 4
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-42310",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/commit/3bf614e4b8615d0ce1d5039efaf6db447fe7c468",
+            "https://github.com/python-pillow/Pillow/pull/9519",
+            "https://github.com/python-pillow/Pillow/releases/tag/12.2.0",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-r73j-pqj5-w3x7",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-42310",
+            "https://ubuntu.com/security/notices/USN-8399-1",
+            "https://www.cve.org/CVERecord?id=CVE-2026-42310"
+          ],
+          "PublishedDate": "2026-05-09T06:16:10.273Z",
+          "LastModifiedDate": "2026-07-24T21:10:00.143Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-55798",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.3.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-55798",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "python-pillow: Pillow: Arbitrary command injection via shell metacharacters in file paths",
+          "Description": "Pillow is a Python imaging library. Prior to 12.3.0, WindowsViewer.get_command() constructed a cmd.exe shell command by directly embedding a file path into an f-string without escaping and passed the result to subprocess.Popen(..., shell=True), allowing shell metacharacters in the file path to inject arbitrary cmd.exe commands. This issue is fixed in version 12.3.0.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-78"
+          ],
+          "VendorSeverity": {
+            "bitnami": 2,
+            "ghsa": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L",
+              "V3Score": 4.5
+            },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L",
+              "V3Score": 4.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L",
+              "V3Score": 4.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-55798",
+            "https://github.com/pypa/advisory-database/tree/main/vulns/pillow/PYSEC-2026-2257.yaml",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/blob/main/docs/releasenotes/12.3.0.rst",
+            "https://github.com/python-pillow/Pillow/commit/8404ea5fe5df40fc34aa1e51403dd6fce0778b8a",
+            "https://github.com/python-pillow/Pillow/commit/88194166691b7b603529b8b036ab3ab9cedd2de4",
+            "https://github.com/python-pillow/Pillow/commit/b0e06caa64c1405aa3da0bb1d2bd9a77ca22de7f",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-4x4j-2g7c-83w6",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-55798",
+            "https://www.cve.org/CVERecord?id=CVE-2026-55798"
+          ],
+          "PublishedDate": "2026-07-06T19:17:08.83Z",
+          "LastModifiedDate": "2026-07-07T18:58:33.57Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-59198",
+          "PkgName": "pillow",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/pillow-10.4.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pillow@10.4.0",
+            "UID": "b90f93ea39d6b293"
+          },
+          "InstalledVersion": "10.4.0",
+          "FixedVersion": "12.3.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-59198",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "Pillow: Pillow: Information disclosure via TGA RLE encoder out-of-bounds read",
+          "Description": "Pillow is a Python imaging library. From 5.2.0 until 12.3.0, Pillow's TGA RLE encoder reads past its packed row buffer when saving a mode 1 image with TGA RLE compression, allowing adjacent process heap bytes to be copied into the generated TGA file. This issue is fixed in version 12.3.0.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-125"
+          ],
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 3,
+            "ghsa": 2,
+            "nvd": 3,
+            "redhat": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:L",
+              "V3Score": 6.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:L",
+              "V3Score": 6.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-59198",
+            "https://github.com/python-pillow/Pillow",
+            "https://github.com/python-pillow/Pillow/commit/eada3cbd7fb9963ee90673fb7b5270124a0d5f4b",
+            "https://github.com/python-pillow/Pillow/pull/9709",
+            "https://github.com/python-pillow/Pillow/releases/tag/12.3.0",
+            "https://github.com/python-pillow/Pillow/security/advisories/GHSA-fj7v-r99m-22gq",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-59198",
+            "https://www.cve.org/CVERecord?id=CVE-2026-59198"
+          ],
+          "PublishedDate": "2026-07-14T16:17:01.797Z",
+          "LastModifiedDate": "2026-07-14T20:18:43.41Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-33682",
+          "PkgName": "streamlit",
+          "PkgPath": "opt/venv/lib/python3.11/site-packages/streamlit-1.39.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/streamlit@1.39.0",
+            "UID": "2f80f278860ae852"
+          },
+          "InstalledVersion": "1.39.0",
+          "FixedVersion": "1.54.0",
+          "Status": "fixed",
+          "Layer": {
+            "Digest": "sha256:9a40dcf754975d5d72f4257660f79b6eb4a23c9fac3f2b933c9a95021e96f744",
+            "DiffID": "sha256:711d6e0a43a661e0dee535b4f3092bf829ac4929845c4b32af3e31ff1f784895"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-33682",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "Unauthenticated SSRF Vulnerability in Streamlit on Windows (NTLM Credential Exposure)",
+          "Description": "Streamlit is a data oriented application development framework for python. Streamlit Open Source versions prior to 1.54.0 running on Windows hosts have an unauthenticated Server-Side Request Forgery (SSRF) vulnerability. The vulnerability arises from improper validation of attacker-supplied filesystem paths. In certain code paths, including within the `ComponentRequestHandler`, filesystem paths are resolved using `os.path.realpath()` or `Path.resolve()` before sufficient validation occurs. On Windows systems, supplying a malicious UNC path (e.g., `\\\\attacker-controlled-host\\share`) can cause the Streamlit server to initiate outbound SMB connections over port 445. When Windows attempts to authenticate to the remote SMB server, NTLMv2 challenge-response credentials of the Windows user running the Streamlit process may be transmitted. This behavior may allow an attacker to perform NTLM relay attacks against other internal services and/or identify internally reachable SMB hosts via timing analysis. The vulnerability has been fixed in Streamlit Open Source version 1.54.0.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-918"
+          ],
+          "VendorSeverity": {
+            "ghsa": 2,
+            "nvd": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:N",
+              "V3Score": 4.7
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "V3Score": 4.8
+            }
+          },
+          "References": [
+            "https://github.com/streamlit/streamlit",
+            "https://github.com/streamlit/streamlit/commit/23692ca70b2f2ac720c72d1feb4f190c9d6eed76",
+            "https://github.com/streamlit/streamlit/releases/tag/1.54.0",
+            "https://github.com/streamlit/streamlit/security/advisories/GHSA-7p48-42j8-8846",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-33682"
+          ],
+          "PublishedDate": "2026-03-26T22:16:30.88Z",
+          "LastModifiedDate": "2026-06-17T10:37:55.193Z"
+        }
+      ]
+    }
+  ]
+}

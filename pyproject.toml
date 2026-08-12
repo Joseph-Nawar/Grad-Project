@@ -29,6 +29,8 @@ dependencies = [
     "alembic>=1.14,<2",
     "PyJWT>=2.9,<3",
     "python-multipart>=0.0.9,<1",
+    "boto3==1.43.67",
+    "cryptography==45.0.7",
 ]
 
 

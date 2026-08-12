@@ -10,7 +10,7 @@ from rural_stroke_assist.server.infrastructure.auth.local_jwt import LocalJwtVer
 @pytest.mark.asyncio
 async def test_asgi_operational_and_identity_routes_use_correlation_and_safe_auth_errors() -> None:
     app = create_app(initialize_resources=False)
-    app.state.token_verifier = LocalJwtVerifier(secret="test-secret", issuer="test", audience="api")
+    app.state.token_verifier = LocalJwtVerifier(secret="test-secret-for-unit-tests-32-bytes", issuer="test", audience="api")
     async with app.router.lifespan_context(app):
         transport = httpx.ASGITransport(app=app)
         async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
@@ -28,7 +28,7 @@ async def test_asgi_operational_and_identity_routes_use_correlation_and_safe_aut
                     return False
 
             app.state.session_factory = NullSession
-            token = create_demo_token(secret="test-secret", issuer="test", audience="api", subject="collector-1", roles=["collector"], facilities=["facility-a"])
+            token = create_demo_token(secret="test-secret-for-unit-tests-32-bytes", issuer="test", audience="api", subject="collector-1", roles=["collector"], facilities=["facility-a"])
             invalid = await client.post("/api/v1/cases", json={}, headers={"Authorization": f"Bearer {token}"})
             assert invalid.status_code == 422
             assert set(invalid.json()) == {"code", "message", "details", "correlation_id"}
@@ -37,8 +37,8 @@ async def test_asgi_operational_and_identity_routes_use_correlation_and_safe_aut
 @pytest.mark.asyncio
 async def test_asgi_identity_uses_signed_local_jwt_not_role_headers() -> None:
     app = create_app(initialize_resources=False)
-    app.state.token_verifier = LocalJwtVerifier(secret="test-secret", issuer="test", audience="api")
-    token = create_demo_token(secret="test-secret", issuer="test", audience="api", subject="collector-1", roles=["collector"], facilities=["facility-a"])
+    app.state.token_verifier = LocalJwtVerifier(secret="test-secret-for-unit-tests-32-bytes", issuer="test", audience="api")
+    token = create_demo_token(secret="test-secret-for-unit-tests-32-bytes", issuer="test", audience="api", subject="collector-1", roles=["collector"], facilities=["facility-a"])
     async with app.router.lifespan_context(app):
         transport = httpx.ASGITransport(app=app)
         async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:

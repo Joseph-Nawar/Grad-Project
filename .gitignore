@@ -1,6 +1,30 @@
 # Data
 /data/
 /runtime_data/
+/.runtime-secrets/
+/infra/**/.terraform/
+/infra/terraform/**/*.tfstate*
+/infra/terraform/**/*.tfvars
+/infra/terraform/**/crash.log
+/infra/terraform/**/.terraform-pre-token.zip
+
+# Local state, archives, and generated runtime files.
+*.tfstate
+*.tfstate.*
+*.tfvars
+crash.log
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.db
+*.tar
+*.tar.gz
+*.tgz
+*.img
+*.qcow2
+*.tmp
+*.temp
+*.bak
 
 # Mac OS-specific storage files
 .DS_Store
@@ -149,8 +173,11 @@ celerybeat.pid
 .env
 .env.*
 !.env.example
+/codex_workspace/
 .venv
+.venv/
 .phase5-test-venv/
+*.venv/
 baseline_phase5.log
 env/
 venv/
@@ -188,6 +215,8 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+.idea/
+.vscode/
 
 # Ruff stuff:
 .ruff_cache/
@@ -198,7 +227,37 @@ cython_debug/
 # Ignore raw/processed datasets (never push images to GitHub)
 data/
 
-# Ignore AutoKeras and Keras Tuner tracking directories
+# Ignore AutoKeras, Keras Tuner, and non-release model artifacts.
 *.keras
+*.h5
+*.weights.h5
+*.pkl
 experiments/
 models/
+
+# Stage 3 release and baseline inputs: exact canonical artifacts only.
+# Re-include only the parent directories needed to reach each exact file;
+# their contents remain ignored unless the final file rule names them.
+!/models/
+!models/.gitkeep
+!models/experiments/
+/models/experiments/*
+!models/experiments/face/
+!models/experiments/face/trial_003_mobilenetv2_balanced_160/
+/models/experiments/face/trial_003_mobilenetv2_balanced_160/*
+!models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras
+!models/experiments/speech/
+!models/experiments/speech/trial_001_mfcc_random_forest/
+/models/experiments/speech/trial_001_mfcc_random_forest/*
+!models/experiments/speech/trial_001_mfcc_random_forest/model.pkl
+!models/experiments/metadata/
+!models/experiments/metadata/mvp_metadata_risk_model.pkl
+!models/experiments/fer2013/
+!models/experiments/fer2013/trial_001_mobilenetv2_160/
+/models/experiments/fer2013/trial_001_mobilenetv2_160/*
+!models/experiments/fer2013/trial_001_mobilenetv2_160/model.keras
+
+# CI scratch output and superseded local evidence captures.
+/reports/production/stage3/ci-runtime-inventory.json
+/reports/production/stage3/*-current.json
+/reports/production/stage3/*-final-current.json

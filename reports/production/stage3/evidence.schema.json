@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["image", "stack", "benchmark", "environment", "frozen_compatibility"],
+  "properties": {
+    "image": {"type": "object"},
+    "stack": {"type": "object"},
+    "benchmark": {"type": "object"},
+    "environment": {"type": "object"},
+    "frozen_compatibility": {"type": "object"}
+  },
+  "additionalProperties": true
+}

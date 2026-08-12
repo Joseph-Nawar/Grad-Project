@@ -9,6 +9,7 @@ from rural_stroke_assist.capture.schemas import AssessmentInput
 from rural_stroke_assist.client import ApiClient, ApiClientError
 from rural_stroke_assist.inference.metadata_adapter import MetadataInput
 from rural_stroke_assist.ui.common import apply_theme, render_assessment_result, render_preassessment_quality
+from rural_stroke_assist.ui.oidc import streamlit_api_client
 from rural_stroke_assist.ui.presentation import short_case_reference
 
 
@@ -34,9 +35,12 @@ def _error(exc: ApiClientError) -> None:
 
 
 def main() -> None:
-    client = get_client()
     st.title("RuralStroke-Assist · Collector")
     st.caption("Guided collection for research screening and triage support")
+    client = streamlit_api_client(st)
+    if client is None:
+        st.info("Sign in with the assigned Cognito account to continue.")
+        return
     st.info("Collect only the minimum information needed for this local demonstration. Do not enter names, national IDs, or addresses.")
     st.session_state.setdefault("current_case", None)
     st.session_state.setdefault("attachment_ids", {})

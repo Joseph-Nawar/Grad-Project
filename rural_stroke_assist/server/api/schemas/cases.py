@@ -32,6 +32,7 @@ class CaseUpdateRequest(ApiSchema):
 
 class SubmissionRequest(ApiSchema):
     confirmed: bool
+    assessment_hash: str | None = Field(default=None, pattern=r"^[0-9a-fA-F]{64}$")
 
 
 class AttachmentSummary(ApiSchema):
@@ -53,6 +54,7 @@ class CaseResponse(ApiSchema):
     submitted_at: datetime | None = None
     assessment_id: UUID | None = None
     assessment_result: dict[str, Any] | None = None
+    assessment_hash: str | None = None
     assessment_input: AssessmentInputDraft = Field(default_factory=AssessmentInputDraft)
     attachments: list[AttachmentSummary] = Field(default_factory=list)
 

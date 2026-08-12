@@ -133,6 +133,28 @@
         "title": "AssessmentCreateRequest",
         "type": "object"
       },
+      "AssessmentImportRequest": {
+        "additionalProperties": false,
+        "description": "Collector-generated, path-free assessment envelope.",
+        "properties": {
+          "assessment_hash": {
+            "pattern": "^[0-9a-fA-F]{64}$",
+            "title": "Assessment Hash",
+            "type": "string"
+          },
+          "envelope": {
+            "additionalProperties": true,
+            "title": "Envelope",
+            "type": "object"
+          }
+        },
+        "required": [
+          "envelope",
+          "assessment_hash"
+        ],
+        "title": "AssessmentImportRequest",
+        "type": "object"
+      },
       "AssessmentInputDraft": {
         "additionalProperties": false,
         "properties": {
@@ -170,6 +192,17 @@
       "AssessmentResponse": {
         "additionalProperties": false,
         "properties": {
+          "assessment_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assessment Hash"
+          },
           "case_id": {
             "format": "uuid",
             "title": "Case Id",
@@ -288,6 +321,18 @@
       },
       "Body_attachment_upload": {
         "properties": {
+          "attachment_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attachment Id"
+          },
           "case_id": {
             "format": "uuid",
             "title": "Case Id",
@@ -372,6 +417,17 @@
       "CaseResponse": {
         "additionalProperties": false,
         "properties": {
+          "assessment_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assessment Hash"
+          },
           "assessment_id": {
             "anyOf": [
               {
@@ -889,6 +945,18 @@
       "SubmissionRequest": {
         "additionalProperties": false,
         "properties": {
+          "assessment_hash": {
+            "anyOf": [
+              {
+                "pattern": "^[0-9a-fA-F]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assessment Hash"
+          },
           "confirmed": {
             "title": "Confirmed",
             "type": "boolean"
@@ -1050,6 +1118,124 @@
           }
         ],
         "summary": "Create Assessment",
+        "tags": [
+          "assessments"
+        ]
+      }
+    },
+    "/api/v1/assessments/import": {
+      "post": {
+        "description": "Collector-only, facility-scoped import of a path-free validated envelope. The required Idempotency-Key is the durable collector event identity; server inference is not invoked.",
+        "operationId": "assessment_import",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssessmentImportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssessmentResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Authentication required."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not found."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Imported assessment envelope or provenance is invalid."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal server error."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Dependency unavailable."
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Import a collector-generated assessment",
         "tags": [
           "assessments"
         ]
@@ -1273,7 +1459,26 @@
     },
     "/api/v1/attachments": {
       "post": {
+        "description": "Existing callers may omit Idempotency-Key. Offline synchronization supplies the stable outbox event UUID and may supply a stable attachment UUID; logical content identity is checked on replay.",
         "operationId": "attachment_upload",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -1333,7 +1538,7 @@
                 }
               }
             },
-            "description": "Conflict."
+            "description": "Stable attachment identity conflicts with existing content."
           },
           "413": {
             "content": {
@@ -1391,7 +1596,7 @@
             "HTTPBearer": []
           }
         ],
-        "summary": "Upload Attachment",
+        "summary": "Upload an attachment",
         "tags": [
           "attachments"
         ]

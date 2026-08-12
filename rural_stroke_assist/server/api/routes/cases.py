@@ -25,7 +25,8 @@ router = APIRouter(prefix="/api/v1/cases", tags=["cases"])
 
 def _json_case(case: CaseModel) -> dict[str, Any]:
     latest_assessment = case.assessments[-1] if case.assessments else None
-    return {"id": case.id, "facility": case.facility, "patient_code": case.patient_code, "status": case.status, "version": case.version, "created_at": case.created_at, "updated_at": case.updated_at, "submitted_at": case.submitted_at, "assessment_id": latest_assessment.id if latest_assessment else None, "assessment_result": latest_assessment.result_snapshot if latest_assessment else None, "assessment_input": case.assessment_input, "attachments": [{"id": item.id, "kind": item.kind, "media_type": item.media_type, "size_bytes": item.size_bytes, "checksum_sha256": item.checksum_sha256} for item in case.attachments]}
+    assessment_hash = latest_assessment.request_snapshot.get("assessment_hash") if latest_assessment and isinstance(latest_assessment.request_snapshot, dict) else None
+    return {"id": case.id, "facility": case.facility, "patient_code": case.patient_code, "status": case.status, "version": case.version, "created_at": case.created_at, "updated_at": case.updated_at, "submitted_at": case.submitted_at, "assessment_id": latest_assessment.id if latest_assessment else None, "assessment_result": latest_assessment.result_snapshot if latest_assessment else None, "assessment_hash": assessment_hash, "assessment_input": case.assessment_input, "attachments": [{"id": item.id, "kind": item.kind, "media_type": item.media_type, "size_bytes": item.size_bytes, "checksum_sha256": item.checksum_sha256} for item in case.attachments]}
 
 
 def _response(case: CaseModel, response: Response) -> CaseResponse:
@@ -43,8 +44,15 @@ def create_case(request: CaseCreateRequest, response: Response, idempotency_key:
     record = begin_idempotency(session, principal, "case_create", require_idempotency_key(idempotency_key), payload)
     if isinstance(record, dict):
         return record
-    if session.get(CaseModel, request.id) is not None:
-        raise ApiError("conflict", "Case ID already exists.", status_code=409)
+    existing = session.get(CaseModel, request.id)
+    if existing is not None:
+        matches = existing.collector_subject == principal.subject and existing.facility == request.facility and existing.patient_code == request.patient_code and existing.assessment_input == request.assessment_input.model_dump(mode="json")
+        if not matches:
+            raise ApiError("conflict", "The stable case ID identifies a different case.", status_code=409)
+        output = _json_case(existing)
+        complete_idempotency(record, output, existing.id)
+        session.commit()
+        return _response(existing, response)
     case = CaseModel(id=request.id, facility=request.facility, patient_code=request.patient_code, collector_subject=principal.subject, status="DRAFT", assessment_input=request.assessment_input.model_dump(mode="json", by_alias=True))
     session.add(case)
     session.flush()
@@ -99,15 +107,24 @@ def submit_case(case_id: UUID, request: SubmissionRequest, response: Response, i
     case = get_case(session, case_id, principal)
     if not principal.has_role("collector") or case.collector_subject != principal.subject:
         raise ApiError("forbidden", "Collector ownership is required.", status_code=403)
-    require_state(case, CaseState.ASSESSED)
-    ensure_if_match(case, if_match)
     record = begin_idempotency(session, principal, "case_submit", require_idempotency_key(idempotency_key), {"case_id": str(case_id), **request.model_dump()})
     if isinstance(record, dict):
         return record
+    if case.status == CaseState.SUBMITTED.value:
+        expected_hash = case.submission.snapshot.get("assessment_hash") if case.submission is not None else None
+        if request.assessment_hash is not None and request.assessment_hash == expected_hash:
+            output = _json_case(case)
+            complete_idempotency(record, output, case.id)
+            session.commit()
+            return _response(case, response)
+        raise ApiError("conflict", "The submitted case has a different immutable snapshot.", status_code=409)
+    require_state(case, CaseState.ASSESSED)
+    ensure_if_match(case, if_match)
     assessment = case.assessments[-1] if case.assessments else None
     if assessment is None or not request.confirmed:
         raise ApiError("validation_error", "Assessment and confirmation are required before submission.", status_code=400)
-    snapshot = {"case_id": str(case.id), "assessment_id": str(assessment.id), "input": case.assessment_input, "assessment": assessment.result_snapshot, "attachments": [str(item.id) for item in case.attachments]}
+    assessment_hash = assessment.request_snapshot.get("assessment_hash") if isinstance(assessment.request_snapshot, dict) else None
+    snapshot = {"case_id": str(case.id), "assessment_id": str(assessment.id), "input": case.assessment_input, "assessment": assessment.result_snapshot, "assessment_hash": assessment_hash, "attachments": [str(item.id) for item in case.attachments]}
     from rural_stroke_assist.server.domain.hashing import canonical_sha256
     submission = SubmissionModel(case_id=case.id, assessment_id=assessment.id, snapshot=snapshot, snapshot_sha256=canonical_sha256(snapshot), submitted_by=principal.subject)
     session.add(submission)

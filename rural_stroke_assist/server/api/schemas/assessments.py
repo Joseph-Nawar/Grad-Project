@@ -5,9 +5,19 @@ from __future__ import annotations
 from typing import Any, Literal
 from uuid import UUID
 
-from pydantic import ConfigDict, Field
+from pydantic import ConfigDict, Field, model_validator
 
 from rural_stroke_assist.server.api.schemas.common import ApiSchema
+
+
+APPROVED_ASSESSMENT_SCHEMA_VERSION = 1
+APPROVED_MODEL_IDS = {
+    "face": "canonical-face-v1",
+    "speech": "canonical-speech-v1",
+    "metadata_context": "canonical-metadata-v1",
+    "acute_symptoms": "canonical-acute-v1",
+}
+APPROVED_FUSION_ID = "canonical-fusion-v1"
 
 
 class MetadataInputSchema(ApiSchema):
@@ -51,6 +61,30 @@ class AssessmentCreateRequest(ApiSchema):
     session_id: str = Field(default="api-session", min_length=1, max_length=128)
 
 
+class AssessmentImportRequest(ApiSchema):
+    """Collector-generated, path-free assessment envelope."""
+
+    envelope: dict[str, Any]
+    assessment_hash: str = Field(pattern=r"^[0-9a-fA-F]{64}$")
+
+    @model_validator(mode="after")
+    def validate_trusted_envelope(self) -> "AssessmentImportRequest":
+        from rural_stroke_assist.offline.contracts import AssessmentEnvelope
+
+        parsed = AssessmentEnvelope.model_validate(self.envelope)
+        if parsed.schema_version != APPROVED_ASSESSMENT_SCHEMA_VERSION:
+            raise ValueError("assessment envelope schema version is not approved")
+        provenance = parsed.provenance
+        if provenance.get("schema_version") != APPROVED_ASSESSMENT_SCHEMA_VERSION:
+            raise ValueError("assessment provenance schema version is not approved")
+        if provenance.get("fusion_id") != APPROVED_FUSION_ID:
+            raise ValueError("assessment provenance fusion identifier is not approved")
+        model_ids = provenance.get("model_ids")
+        if not isinstance(model_ids, dict) or any(APPROVED_MODEL_IDS.get(key) != value for key, value in model_ids.items()):
+            raise ValueError("assessment provenance model identifiers are not approved")
+        return self
+
+
 class AssessmentResponse(ApiSchema):
     id: UUID
     case_id: UUID
@@ -58,3 +92,4 @@ class AssessmentResponse(ApiSchema):
     request_snapshot: dict[str, Any]
     result_snapshot: dict[str, Any]
     created_at: str
+    assessment_hash: str | None = None

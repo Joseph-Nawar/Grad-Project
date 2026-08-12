@@ -9,7 +9,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.orm import Session
 
 from rural_stroke_assist.server.errors import ApiError
-from rural_stroke_assist.server.infrastructure.auth.local_jwt import LocalJwtVerifier
+from rural_stroke_assist.server.app import create_token_verifier
 from rural_stroke_assist.server.principal import Principal
 
 bearer = HTTPBearer(auto_error=False)
@@ -31,7 +31,7 @@ def get_principal(request: Request, credentials: HTTPAuthorizationCredentials | 
         settings = getattr(request.app.state, "settings", None)
         if settings is None:
             raise ApiError("dependency_unavailable", "Authentication is unavailable.", status_code=503)
-        verifier = LocalJwtVerifier(secret=settings.jwt_secret, issuer=settings.jwt_issuer, audience=settings.jwt_audience)
+        verifier = create_token_verifier(settings)
     try:
         return verifier.verify(credentials.credentials)
     except ValueError as exc:

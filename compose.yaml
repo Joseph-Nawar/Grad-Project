@@ -1,0 +1,268 @@
+name: ruralstroke-stage3
+
+services:
+  postgres:
+    image: postgres@sha256:1d04b9ba1d4996401f2552b51beda8187f175c0645c091e4781134fc9c9a3eef
+    environment:
+      POSTGRES_USER: ruralstroke
+      POSTGRES_DB: ruralstroke
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets:
+      - postgres_password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ruralstroke -d ruralstroke"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  object-store:
+    image: minio/minio@sha256:c7175077d39a8cc10c9fd611cdcc68b6a5b365793e9ac6f4198ffff1ef0fe555
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER_FILE: /run/secrets/minio_access_key
+      MINIO_ROOT_PASSWORD_FILE: /run/secrets/minio_secret_key
+    secrets:
+      - minio_access_key
+      - minio_secret_key
+    volumes:
+      - minio-data:/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:9000/minio/health/ready > /dev/null"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  object-store-init:
+    image: minio/mc@sha256:a7fe349ef4bd8521fb8497f55c6042871b2ae640607cf99d9bede5e9bdf11727
+    depends_on:
+      object-store:
+        condition: service_healthy
+    secrets:
+      - minio_access_key
+      - minio_secret_key
+    networks:
+      - backend
+    restart: "no"
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - >-
+        mc alias set local http://object-store:9000 "$$(tr -d '\r\n' < /run/secrets/minio_access_key)" "$$(tr -d '\r\n' < /run/secrets/minio_secret_key)"
+        && mc mb --ignore-existing local/ruralstroke-attachments
+        && mc anonymous set none local/ruralstroke-attachments
+
+  migrations:
+    image: ruralstroke-api:stage3-local
+    entrypoint: ["/bin/sh", "-c"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      object-store-init:
+        condition: service_completed_successfully
+    environment:
+      RURALSTROKE_ENV: compose
+      RURALSTROKE_DATABASE_URL_FILE: /run/secrets/database_url
+    secrets:
+      - database_url
+    networks:
+      - backend
+    restart: "no"
+    command:
+      - >-
+        export RURALSTROKE_DATABASE_URL="$$(tr -d '\r\n' < /run/secrets/database_url)"
+        && exec alembic upgrade head
+
+  api:
+    build:
+      context: .
+      target: api
+    image: ruralstroke-api:stage3-local
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
+      object-store-init:
+        condition: service_completed_successfully
+    environment:
+      HOME: /tmp
+      RURALSTROKE_ENV: compose
+      RURALSTROKE_DATABASE_URL_FILE: /run/secrets/database_url
+      RURALSTROKE_STORAGE_BACKEND: s3
+      RURALSTROKE_S3_BUCKET: ruralstroke-attachments
+      RURALSTROKE_S3_REGION: eu-central-1
+      RURALSTROKE_S3_ENDPOINT_URL: http://object-store:9000
+      RURALSTROKE_S3_ACCESS_KEY_ID_FILE: /run/secrets/minio_access_key
+      RURALSTROKE_S3_SECRET_ACCESS_KEY_FILE: /run/secrets/minio_secret_key
+      RURALSTROKE_JWT_SECRET_FILE: /run/secrets/jwt_secret
+      RURALSTROKE_JWT_ISSUER: ruralstroke-local
+      RURALSTROKE_JWT_AUDIENCE: ruralstroke-api
+      RURALSTROKE_API_VERSION: stage3-compose
+    secrets:
+      - database_url
+      - jwt_secret
+      - minio_access_key
+      - minio_secret_key
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "8000:8000"
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /app/runtime_data:uid=999,gid=999,mode=0700
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=2)"]
+      interval: 5s
+      timeout: 5s
+      start_period: 30s
+      retries: 20
+
+  collector:
+    build:
+      context: .
+      target: ui
+    image: ruralstroke-ui:stage3-local
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      HOME: /tmp
+      UI_APP: collector
+      PORT: "8501"
+      RURALSTROKE_API_URL: http://api:8000
+      RURALSTROKE_API_TOKEN_FILE: /run/secrets/demo_token
+    secrets:
+      - demo_token
+    networks:
+      - frontend
+    ports:
+      - "8501:8501"
+    read_only: true
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8501/_stcore/health', timeout=2)"]
+      interval: 5s
+      timeout: 5s
+      start_period: 20s
+      retries: 20
+
+  collector-edge:
+    build:
+      context: .
+      target: collector-edge
+    image: ruralstroke-collector-edge:stage4-local
+    environment:
+      HOME: /tmp
+      UI_APP: collector-edge
+      PORT: "8501"
+      RURALSTROKE_API_URL: http://api:8000
+      RURALSTROKE_API_TOKEN_FILE: /run/secrets/demo_token
+      RURALSTROKE_OFFLINE_DB: /var/lib/ruralstroke/collector.sqlite3
+      RURALSTROKE_OFFLINE_MEDIA: /var/lib/ruralstroke/media
+      RURALSTROKE_MEDIA_GRACE_SECONDS: "86400"
+    volumes:
+      - collector-sqlite:/var/lib/ruralstroke
+      - collector-media:/var/lib/ruralstroke/media
+    networks:
+      - frontend
+    ports:
+      - "8503:8501"
+    read_only: true
+    secrets:
+      - demo_token
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8501/_stcore/health', timeout=2)"]
+      interval: 5s
+      timeout: 5s
+      start_period: 30s
+      retries: 20
+
+  collector-sync:
+    image: ruralstroke-collector-edge:stage4-local
+    environment:
+      HOME: /tmp
+      PYTHONPATH: /app
+      RURALSTROKE_API_URL: http://api:8000
+      RURALSTROKE_API_TOKEN_FILE: /run/secrets/demo_token
+      RURALSTROKE_OFFLINE_DB: /var/lib/ruralstroke/collector.sqlite3
+      RURALSTROKE_OFFLINE_MEDIA: /var/lib/ruralstroke/media
+      RURALSTROKE_MEDIA_GRACE_SECONDS: "86400"
+    volumes:
+      - collector-sqlite:/var/lib/ruralstroke
+      - collector-media:/var/lib/ruralstroke/media
+    networks:
+      - frontend
+    read_only: true
+    secrets:
+      - demo_token
+    tmpfs:
+      - /tmp
+    # The edge image's UI dependencies are installed in the system runtime;
+    # use that same runtime explicitly for the long-lived sync process.
+    entrypoint: ["/usr/local/bin/python", "/app/scripts/run_collector_sync.py"]
+    healthcheck:
+      disable: true
+
+  clinician:
+    image: ruralstroke-ui:stage3-local
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      HOME: /tmp
+      UI_APP: clinician
+      PORT: "8501"
+      RURALSTROKE_API_URL: http://api:8000
+      RURALSTROKE_API_TOKEN_FILE: /run/secrets/demo_token
+    secrets:
+      - demo_token
+    networks:
+      - frontend
+    ports:
+      - "8502:8501"
+    read_only: true
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8501/_stcore/health', timeout=2)"]
+      interval: 5s
+      timeout: 5s
+      start_period: 20s
+      retries: 20
+
+networks:
+  frontend:
+  backend:
+    internal: true
+
+volumes:
+  postgres-data:
+    name: ruralstroke-stage3-postgres-data
+  minio-data:
+    name: ruralstroke-stage3-minio-data
+  collector-sqlite:
+    name: ruralstroke-stage4-collector-sqlite
+  collector-media:
+    name: ruralstroke-stage4-collector-media
+
+secrets:
+  postgres_password:
+    file: ${RURALSTROKE_DEMO_SECRET_DIR:-.runtime-secrets}/postgres_password
+  database_url:
+    file: ${RURALSTROKE_DEMO_SECRET_DIR:-.runtime-secrets}/database_url
+  jwt_secret:
+    file: ${RURALSTROKE_DEMO_SECRET_DIR:-.runtime-secrets}/jwt_secret
+  minio_access_key:
+    file: ${RURALSTROKE_DEMO_SECRET_DIR:-.runtime-secrets}/minio_access_key
+  minio_secret_key:
+    file: ${RURALSTROKE_DEMO_SECRET_DIR:-.runtime-secrets}/minio_secret_key
+  demo_token:
+    file: ${RURALSTROKE_DEMO_SECRET_DIR:-.runtime-secrets}/demo_token

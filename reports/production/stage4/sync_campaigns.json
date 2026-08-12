@@ -1,0 +1,23 @@
+{
+  "assessment_envelope": {
+    "media": "logical references only",
+    "raw_media_in_report": false,
+    "tokens_in_report": false
+  },
+  "disconnect_reconnect": {
+    "central_submissions": 52,
+    "cycles": 50,
+    "lost_queued_submissions": 0,
+    "passed": true
+  },
+  "duplicate_replay": {
+    "duplicate_central_effects": 0,
+    "passed": true,
+    "replays": 100
+  },
+  "timeout_after_commit": {
+    "passed": true,
+    "stable_submission_effects": 1,
+    "timeout_case_submitted": true
+  }
+}

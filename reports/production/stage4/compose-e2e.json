@@ -1,0 +1,17 @@
+{
+  "central_assessment_count": 1,
+  "central_assessment_hash": "fc91a315e11100a522dd3c24f175344cfbd087695d7a2bed3713869b34d042d0",
+  "central_attachment_count": 1,
+  "expected_unique_attachment_count": 1,
+  "central_case_count": 1,
+  "central_submission_count": 1,
+  "clinician_review_preserved_assessment": true,
+  "collector_restart_persistence": true,
+  "gate": "stage3a-compose-offline-reconnect",
+  "hash_parity": true,
+  "local_assessment_hash": "fc91a315e11100a522dd3c24f175344cfbd087695d7a2bed3713869b34d042d0",
+  "raw_media_or_tokens": false,
+  "response_lost_after_commit_recovered": true,
+  "true_central_api_disconnect": true,
+  "worker_lease_recovery": true
+}

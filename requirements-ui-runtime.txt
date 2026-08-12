@@ -1,0 +1,10 @@
+# Streamlit client runtime; intentionally excludes API/ML-serving dependencies.
+httpx==0.28.1
+numpy==1.26.4
+opencv-python-headless==4.10.0.84
+pandas==2.2.3
+pillow==10.4.0
+pydantic==2.13.4
+PyYAML==6.0.3
+soundfile==0.14.0
+streamlit==1.39.0

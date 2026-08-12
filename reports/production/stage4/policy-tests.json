@@ -1,0 +1,53 @@
+{
+  "focused_suite": {
+    "command": "python -m pytest tests/offline tests/server/test_stage4_contracts.py tests/server/test_openapi_contract.py -q",
+    "passed": 44,
+    "failed": 0
+  },
+  "verified_behaviors": {
+    "sqlite_transactions_migrations_wal": true,
+    "atomic_queueing": true,
+    "lease_expiry_recovery": true,
+    "deterministic_bounded_backoff": true,
+    "connectivity_retry_without_attempt_dead_letter": true,
+    "http_5xx_and_429_retry": true,
+    "401_refresh_same_event": true,
+    "failed_refresh_blocks_auth": true,
+    "permanent_failure_dead_letter": true,
+    "immutable_payload_clone_resolution": true,
+    "etag_state_conflict": true,
+    "stable_attachment_idempotency": true,
+    "assessment_import_zero_server_inference": true,
+    "assessment_import_negative_cases": true,
+    "stable_resource_replay_mismatch_conflict": true,
+    "unresolved_media_retention": true,
+    "synchronized_media_grace_cleanup": true,
+    "abrupt_sqlite_durability": true,
+    "ui_recovery_controls": true,
+    "restart_persistence": true,
+    "ui_api_boundary": true,
+    "single_worker_store_ownership": true
+  },
+  "evidence_reconciliation": {
+    "central_case_count": 1,
+    "central_unique_attachment_count": 1,
+    "central_imported_assessment_count": 1,
+    "central_submission_count": 1,
+    "canonical_hash_equal": true,
+    "disconnect_reconnect_cycles": 50,
+    "lost_queued_submissions": 0,
+    "duplicate_replay_attempts": 100,
+    "duplicate_central_effects": 0,
+    "timeout_after_commit_stable_effects": 1,
+    "lease_recovery": true,
+    "auth_refresh": true,
+    "retry": true,
+    "conflict": true,
+    "dead_letter": true
+  },
+  "sensitive_values_in_report": {
+    "raw_media": false,
+    "access_tokens": false,
+    "absolute_local_paths": false
+  }
+}

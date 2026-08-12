@@ -6,6 +6,7 @@ import streamlit as st
 
 from rural_stroke_assist.client import ApiClient, ApiClientError
 from rural_stroke_assist.ui.common import apply_theme, render_assessment_result
+from rural_stroke_assist.ui.oidc import streamlit_api_client
 from rural_stroke_assist.ui.presentation import build_context_rows, humanize_value, short_case_reference
 
 
@@ -58,9 +59,12 @@ def _render_media(client: ApiClient, case: dict[str, object]) -> None:
 
 
 def main() -> None:
-    client = get_client()
     st.title("RuralStroke-Assist · Clinician review")
     st.caption("Review submitted research evidence and record a triage-urgency opinion")
+    client = streamlit_api_client(st)
+    if client is None:
+        st.info("Sign in with the assigned Cognito account to continue.")
+        return
     try:
         cases = client.list_cases().get("items", [])
     except ApiClientError as exc:

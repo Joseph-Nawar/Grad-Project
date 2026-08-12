@@ -23,7 +23,7 @@ class FilesystemAttachmentStore:
         self.max_bytes = max_bytes
         self.root.mkdir(parents=True, exist_ok=True)
 
-    def save(self, case_id: UUID | str, kind: str, stream: BinaryIO, *, filename: str | None, media_type: str) -> StoredAttachment:
+    def save(self, case_id: UUID | str, kind: str, stream: BinaryIO, *, filename: str | None, media_type: str, attachment_id: UUID | None = None) -> StoredAttachment:
         if kind not in self.ALLOWED:
             raise ValueError("Unsupported media kind.")
         extension = Path(filename or "").suffix.lower()
@@ -32,7 +32,7 @@ class FilesystemAttachmentStore:
         safe_case_id = str(case_id)
         case_dir = self.root / "cases" / safe_case_id
         case_dir.mkdir(parents=True, exist_ok=True)
-        attachment_id = uuid4()
+        attachment_id = attachment_id or uuid4()
         storage_key = f"cases/{safe_case_id}/{attachment_id}{extension}"
         destination = self.root / storage_key
         if self.root not in destination.resolve().parents:
