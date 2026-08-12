@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from pathlib import Path
 from uuid import uuid4
 
@@ -16,6 +17,43 @@ from rural_stroke_assist.cases.contracts import AttachmentKind
 from rural_stroke_assist.cases.serialization import assessment_result_to_dict
 from rural_stroke_assist.offline.contracts import AssessmentEnvelope, AttachmentRef
 from rural_stroke_assist.offline.store import LocalCase, SQLiteOfflineStore
+
+
+def _runtime_provenance(assessment_service: AssessmentService) -> dict[str, object]:
+    logical = {
+        "face": "canonical-face-v1",
+        "speech": "canonical-speech-v1",
+        "metadata_context": "canonical-metadata-v1",
+        "acute_symptoms": "canonical-acute-v1",
+    }
+    if getattr(assessment_service, "runtime_profile", "original") == "optimized":
+        registry_path = Path(__file__).resolve().parents[2] / "config" / "edge_runtime_registry.json"
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        runtime = {
+            modality: {
+                "logical_model_id": entry["logical_model_id"],
+                "artifact": entry["artifact"],
+                "artifact_sha256": entry["artifact_sha256"],
+                "backend": entry["backend"],
+                "runtime": entry["runtime"],
+                "decision": entry["decision"],
+            }
+            for modality, entry in registry["modalities"].items()
+        }
+    else:
+        baseline = __import__("rural_stroke_assist.inference.registry", fromlist=["load_baseline_registry"]).load_baseline_registry()
+        runtime = {
+            modality: {
+                "logical_model_id": f"canonical-{modality}-v1",
+                "artifact": baseline.component(modality).path,
+                "artifact_sha256": baseline.data["components"][modality]["sha256"],
+                "backend": "TensorFlow/Keras" if modality == "face" else "scikit-learn",
+                "runtime": "tensorflow" if modality == "face" else "scikit-learn",
+                "decision": "ORIGINAL_RETAINED",
+            }
+            for modality in ("face", "speech", "metadata_context")
+        }
+    return {"profile": getattr(assessment_service, "runtime_profile", "original"), "logical_model_ids": logical, "runtime_artifacts": runtime}
 
 
 class OfflineWorkflow:
@@ -64,7 +102,7 @@ class OfflineWorkflow:
             assessment_id=str(uuid4()),
             request={**case.assessment_input, "attachments": [ref.model_dump(mode="json") for ref in refs]},
             result=_portable_result(assessment_result_to_dict(result)),
-            provenance={"schema_version": 1, "model_ids": {"face": "canonical-face-v1", "speech": "canonical-speech-v1", "metadata_context": "canonical-metadata-v1", "acute_symptoms": "canonical-acute-v1"}, "fusion_id": "canonical-fusion-v1"},
+            provenance={"schema_version": 1, "model_ids": {"face": "canonical-face-v1", "speech": "canonical-speech-v1", "metadata_context": "canonical-metadata-v1", "acute_symptoms": "canonical-acute-v1"}, "fusion_id": "canonical-fusion-v1", **_runtime_provenance(self.assessment_service)},
         )
         return self.store.save_assessment(case_id, envelope)
 

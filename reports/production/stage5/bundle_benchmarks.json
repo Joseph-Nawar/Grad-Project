@@ -1,0 +1,68 @@
+{
+  "bundles": [
+    {
+      "artifact_bytes": 39146718,
+      "bundle": "baseline",
+      "cold_start_to_first_assessment_ms": 5196.397700114176,
+      "command": [
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\bundle_worker.py",
+        "--root",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist",
+        "--bundle",
+        "baseline"
+      ],
+      "process_wall_ms": 15127.879000036046,
+      "returncode": 0,
+      "risk_band": "URGENT",
+      "rss_bytes": 529887232,
+      "status": "SUCCEEDED",
+      "warm_p50_assessment_ms": 132.21165002323687,
+      "warm_p95_assessment_ms": 162.26613000035286,
+      "warm_samples": 10
+    },
+    {
+      "artifact_bytes": 23421513,
+      "bundle": "mixed-litert",
+      "cold_start_to_first_assessment_ms": 3609.423000132665,
+      "command": [
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\bundle_worker.py",
+        "--root",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist",
+        "--bundle",
+        "mixed-litert"
+      ],
+      "process_wall_ms": 10470.11709981598,
+      "returncode": 0,
+      "risk_band": "URGENT",
+      "rss_bytes": 667639808,
+      "status": "SUCCEEDED",
+      "warm_p50_assessment_ms": 40.655900025740266,
+      "warm_p95_assessment_ms": 46.91492004785686,
+      "warm_samples": 10
+    },
+    {
+      "artifact_bytes": 23479704,
+      "bundle": "mixed-onnx",
+      "cold_start_to_first_assessment_ms": 3373.02209995687,
+      "command": [
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\bundle_worker.py",
+        "--root",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist",
+        "--bundle",
+        "mixed-onnx"
+      ],
+      "process_wall_ms": 8681.986500043422,
+      "returncode": 0,
+      "risk_band": "URGENT",
+      "rss_bytes": 659517440,
+      "status": "SUCCEEDED",
+      "warm_p50_assessment_ms": 65.48095005564392,
+      "warm_p95_assessment_ms": 76.4413699042052,
+      "warm_samples": 10
+    }
+  ],
+  "schema_version": 1
+}

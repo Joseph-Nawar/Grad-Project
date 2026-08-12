@@ -16,12 +16,16 @@ CANONICAL_MODEL_PATHS = frozenset(
         "models/experiments/speech/trial_001_mfcc_random_forest/model.pkl",
         "models/experiments/metadata/mvp_metadata_risk_model.pkl",
         "models/experiments/fer2013/trial_001_mobilenetv2_160/model.keras",
+        "models/edge/face-trial-003-litert-fp32.tflite",
+        "models/edge/speech-trial-001-onnx.onnx",
     }
 )
-ALLOWED_NON_MODEL_PATHS = frozenset({"models/.gitkeep"})
+ALLOWED_NON_MODEL_PATHS = frozenset({"models/.gitkeep", "models/edge/.gitkeep"})
 LOCAL_ARTIFACT_ROOTS = frozenset(
     {
         ".phase5-test-venv",
+        ".stage5",
+        "stage5_workspace",
         ".pytest_cache",
         ".ruff_cache",
         ".mypy_cache",

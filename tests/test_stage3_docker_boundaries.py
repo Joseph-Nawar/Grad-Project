@@ -33,7 +33,8 @@ def test_dockerignore_excludes_secrets_datasets_dev_artifacts_and_codex_workspac
 
     for pattern in ("data/", "notebooks/", "reports/", ".git/", ".venv/", "runtime_data/", ".env", "../codex_workspace/"):
         assert pattern in dockerignore
-    assert "models/" not in dockerignore
+    assert "models/edge/face-trial-003-litert-fp32.tflite" in dockerignore
+    assert "models/edge/speech-trial-001-onnx.onnx" in dockerignore
 
 
 def test_compose_has_required_services_and_no_normal_backend_host_ports() -> None:

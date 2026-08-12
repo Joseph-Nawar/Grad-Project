@@ -1,0 +1,299 @@
+{
+  "adopted_bundle": "mixed-litert",
+  "assessment_risk_band_agreement": 1.0,
+  "bundle_decision": {
+    "bundles": [
+      {
+        "artifact_bytes": 39146718,
+        "bundle": "baseline",
+        "cold_start_to_first_assessment_ms": 5196.397700114176,
+        "command": [
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\bundle_worker.py",
+          "--root",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist",
+          "--bundle",
+          "baseline"
+        ],
+        "process_wall_ms": 15127.879000036046,
+        "returncode": 0,
+        "risk_band": "URGENT",
+        "rss_bytes": 529887232,
+        "status": "SUCCEEDED",
+        "warm_p50_assessment_ms": 132.21165002323687,
+        "warm_p95_assessment_ms": 162.26613000035286,
+        "warm_samples": 10
+      },
+      {
+        "artifact_bytes": 23421513,
+        "bundle": "mixed-litert",
+        "cold_start_to_first_assessment_ms": 3609.423000132665,
+        "command": [
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\bundle_worker.py",
+          "--root",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist",
+          "--bundle",
+          "mixed-litert"
+        ],
+        "process_wall_ms": 10470.11709981598,
+        "returncode": 0,
+        "risk_band": "URGENT",
+        "rss_bytes": 667639808,
+        "status": "SUCCEEDED",
+        "warm_p50_assessment_ms": 40.655900025740266,
+        "warm_p95_assessment_ms": 46.91492004785686,
+        "warm_samples": 10
+      },
+      {
+        "artifact_bytes": 23479704,
+        "bundle": "mixed-onnx",
+        "cold_start_to_first_assessment_ms": 3373.02209995687,
+        "command": [
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\bundle_worker.py",
+          "--root",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist",
+          "--bundle",
+          "mixed-onnx"
+        ],
+        "process_wall_ms": 8681.986500043422,
+        "returncode": 0,
+        "risk_band": "URGENT",
+        "rss_bytes": 659517440,
+        "status": "SUCCEEDED",
+        "warm_p50_assessment_ms": 65.48095005564392,
+        "warm_p95_assessment_ms": 76.4413699042052,
+        "warm_samples": 10
+      }
+    ],
+    "docker_closure": {
+      "artifacts": {
+        "face_original_fallback": {
+          "bytes": 9641144,
+          "path": "models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras",
+          "sha256": "C969C473CD369AEFE11815208407320D559AA7683998CA0EE28C53280C7011AC"
+        },
+        "face_promoted": {
+          "bytes": 8869228,
+          "path": "models/edge/face-trial-003-litert-fp32.tflite",
+          "sha256": "12AAFECA62C02EC97741F89CEDDB1393684F175B32D15BFA8DD5B00F49A62F2E"
+        },
+        "metadata_original": {
+          "bytes": 6407,
+          "path": "models/experiments/metadata/mvp_metadata_risk_model.pkl",
+          "sha256": "350545A6AB71A58373FD11BC2EF9F37BAADCC8420D66186EB6F4BD2B8AA1E8F5"
+        },
+        "speech_original_fallback": {
+          "bytes": 29499167,
+          "path": "models/experiments/speech/trial_001_mfcc_random_forest/model.pkl",
+          "sha256": "1BDED0B3850EE71E2B775E7B8E3BF80F708EE2FAEE1F74CA64D8102BAE01C925"
+        },
+        "speech_promoted": {
+          "bytes": 14545878,
+          "path": "models/edge/speech-trial-001-onnx.onnx",
+          "sha256": "D08170F592DD1D45B7B86109077E1FC7EF14A58EC6EF51893CF04EE1B5CE7287"
+        }
+      },
+      "image": {
+        "bytes": 1223665550,
+        "id": "sha256:7aa5585f0f26cd489b1ccd4ca6c88e0defed8d40edfa23cc1393e037cb555e6a",
+        "idle_rss_mib": 39.62,
+        "largest_runtime_install_layer_bytes": 460000000,
+        "largest_runtime_install_layer_note": "Docker history reports the runtime dependency install layer as 460MB; this is a layer footprint, not the final image byte count.",
+        "startup_to_healthy_seconds": 6.24,
+        "tag": "ruralstroke-collector-edge:stage4-local"
+      },
+      "image_content_scan": {
+        "forbidden_categories": [
+          ".stage5",
+          "conversion/export tooling",
+          "calibration tooling",
+          "AutoKeras",
+          "checkpoints",
+          "datasets",
+          "Terraform",
+          "runtime secrets"
+        ],
+        "forbidden_paths_count": 0,
+        "promoted_and_fallback_hashes_match": true
+      },
+      "model_artifact_bytes": {
+        "all_model_artifacts_in_image": 62561824,
+        "original_fallback_artifacts_in_image": 39146718,
+        "selected_runtime_bundle": 23421513
+      },
+      "optimized_offline_compose_e2e": {
+        "api_unavailable_during_local_assessment": true,
+        "assessment_snapshot_preserved_after_clinician_review": true,
+        "central_case_count": 1,
+        "collector_image_used": true,
+        "collector_restart_persistence": true,
+        "hash_parity": true,
+        "local_sync_state": "SYNCED",
+        "local_workflow_state": "SYNCED",
+        "outbox_event_count": 5,
+        "outbox_states": [
+          "ACKED",
+          "ACKED",
+          "ACKED",
+          "ACKED",
+          "ACKED"
+        ],
+        "pass": true,
+        "provenance_profile": "optimized",
+        "provenance_runtime_artifacts": {
+          "face": {
+            "backend": "LiteRT",
+            "decision": "ADOPTED",
+            "path": "models/edge/face-trial-003-litert-fp32.tflite",
+            "sha256": "12AAFECA62C02EC97741F89CEDDB1393684F175B32D15BFA8DD5B00F49A62F2E"
+          },
+          "metadata_context": {
+            "backend": "sklearn",
+            "decision": "ORIGINAL_RETAINED",
+            "path": "models/experiments/metadata/mvp_metadata_risk_model.pkl",
+            "sha256": "350545A6AB71A58373FD11BC2EF9F37BAADCC8420D66186EB6F4BD2B8AA1E8F5"
+          },
+          "speech": {
+            "backend": "ONNX",
+            "decision": "ADOPTED",
+            "path": "models/edge/speech-trial-001-onnx.onnx",
+            "sha256": "D08170F592DD1D45B7B86109077E1FC7EF14A58EC6EF51893CF04EE1B5CE7287"
+          }
+        },
+        "review_count": 1,
+        "risk_band": "MODERATE"
+      },
+      "profiles": {
+        "fallback_mechanism": "same collector image; switch RURALSTROKE_EDGE_RUNTIME_PROFILE and restart/reconstruct the service",
+        "optimized": {
+          "assessment_process_rss_bytes": 1196220416,
+          "failures": {
+            "acute_symptoms": null,
+            "face": null,
+            "metadata_context": null,
+            "speech": null
+          },
+          "finite_scores": true,
+          "risk_band": "MODERATE",
+          "runner_types": {
+            "face": "LiteRTRunner",
+            "metadata_context": "OriginalTabularRunner",
+            "speech": "ONNXRunner"
+          },
+          "status": "complete"
+        },
+        "original": {
+          "assessment_process_rss_bytes": 1119473664,
+          "failures": {
+            "acute_symptoms": null,
+            "face": null,
+            "metadata_context": null,
+            "speech": null
+          },
+          "finite_scores": true,
+          "risk_band": "MODERATE",
+          "runner_types": {
+            "face": "OriginalFaceRunner",
+            "metadata_context": "OriginalTabularRunner",
+            "speech": "OriginalTabularRunner"
+          },
+          "status": "complete"
+        },
+        "silent_per_request_fallback": false
+      },
+      "runtime_dependencies": {
+        "conversion_tools_absent": [
+          "onnx",
+          "skl2onnx",
+          "tf2onnx",
+          "autokeras",
+          "keras_tuner"
+        ],
+        "optimized": {
+          "ai-edge-litert": "2.1.6",
+          "metadata": "scikit-learn 1.5.2",
+          "onnxruntime": "1.20.1"
+        },
+        "original_fallback": {
+          "keras": "3.14.1",
+          "scikit-learn": "1.5.2",
+          "tensorflow": "2.19.1"
+        }
+      },
+      "schema_version": 1
+    },
+    "docker_image_bytes": 1223665550,
+    "docker_image_status": "PASS",
+    "face_onnx_decision": "REJECTED_PERFORMANCE",
+    "face_onnx_reason": "mixed-onnx used 58191 more model bytes and had slower warm p50/p95 assessment latency than mixed-litert; its RSS advantage did not offset the measured latency and size regression.",
+    "selected": "mixed-litert"
+  },
+  "collector_edge_verification": {
+    "compose_config": "PASS",
+    "docker_closure_evidence": "docker_closure.json",
+    "image_build": "PASS",
+    "image_inspection": "PASS",
+    "optimized_compose_e2e": "PASS",
+    "optimized_offline_regression": "PASS",
+    "original_fallback": "PASS",
+    "profile_smoke": "PASS",
+    "stage3_docker_boundary_tests": "PASS",
+    "stage4_docker_boundary_tests": "PASS"
+  },
+  "evidence_files": [
+    "baseline.json",
+    "conversion_environment.json",
+    "conversion_manifest.json",
+    "face_conversion.json",
+    "face-litert-fp32-parity.json",
+    "face-onnx-fp32-parity.json",
+    "face-litert-dynamic-range-parity.json",
+    "speech_conversion.json",
+    "speech-onnx-random-forest-pipeline-parity.json",
+    "metadata_conversion.json",
+    "benchmarks.json",
+    "bundle_benchmarks.json",
+    "assessment_parity.json",
+    "docker_closure.json",
+    "edge_runtime_registry.json"
+  ],
+  "final_profile": "optimized",
+  "frozen_ml_semantics_changed": false,
+  "git_operations": "NONE",
+  "modalities": {
+    "face": {
+      "artifact": "models/edge/face-trial-003-litert-fp32.tflite",
+      "backend": "LiteRT",
+      "decision": "ADOPTED",
+      "original_fallback": "models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras"
+    },
+    "metadata_context": {
+      "artifact": "models/experiments/metadata/mvp_metadata_risk_model.pkl",
+      "backend": "sklearn",
+      "decision": "ORIGINAL_RETAINED",
+      "original_fallback": "models/experiments/metadata/mvp_metadata_risk_model.pkl"
+    },
+    "speech": {
+      "artifact": "models/edge/speech-trial-001-onnx.onnx",
+      "backend": "ONNX",
+      "decision": "ADOPTED",
+      "original_fallback": "models/experiments/speech/trial_001_mfcc_random_forest/model.pkl"
+    }
+  },
+  "required_gates": {
+    "absolute_roc_auc_drop_max": 0.005,
+    "failure_semantics": "100%",
+    "finite_scores": "100%",
+    "fused_risk_band_agreement": "100%",
+    "label_agreement_min": 0.99,
+    "median_absolute_score_difference_max": 0.01,
+    "preprocessing_contract": "unchanged",
+    "quality_acceptance": "100%"
+  },
+  "schema_version": 1,
+  "stage": "stage5",
+  "stage3b": "DEFERRED_AND_FROZEN",
+  "status": "COMPLETE_AND_VERIFIED"
+}

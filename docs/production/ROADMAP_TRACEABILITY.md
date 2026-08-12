@@ -21,7 +21,7 @@ This matrix uses the authoritative roadmap order. “Current” means present in
 | Stage 2 — Production API and central persistence | FastAPI, feature-oriented boundaries, Pydantic v2 API schemas, SQLAlchemy 2.x, Alembic, Psycopg 3, real PostgreSQL integration, typed errors, idempotent transactions, immutable records | Server implementation, OpenAPI snapshot, real PostgreSQL migration/workflow checks, concurrency check, API benchmark, and app architecture tests | Preserve the tested API contract, rerun PostgreSQL transaction/concurrency checks, and retain evidence for each release candidate |
 | Stage 3 — Docker Compose and deployable service stack | Local Compose demonstration, health/version endpoints, S3-compatible attachment backend, separated tested images | Stage 3A local deployment: complete and verified. Stage 3B AWS reference deployment: implementation complete and static validation complete; real AWS deployment/cloud E2E deferred because of an external AWS account/payment prerequisite. Overall Stage 3 remains open until the Stage 3B cloud gate passes. | Preserve the clean local gate and complete the HTTPS AWS deployment/E2E gate |
 | Stage 4 — Offline outbox and resilient synchronization | Collector durable outbox, retry/restart safety, conflict handling, at-least-once transport, exactly-once central effect | `rural_stroke_assist/offline`, collector-edge/collector-sync Compose targets, API import/idempotency contracts, and `reports/production/stage4/` evidence | Complete: real Stage 3A disconnect → local assessment → reconnect → exactly-once sync → clinician review gate passed; 50-cycle loss campaign and 100-replay campaign passed |
-| Stage 5 — Edge model conversion and parity benchmarking | Explicit conversion boundary, frozen parity corpus, numerical tolerance, rollback evidence | Not implemented; current inference artifacts remain frozen | Conversion parity report and approved rollback gate |
+| Stage 5 — Edge model conversion and parity benchmarking | Explicit conversion boundary, frozen parity corpus, numerical tolerance, rollback evidence | **COMPLETE AND VERIFIED.** Mixed optimized bundle approved: Face LiteRT FP32, Speech ONNX, Metadata original sklearn. Face ONNX parity passed but was rejected on measured whole-bundle performance/size; metadata ONNX conversion was rejected on an unsupported frozen pipeline operator. Final Docker image, both explicit profiles, provenance, fallback, and optimized offline Compose E2E passed. Evidence: `reports/production/stage5/stage5_summary.json`, `reports/production/stage5/conversion_manifest.json`, `reports/production/stage5/docker_closure.json`, `config/edge_runtime_registry.json`. | Preserve the frozen original artifacts and require explicit profile switching for operational rollback |
 | Stage 6 — Observability, drift simulation, and alerts | Structured logs, metrics, traces, input/quality/prediction drift simulation, alert routing, PII exclusions | Not implemented; Phase 4 artifacts are evaluation evidence only | Synthetic alert delay test and telemetry contract review |
 | Stage 7 — Load, security, reliability, and fault-injection evidence | Candidate latency/memory budgets, authentication tests, reliability evidence, fault injection, tested image digest | Not implemented | Load report, security test report, reliability report, and deployable digest gate |
 | Stage 8 — Recruiter-facing demos, case study, and external validation | Portfolio narrative, reproducible demo, case study, and bounded external validation | Not implemented | Demo checklist, case-study evidence review, and explicit claim boundary review |
@@ -53,10 +53,11 @@ Completed:
 - Stage 2
 - Stage 3A
 - Stage 3B implementation/static validation
+- Stage 5 **COMPLETE AND VERIFIED**
 
 Current:
 
-- Stage 5 → Stage 6 → Stage 7 → Stage 8 preparation
+- Stage 6 → Stage 7 → Stage 8 preparation
 
 Stage 4 execution status:
 

@@ -1,0 +1,4 @@
+# Collector-edge runtime dependencies for the approved mixed Stage 5 bundle.
+# Conversion/export/calibration tooling is intentionally absent.
+ai-edge-litert==2.1.6
+onnxruntime==1.20.1

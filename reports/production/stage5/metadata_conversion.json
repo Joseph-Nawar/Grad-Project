@@ -1,0 +1,44 @@
+{
+  "classifier_only": {
+    "reason": "complete pipeline investigation is authoritative; preprocessing rewrite is forbidden",
+    "status": "NOT_ATTEMPTED"
+  },
+  "command": [
+    "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+    "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\metadata_conversion_worker.py",
+    "--source",
+    "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\models\\experiments\\metadata\\mvp_metadata_risk_model.pkl",
+    "--output",
+    "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\candidates\\metadata\\metadata-onnx-complete-pipeline.onnx"
+  ],
+  "modality": "metadata_context",
+  "record": {
+    "benchmark": null,
+    "candidate_artifact": "",
+    "candidate_id": "metadata-onnx-complete-pipeline",
+    "candidate_sha256": null,
+    "conversion_options": {
+      "complete_pipeline": true,
+      "opset": 17,
+      "zipmap": false
+    },
+    "conversion_status": "FAILED",
+    "converter_name": "skl2onnx.convert_sklearn",
+    "converter_version": "1.18.0",
+    "failure_reason": "NotImplementedError: The converter is implemented when the missing values are string not <class 'float'>.",
+    "input_signature": "ten named frozen metadata columns",
+    "modality": "metadata_context",
+    "output_signature": "(batch,2) probability matrix",
+    "parity": null,
+    "runtime_name": "onnxruntime",
+    "runtime_version": "1.20.1",
+    "source_artifact": "models/experiments/metadata/mvp_metadata_risk_model.pkl",
+    "source_sha256": "350545A6AB71A58373FD11BC2EF9F37BAADCC8420D66186EB6F4BD2B8AA1E8F5"
+  },
+  "returncode": 1,
+  "schema_version": 1,
+  "worker": {
+    "failure_reason": "NotImplementedError: The converter is implemented when the missing values are string not <class 'float'>.",
+    "status": "FAILED"
+  }
+}

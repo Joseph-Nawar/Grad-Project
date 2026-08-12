@@ -22,9 +22,16 @@ SEMANTICS = {"face": "visual_proxy_evidence", "speech": "dysarthria_proxy_eviden
 
 
 class AssessmentService:
-    def __init__(self, *, adapters: Mapping[str, Any], fusion_strategy: FusionStrategy) -> None:
+    def __init__(
+        self,
+        *,
+        adapters: Mapping[str, Any],
+        fusion_strategy: FusionStrategy,
+        runtime_profile: str = "original",
+    ) -> None:
         self.adapters = dict(adapters)
         self.fusion_strategy = fusion_strategy
+        self.runtime_profile = runtime_profile
 
     @staticmethod
     def _validate_input(value: AssessmentInput | Mapping[str, Any]) -> AssessmentInput:

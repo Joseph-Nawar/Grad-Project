@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "image": {
+    "tag": "ruralstroke-collector-edge:stage4-local",
+    "id": "sha256:7aa5585f0f26cd489b1ccd4ca6c88e0defed8d40edfa23cc1393e037cb555e6a",
+    "bytes": 1223665550,
+    "startup_to_healthy_seconds": 6.24,
+    "idle_rss_mib": 39.62,
+    "largest_runtime_install_layer_bytes": 460000000,
+    "largest_runtime_install_layer_note": "Docker history reports the runtime dependency install layer as 460MB; this is a layer footprint, not the final image byte count."
+  },
+  "model_artifact_bytes": {
+    "selected_runtime_bundle": 23421513,
+    "all_model_artifacts_in_image": 62561824,
+    "original_fallback_artifacts_in_image": 39146718
+  },
+  "artifacts": {
+    "face_promoted": {
+      "path": "models/edge/face-trial-003-litert-fp32.tflite",
+      "sha256": "12AAFECA62C02EC97741F89CEDDB1393684F175B32D15BFA8DD5B00F49A62F2E",
+      "bytes": 8869228
+    },
+    "speech_promoted": {
+      "path": "models/edge/speech-trial-001-onnx.onnx",
+      "sha256": "D08170F592DD1D45B7B86109077E1FC7EF14A58EC6EF51893CF04EE1B5CE7287",
+      "bytes": 14545878
+    },
+    "metadata_original": {
+      "path": "models/experiments/metadata/mvp_metadata_risk_model.pkl",
+      "sha256": "350545A6AB71A58373FD11BC2EF9F37BAADCC8420D66186EB6F4BD2B8AA1E8F5",
+      "bytes": 6407
+    },
+    "face_original_fallback": {
+      "path": "models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras",
+      "sha256": "C969C473CD369AEFE11815208407320D559AA7683998CA0EE28C53280C7011AC",
+      "bytes": 9641144
+    },
+    "speech_original_fallback": {
+      "path": "models/experiments/speech/trial_001_mfcc_random_forest/model.pkl",
+      "sha256": "1BDED0B3850EE71E2B775E7B8E3BF80F708EE2FAEE1F74CA64D8102BAE01C925",
+      "bytes": 29499167
+    }
+  },
+  "runtime_dependencies": {
+    "optimized": {
+      "ai-edge-litert": "2.1.6",
+      "onnxruntime": "1.20.1",
+      "metadata": "scikit-learn 1.5.2"
+    },
+    "original_fallback": {
+      "tensorflow": "2.19.1",
+      "keras": "3.14.1",
+      "scikit-learn": "1.5.2"
+    },
+    "conversion_tools_absent": ["onnx", "skl2onnx", "tf2onnx", "autokeras", "keras_tuner"]
+  },
+  "image_content_scan": {
+    "promoted_and_fallback_hashes_match": true,
+    "forbidden_paths_count": 0,
+    "forbidden_categories": [".stage5", "conversion/export tooling", "calibration tooling", "AutoKeras", "checkpoints", "datasets", "Terraform", "runtime secrets"]
+  },
+  "profiles": {
+    "optimized": {
+      "runner_types": {"face": "LiteRTRunner", "speech": "ONNXRunner", "metadata_context": "OriginalTabularRunner"},
+      "status": "complete",
+      "risk_band": "MODERATE",
+      "finite_scores": true,
+      "failures": {"face": null, "speech": null, "metadata_context": null, "acute_symptoms": null},
+      "assessment_process_rss_bytes": 1196220416
+    },
+    "original": {
+      "runner_types": {"face": "OriginalFaceRunner", "speech": "OriginalTabularRunner", "metadata_context": "OriginalTabularRunner"},
+      "status": "complete",
+      "risk_band": "MODERATE",
+      "finite_scores": true,
+      "failures": {"face": null, "speech": null, "metadata_context": null, "acute_symptoms": null},
+      "assessment_process_rss_bytes": 1119473664
+    },
+    "silent_per_request_fallback": false,
+    "fallback_mechanism": "same collector image; switch RURALSTROKE_EDGE_RUNTIME_PROFILE and restart/reconstruct the service"
+  },
+  "optimized_offline_compose_e2e": {
+    "pass": true,
+    "collector_image_used": true,
+    "api_unavailable_during_local_assessment": true,
+    "collector_restart_persistence": true,
+    "local_workflow_state": "SYNCED",
+    "local_sync_state": "SYNCED",
+    "outbox_event_count": 5,
+    "outbox_states": ["ACKED", "ACKED", "ACKED", "ACKED", "ACKED"],
+    "central_case_count": 1,
+    "hash_parity": true,
+    "assessment_snapshot_preserved_after_clinician_review": true,
+    "review_count": 1,
+    "risk_band": "MODERATE",
+    "provenance_profile": "optimized",
+    "provenance_runtime_artifacts": {
+      "face": {"path": "models/edge/face-trial-003-litert-fp32.tflite", "sha256": "12AAFECA62C02EC97741F89CEDDB1393684F175B32D15BFA8DD5B00F49A62F2E", "backend": "LiteRT", "decision": "ADOPTED"},
+      "speech": {"path": "models/edge/speech-trial-001-onnx.onnx", "sha256": "D08170F592DD1D45B7B86109077E1FC7EF14A58EC6EF51893CF04EE1B5CE7287", "backend": "ONNX", "decision": "ADOPTED"},
+      "metadata_context": {"path": "models/experiments/metadata/mvp_metadata_risk_model.pkl", "sha256": "350545A6AB71A58373FD11BC2EF9F37BAADCC8420D66186EB6F4BD2B8AA1E8F5", "backend": "sklearn", "decision": "ORIGINAL_RETAINED"}
+    }
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "candidates": [
+    {
+      "record": {
+        "benchmark": null,
+        "candidate_artifact": "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\candidates\\face\\face-litert-fp32.tflite",
+        "candidate_id": "face-litert-fp32",
+        "candidate_sha256": "12AAFECA62C02EC97741F89CEDDB1393684F175B32D15BFA8DD5B00F49A62F2E",
+        "conversion_options": {
+          "precision": "fp32"
+        },
+        "conversion_status": "SUCCEEDED",
+        "converter_name": "tensorflow.lite.TFLiteConverter",
+        "converter_version": "2.19.1",
+        "failure_reason": null,
+        "input_signature": "(batch,160,160,3) float32",
+        "modality": "face",
+        "output_signature": "(batch,1) float32",
+        "parity": null,
+        "runtime_name": "tensorflow-lite",
+        "runtime_version": "2.19.1",
+        "source_artifact": "models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras",
+        "source_sha256": "C969C473CD369AEFE11815208407320D559AA7683998CA0EE28C53280C7011AC"
+      },
+      "worker": {
+        "command": [
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\face_conversion_worker.py",
+          "--source",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\models\\experiments\\face\\trial_003_mobilenetv2_balanced_160\\model.keras",
+          "--candidate",
+          "face-litert-fp32",
+          "--output",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\candidates\\face\\face-litert-fp32.tflite"
+        ],
+        "conversion_options": {
+          "precision": "fp32"
+        },
+        "converter_name": "tensorflow.lite.TFLiteConverter",
+        "converter_version": "2.19.1",
+        "input_signature": "(batch,160,160,3) float32",
+        "output_signature": "(batch,1) float32",
+        "returncode": 0,
+        "runtime_name": "tensorflow-lite",
+        "runtime_version": "2.19.1",
+        "status": "SUCCEEDED"
+      }
+    },
+    {
+      "record": {
+        "benchmark": null,
+        "candidate_artifact": "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\candidates\\face\\face-onnx-fp32.onnx",
+        "candidate_id": "face-onnx-fp32",
+        "candidate_sha256": "55E7FA05E859453F3D41569F636C752BAA429A6CC9FAA8A036499D3E8EE65323",
+        "conversion_options": {
+          "input_name": "input",
+          "opset": 17
+        },
+        "conversion_status": "SUCCEEDED",
+        "converter_name": "tf2onnx.convert.from_keras",
+        "converter_version": "1.16.1",
+        "failure_reason": null,
+        "input_signature": "(batch,160,160,3) float32",
+        "modality": "face",
+        "output_signature": "(batch,1) float32",
+        "parity": null,
+        "runtime_name": "onnxruntime",
+        "runtime_version": "1.20.1",
+        "source_artifact": "models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras",
+        "source_sha256": "C969C473CD369AEFE11815208407320D559AA7683998CA0EE28C53280C7011AC"
+      },
+      "worker": {
+        "command": [
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\face_conversion_worker.py",
+          "--source",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\models\\experiments\\face\\trial_003_mobilenetv2_balanced_160\\model.keras",
+          "--candidate",
+          "face-onnx-fp32",
+          "--output",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\candidates\\face\\face-onnx-fp32.onnx"
+        ],
+        "conversion_options": {
+          "input_name": "input",
+          "opset": 17
+        },
+        "converter_name": "tf2onnx.convert.from_keras",
+        "converter_version": "1.16.1",
+        "input_signature": "(batch,160,160,3) float32",
+        "output_signature": "(batch,1) float32",
+        "returncode": 0,
+        "runtime_name": "onnxruntime",
+        "runtime_version": "1.20.1",
+        "status": "SUCCEEDED"
+      }
+    },
+    {
+      "record": {
+        "benchmark": null,
+        "candidate_artifact": "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\candidates\\face\\face-litert-dynamic-range.tflite",
+        "candidate_id": "face-litert-dynamic-range",
+        "candidate_sha256": "171B13E3A528A9A2580B460C94A1A26C8A8A73C21FEDAB457C8A56996DAC9BD1",
+        "conversion_options": {
+          "calibration": "none",
+          "quantization": "dynamic-range"
+        },
+        "conversion_status": "SUCCEEDED",
+        "converter_name": "tensorflow.lite.TFLiteConverter",
+        "converter_version": "2.19.1",
+        "failure_reason": null,
+        "input_signature": "(batch,160,160,3) float32",
+        "modality": "face",
+        "output_signature": "(batch,1) float32",
+        "parity": null,
+        "runtime_name": "tensorflow-lite",
+        "runtime_version": "2.19.1",
+        "source_artifact": "models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras",
+        "source_sha256": "C969C473CD369AEFE11815208407320D559AA7683998CA0EE28C53280C7011AC"
+      },
+      "worker": {
+        "command": [
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\face_conversion_worker.py",
+          "--source",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\models\\experiments\\face\\trial_003_mobilenetv2_balanced_160\\model.keras",
+          "--candidate",
+          "face-litert-dynamic-range",
+          "--output",
+          "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\candidates\\face\\face-litert-dynamic-range.tflite"
+        ],
+        "conversion_options": {
+          "calibration": "none",
+          "quantization": "dynamic-range"
+        },
+        "converter_name": "tensorflow.lite.TFLiteConverter",
+        "converter_version": "2.19.1",
+        "input_signature": "(batch,160,160,3) float32",
+        "output_signature": "(batch,1) float32",
+        "returncode": 0,
+        "runtime_name": "tensorflow-lite",
+        "runtime_version": "2.19.1",
+        "status": "SUCCEEDED"
+      }
+    }
+  ],
+  "modality": "face",
+  "schema_version": 1,
+  "statuses": {
+    "face-litert-dynamic-range": "CONVERTED",
+    "face-litert-fp32": "PARITY_PASS",
+    "face-onnx-fp32": "PARITY_PASS"
+  }
+}

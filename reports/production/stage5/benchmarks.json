@@ -1,0 +1,128 @@
+{
+  "batch_size": 1,
+  "machine": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "schema_version": 1,
+  "targets": [
+    {
+      "artifact_bytes": 9641144,
+      "cold_start_to_first_prediction_ms": 1877.4186000227928,
+      "command": [
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\benchmark_worker.py",
+        "--root",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist",
+        "--target",
+        "face-original"
+      ],
+      "process_wall_ms": 8903.85919995606,
+      "returncode": 0,
+      "rss_bytes": 508518400,
+      "sample_count": 30,
+      "status": "SUCCEEDED",
+      "target": "face-original",
+      "warm_p50_ms": 70.50804991740733,
+      "warm_p95_ms": 75.09365996811539
+    },
+    {
+      "artifact_bytes": 8869228,
+      "cold_start_to_first_prediction_ms": 27.812999906018376,
+      "command": [
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\benchmark_worker.py",
+        "--root",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist",
+        "--target",
+        "face-litert-fp32"
+      ],
+      "process_wall_ms": 4789.716699859127,
+      "returncode": 0,
+      "rss_bytes": 425013248,
+      "sample_count": 30,
+      "status": "SUCCEEDED",
+      "target": "face-litert-fp32",
+      "warm_p50_ms": 5.20865002181381,
+      "warm_p95_ms": 5.596149992197752
+    },
+    {
+      "artifact_bytes": 8927419,
+      "cold_start_to_first_prediction_ms": 144.0528999082744,
+      "command": [
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\benchmark_worker.py",
+        "--root",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist",
+        "--target",
+        "face-onnx-fp32"
+      ],
+      "process_wall_ms": 4769.516799831763,
+      "returncode": 0,
+      "rss_bytes": 436924416,
+      "sample_count": 30,
+      "status": "SUCCEEDED",
+      "target": "face-onnx-fp32",
+      "warm_p50_ms": 1.3657499803230166,
+      "warm_p95_ms": 1.608545077033341
+    },
+    {
+      "artifact_bytes": 29499167,
+      "cold_start_to_first_prediction_ms": 443.3385001029819,
+      "command": [
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\benchmark_worker.py",
+        "--root",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist",
+        "--target",
+        "speech-original"
+      ],
+      "process_wall_ms": 5995.217500021681,
+      "returncode": 0,
+      "rss_bytes": 454086656,
+      "sample_count": 30,
+      "status": "SUCCEEDED",
+      "target": "speech-original",
+      "warm_p50_ms": 27.951749972999096,
+      "warm_p95_ms": 29.727420094422996
+    },
+    {
+      "artifact_bytes": 14545878,
+      "cold_start_to_first_prediction_ms": 1396.5891997795552,
+      "command": [
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\benchmark_worker.py",
+        "--root",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist",
+        "--target",
+        "speech-onnx"
+      ],
+      "process_wall_ms": 6097.312099998817,
+      "returncode": 0,
+      "rss_bytes": 479412224,
+      "sample_count": 30,
+      "status": "SUCCEEDED",
+      "target": "speech-onnx",
+      "warm_p50_ms": 0.028699985705316067,
+      "warm_p95_ms": 0.10099004721268992
+    },
+    {
+      "artifact_bytes": 6407,
+      "cold_start_to_first_prediction_ms": 220.71279981173575,
+      "command": [
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\benchmark_worker.py",
+        "--root",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist",
+        "--target",
+        "metadata-original"
+      ],
+      "process_wall_ms": 4889.654600061476,
+      "returncode": 0,
+      "rss_bytes": 410316800,
+      "sample_count": 30,
+      "status": "SUCCEEDED",
+      "target": "metadata-original",
+      "warm_p50_ms": 2.3301001638174057,
+      "warm_p95_ms": 2.791784901637583
+    }
+  ]
+}

@@ -11,6 +11,7 @@ from PIL import Image, UnidentifiedImageError
 from rural_stroke_assist.inference.contracts import ModalityEvidence, QualityFinding, QualityStatus
 from rural_stroke_assist.inference.exceptions import ArtifactConfigurationError, FeatureContractError, InferenceFailure
 from rural_stroke_assist.inference.registry import BaselineRegistry, load_baseline_registry
+from rural_stroke_assist.inference.runners import FaceRunner
 from rural_stroke_assist.modeling.face_inference import preprocess_face_image
 from rural_stroke_assist.quality.face_quality import FaceQualityAssessor, OpenCVFaceQualityAssessor
 
@@ -21,10 +22,12 @@ class FaceAdapter:
         *,
         registry: BaselineRegistry | None = None,
         model_loader: Callable[[Path], Any] | None = None,
+        runner: FaceRunner | None = None,
         quality_assessor: FaceQualityAssessor | None = None,
     ) -> None:
         self.registry = registry or load_baseline_registry()
         self._model_loader = model_loader or self._default_model_loader
+        self._runner = runner
         self._quality_assessor = quality_assessor or OpenCVFaceQualityAssessor()
         self._model: Any | None = None
 
@@ -94,9 +97,12 @@ class FaceAdapter:
                 findings=(QualityFinding("preprocessing_failed", str(exc), QualityStatus.REJECT),),
             )
 
-        model = self._load_model()
         try:
-            raw = np.asarray(model.predict(batch, verbose=0))
+            if self._runner is not None:
+                raw = np.asarray(self._runner.run(batch))
+            else:
+                model = self._load_model()
+                raw = np.asarray(model.predict(batch, verbose=0))
             if raw.size != 1:
                 raise FeatureContractError(f"Expected one sigmoid output, got shape {raw.shape}.")
             score = float(raw.reshape(-1)[0])

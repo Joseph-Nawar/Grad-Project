@@ -166,6 +166,7 @@ services:
       RURALSTROKE_OFFLINE_DB: /var/lib/ruralstroke/collector.sqlite3
       RURALSTROKE_OFFLINE_MEDIA: /var/lib/ruralstroke/media
       RURALSTROKE_MEDIA_GRACE_SECONDS: "86400"
+      RURALSTROKE_EDGE_RUNTIME_PROFILE: optimized
     volumes:
       - collector-sqlite:/var/lib/ruralstroke
       - collector-media:/var/lib/ruralstroke/media

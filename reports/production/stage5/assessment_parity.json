@@ -1,0 +1,190 @@
+{
+  "pass": true,
+  "results": [
+    {
+      "agreement": true,
+      "optimized_band": "URGENT",
+      "optimized_failures": {
+        "acute_symptoms": null,
+        "face": null,
+        "metadata_context": null,
+        "speech": null
+      },
+      "optimized_scores": {
+        "acute_symptoms": 0.85,
+        "face": 0.15028147399425507,
+        "metadata_context": 0.9013780813660891,
+        "speech": 0.9233331084251404
+      },
+      "optimized_status": "complete",
+      "original_band": "URGENT",
+      "original_scores": {
+        "acute_symptoms": 0.85,
+        "face": 0.1502818465232849,
+        "metadata_context": 0.9013780813660891,
+        "speech": 0.9233333333333333
+      },
+      "original_status": "complete",
+      "scenario": "complete_urgent"
+    },
+    {
+      "agreement": true,
+      "optimized_band": "LOW",
+      "optimized_failures": {
+        "acute_symptoms": null,
+        "face": null,
+        "metadata_context": null,
+        "speech": null
+      },
+      "optimized_scores": {
+        "acute_symptoms": 0.0,
+        "face": 0.15028147399425507,
+        "metadata_context": 0.9013780813660891,
+        "speech": 0.9233331084251404
+      },
+      "optimized_status": "complete",
+      "original_band": "LOW",
+      "original_scores": {
+        "acute_symptoms": 0.0,
+        "face": 0.1502818465232849,
+        "metadata_context": 0.9013780813660891,
+        "speech": 0.9233333333333333
+      },
+      "original_status": "complete",
+      "scenario": "complete_nonurgent"
+    },
+    {
+      "agreement": true,
+      "optimized_band": "MODERATE",
+      "optimized_failures": {
+        "acute_symptoms": null,
+        "face": null,
+        "metadata_context": null,
+        "speech": null
+      },
+      "optimized_scores": {
+        "acute_symptoms": 0.0,
+        "face": null,
+        "metadata_context": 0.9013780813660891,
+        "speech": 0.9233331084251404
+      },
+      "optimized_status": "partial",
+      "original_band": "MODERATE",
+      "original_scores": {
+        "acute_symptoms": 0.0,
+        "face": null,
+        "metadata_context": 0.9013780813660891,
+        "speech": 0.9233333333333333
+      },
+      "original_status": "partial",
+      "scenario": "face_missing"
+    },
+    {
+      "agreement": true,
+      "optimized_band": "LOW",
+      "optimized_failures": {
+        "acute_symptoms": null,
+        "face": null,
+        "metadata_context": null,
+        "speech": null
+      },
+      "optimized_scores": {
+        "acute_symptoms": 0.0,
+        "face": 0.15028147399425507,
+        "metadata_context": 0.9013780813660891,
+        "speech": null
+      },
+      "optimized_status": "partial",
+      "original_band": "LOW",
+      "original_scores": {
+        "acute_symptoms": 0.0,
+        "face": 0.1502818465232849,
+        "metadata_context": 0.9013780813660891,
+        "speech": null
+      },
+      "original_status": "partial",
+      "scenario": "speech_missing"
+    },
+    {
+      "agreement": true,
+      "optimized_band": "LOW",
+      "optimized_failures": {
+        "acute_symptoms": null,
+        "face": null,
+        "metadata_context": null,
+        "speech": null
+      },
+      "optimized_scores": {
+        "acute_symptoms": 0.0,
+        "face": 0.15028147399425507,
+        "metadata_context": null,
+        "speech": 0.9233331084251404
+      },
+      "optimized_status": "partial",
+      "original_band": "LOW",
+      "original_scores": {
+        "acute_symptoms": 0.0,
+        "face": 0.1502818465232849,
+        "metadata_context": null,
+        "speech": 0.9233333333333333
+      },
+      "original_status": "partial",
+      "scenario": "metadata_missing"
+    },
+    {
+      "agreement": true,
+      "optimized_band": "LOW",
+      "optimized_failures": {
+        "acute_symptoms": null,
+        "face": null,
+        "metadata_context": null,
+        "speech": null
+      },
+      "optimized_scores": {
+        "acute_symptoms": 0.35,
+        "face": null,
+        "metadata_context": null,
+        "speech": null
+      },
+      "optimized_status": "partial",
+      "original_band": "LOW",
+      "original_scores": {
+        "acute_symptoms": 0.35,
+        "face": null,
+        "metadata_context": null,
+        "speech": null
+      },
+      "original_status": "partial",
+      "scenario": "symptoms_only"
+    },
+    {
+      "agreement": true,
+      "optimized_band": null,
+      "optimized_failures": {
+        "acute_symptoms": null,
+        "face": null,
+        "metadata_context": null,
+        "speech": null
+      },
+      "optimized_scores": {
+        "acute_symptoms": null,
+        "face": null,
+        "metadata_context": null,
+        "speech": null
+      },
+      "optimized_status": "insufficient_evidence",
+      "original_band": null,
+      "original_scores": {
+        "acute_symptoms": null,
+        "face": null,
+        "metadata_context": null,
+        "speech": null
+      },
+      "original_status": "insufficient_evidence",
+      "scenario": "empty"
+    }
+  ],
+  "risk_band_agreement": 1.0,
+  "scenario_count": 7,
+  "schema_version": 1
+}

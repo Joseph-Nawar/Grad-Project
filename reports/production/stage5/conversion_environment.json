@@ -1,0 +1,25 @@
+{
+  "commands": [
+    {
+      "command": [
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "install",
+        "--upgrade",
+        "-r",
+        "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\stage5\\requirements-conversion.txt"
+      ],
+      "returncode": 0,
+      "stderr": "\n[notice] A new release of pip is available: 24.0 -> 26.2.1\n[notice] To update, run: C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe -m pip install --upgrade pip\n"
+    },
+    {
+      "command": "python --version",
+      "returncode": 0,
+      "stdout": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
+    }
+  ],
+  "machine": "Windows-10-10.0.26200-SP0",
+  "python": "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+  "status": "READY"
+}

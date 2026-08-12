@@ -1,0 +1,18 @@
+# Development-only conversion environment. Never install into API or collector runtime.
+numpy==1.26.4
+pandas==2.2.3
+scikit-learn==1.5.2
+joblib==1.5.3
+tensorflow==2.19.1
+keras==3.14.1
+onnx==1.17.0
+onnxruntime==1.20.1
+skl2onnx==1.18.0
+tf2onnx==1.16.1
+pillow==10.4.0
+opencv-python-headless==4.10.0.84
+librosa==0.11.0
+soundfile==0.14.0
+pydantic==2.13.4
+psutil==7.2.2
+ai-edge-litert==2.1.6

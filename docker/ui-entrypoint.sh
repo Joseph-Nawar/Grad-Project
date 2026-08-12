@@ -10,7 +10,7 @@ case "$app" in
 esac
 
 base_path="${STREAMLIT_BASE_PATH:-}"
-set -- streamlit run "$script" \
+set -- python -m streamlit run "$script" \
   --server.address "${HOST:-0.0.0.0}" \
   --server.port "${PORT:-8501}" \
   --server.headless true \

@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "runtime_profile": "optimized",
+  "promotion_status": "APPROVED_MIXED_BUNDLE",
+  "bundle": {
+    "name": "mixed-litert",
+    "benchmark_evidence": "reports/production/stage5/bundle_benchmarks.json",
+    "unified_onnx": {
+      "status": "NOT_VIABLE",
+      "reason": "Metadata complete-pipeline ONNX conversion failed on the frozen numeric SimpleImputer missing-value path."
+    },
+    "face_bundle_comparison": {
+      "evidence": "reports/production/stage5/bundle_benchmarks.json",
+      "mixed_litert": "selected",
+      "mixed_onnx": "rejected_performance",
+      "reason": "mixed-onnx used 58191 more model bytes and had slower warm p50/p95 assessment latency (65.481/76.441 ms) than mixed-litert (40.656/46.915 ms); its RSS advantage did not offset the measured latency and size regression."
+    }
+  },
+  "modalities": {
+    "face": {
+      "logical_model_id": "stage0-face-trial-003-mobilenetv2-balanced-160",
+      "original_artifact": "models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras",
+      "original_sha256": "C969C473CD369AEFE11815208407320D559AA7683998CA0EE28C53280C7011AC",
+      "candidate_id": "face-litert-fp32",
+      "artifact": "models/edge/face-trial-003-litert-fp32.tflite",
+      "artifact_sha256": "12AAFECA62C02EC97741F89CEDDB1393684F175B32D15BFA8DD5B00F49A62F2E",
+      "backend": "LiteRT",
+      "runtime": "tensorflow-lite",
+      "runtime_version": "2.19.1",
+      "converter": "tensorflow.lite.TFLiteConverter",
+      "converter_version": "2.19.1",
+      "decision": "ADOPTED",
+      "parity_summary": {"micro_sample_count": 318, "adapter_sample_count": 318, "label_agreement": 1.0, "mean_absolute_score_difference": 0.000000669951, "median_absolute_score_difference": 0.000000428408, "p95_absolute_score_difference": 0.000002145768, "maximum_absolute_score_difference": 0.000004112721, "nonfinite_score_count": 0, "roc_auc_drop": 0.0, "quality_acceptance_agreement": 1.0, "failure_semantics_agreement": 1.0, "fused_risk_band_agreement": 1.0},
+      "benchmark_summary": {"artifact_bytes": 8869228, "cold_start_to_first_prediction_ms": 27.813, "warm_p50_ms": 5.209, "warm_p95_ms": 5.596, "rss_bytes": 425013248},
+      "parity_evidence": "reports/production/stage5/face-litert-fp32-parity.json",
+      "benchmark_evidence": "reports/production/stage5/benchmarks.json",
+      "original_fallback": "models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras"
+    },
+    "speech": {
+      "logical_model_id": "stage0-speech-trial-001-mfcc-random-forest",
+      "original_artifact": "models/experiments/speech/trial_001_mfcc_random_forest/model.pkl",
+      "original_sha256": "1BDED0B3850EE71E2B775E7B8E3BF80F708EE2FAEE1F74CA64D8102BAE01C925",
+      "candidate_id": "speech-onnx-random-forest-pipeline",
+      "artifact": "models/edge/speech-trial-001-onnx.onnx",
+      "artifact_sha256": "D08170F592DD1D45B7B86109077E1FC7EF14A58EC6EF51893CF04EE1B5CE7287",
+      "backend": "ONNX",
+      "runtime": "onnxruntime",
+      "runtime_version": "1.20.1",
+      "converter": "skl2onnx.convert_sklearn",
+      "converter_version": "1.18.0",
+      "conversion_options": {"opset": 17, "zipmap": false},
+      "decision": "ADOPTED",
+      "parity_summary": {"micro_sample_count": 2849, "adapter_sample_count": 2849, "label_agreement": 0.997893998, "mean_absolute_score_difference": 0.0000586215, "median_absolute_score_difference": 0.000000128746, "p95_absolute_score_difference": 0.000000284513, "maximum_absolute_score_difference": 0.010000196, "nonfinite_score_count": 0, "roc_auc_drop": 0.000009818, "quality_acceptance_agreement": 1.0, "failure_semantics_agreement": 1.0, "fused_risk_band_agreement": 1.0},
+      "benchmark_summary": {"artifact_bytes": 14545878, "cold_start_to_first_prediction_ms": 1396.589, "warm_p50_ms": 0.029, "warm_p95_ms": 0.101, "rss_bytes": 479412224},
+      "parity_evidence": "reports/production/stage5/speech-onnx-random-forest-pipeline-parity.json",
+      "benchmark_evidence": "reports/production/stage5/benchmarks.json",
+      "original_fallback": "models/experiments/speech/trial_001_mfcc_random_forest/model.pkl"
+    },
+    "metadata_context": {
+      "logical_model_id": "stage0-metadata-mvp-risk-model",
+      "original_artifact": "models/experiments/metadata/mvp_metadata_risk_model.pkl",
+      "original_sha256": "350545A6AB71A58373FD11BC2EF9F37BAADCC8420D66186EB6F4BD2B8AA1E8F5",
+      "candidate_id": null,
+      "artifact": "models/experiments/metadata/mvp_metadata_risk_model.pkl",
+      "artifact_sha256": "350545A6AB71A58373FD11BC2EF9F37BAADCC8420D66186EB6F4BD2B8AA1E8F5",
+      "backend": "sklearn",
+      "runtime": "scikit-learn",
+      "runtime_version": "1.5.2",
+      "decision": "ORIGINAL_RETAINED",
+      "parity_summary": null,
+      "benchmark_summary": {"artifact_bytes": 6407, "cold_start_to_first_prediction_ms": 220.713, "warm_p50_ms": 2.330, "warm_p95_ms": 2.792, "rss_bytes": 410316800},
+      "conversion_evidence": "reports/production/stage5/metadata_conversion.json",
+      "benchmark_evidence": "reports/production/stage5/benchmarks.json",
+      "original_fallback": "models/experiments/metadata/mvp_metadata_risk_model.pkl"
+    }
+  }
+}

@@ -1,0 +1,345 @@
+{
+  "constraints": {
+    "calibration_data_from_train_validation_only": true,
+    "held_out_data_reused": true,
+    "new_splits_created": false
+  },
+  "environment": {
+    "frozen_evaluation_runtime": {
+      "joblib": "1.5.3",
+      "numpy": "1.26.4",
+      "pandas": "2.2.3",
+      "psutil": "7.2.2",
+      "scikit-learn": "1.5.2",
+      "tensorflow": "2.19.1"
+    },
+    "python": "3.11.9",
+    "system": "Windows-10-10.0.26200-SP0"
+  },
+  "manifest_hashes": {
+    "face_split": "1e7759a6b772273eae8cb715e3676ec52b4459f8a15e89b108b54b0fa0c5866a",
+    "metadata_split": "750110fff761405c194b3d149918f0d49eb643baea6129f39c8e02c3900108cb",
+    "speech_split": "1d8674156a2b8da590ab512affce749355ae92243609c4be2e3ba992f516a5e2"
+  },
+  "modalities": {
+    "face": {
+      "authoritative_metrics": {
+        "adapter_aware": {
+          "brier": 0.0859720133868872,
+          "calibration_error": 0.12301318067186903,
+          "confusion_matrix": [
+            [
+              73,
+              5
+            ],
+            [
+              6,
+              23
+            ]
+          ],
+          "f1": 0.8070175438596491,
+          "n": 107,
+          "negative": 78,
+          "positive": 29,
+          "pr_auc": 0.9107901942657005,
+          "precision": 0.8214285714285714,
+          "roc_auc": 0.9606542882404951,
+          "sensitivity": 0.7931034482758621,
+          "specificity": 0.9358974358974359
+        },
+        "adapter_coverage": {
+          "accepted": 107,
+          "coverage": 0.33647798742138363,
+          "quality_states": {
+            "PASS": 71,
+            "REJECT": 211,
+            "WARN": 36
+          },
+          "rejected": 211,
+          "rejection_reasons": {
+            "dimensions": 35,
+            "face_too_small": 18,
+            "no_face": 191,
+            "pose_not_assessed": 211
+          }
+        },
+        "artifacts": [
+          "reports\\evaluation\\phase4\\final_complete\\plots\\face_score_distribution.png",
+          "reports\\evaluation\\phase4\\final_complete\\plots\\face_roc.png",
+          "reports\\evaluation\\phase4\\final_complete\\plots\\face_pr.png",
+          "reports\\evaluation\\phase4\\final_complete\\plots\\face_calibration.png"
+        ],
+        "bootstrap": {
+          "estimate": 0.9817744755244755,
+          "iterations": 1000,
+          "lower": 0.9671263111888112,
+          "metric": "roc_auc",
+          "seed": 42,
+          "unit": "sample-stratified",
+          "upper": 0.9917832167832168
+        },
+        "direct": {
+          "brier": 0.06870462209334827,
+          "calibration_error": 0.12706619818730033,
+          "confusion_matrix": [
+            [
+              197,
+              11
+            ],
+            [
+              11,
+              99
+            ]
+          ],
+          "f1": 0.9,
+          "n": 318,
+          "negative": 208,
+          "positive": 110,
+          "pr_auc": 0.9716443391899671,
+          "precision": 0.9,
+          "roc_auc": 0.9817744755244755,
+          "sensitivity": 0.9,
+          "specificity": 0.9471153846153846
+        },
+        "direct_positive_class": "Stroke",
+        "mean_inference_ms": 63.014358805031456,
+        "processed_direct": 318,
+        "total_held_out": 318
+      },
+      "contracts": {
+        "features": [],
+        "input": "RGB image tensor shaped (batch, 160, 160, 3), float values expected in the model's [0,1] input convention.",
+        "output": "Binary sigmoid tensor shaped (batch, 1); branch-specific face evidence score interpreted as the Stroke-class score, not a calibrated clinical probability.",
+        "preprocessing": "RGB conversion, resize to 160x160, float32 scaling to [0,1]; MobileNetV2 preprocessing is inside the model."
+      },
+      "logical_model_id": "stage0-face-model",
+      "parity_manifest": {
+        "path": "data/processed/face_split_manifest.csv",
+        "sha256": "1E7759A6B772273EAE8CB715E3676EC52B4459F8A15E89B108B54B0FA0C5866A",
+        "size_bytes": 576316,
+        "split_policy": "existing held-out rows only; no new split"
+      },
+      "source": {
+        "artifact_type": "saved Keras model",
+        "framework": "TensorFlow/Keras",
+        "path": "models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras",
+        "sha256": "C969C473CD369AEFE11815208407320D559AA7683998CA0EE28C53280C7011AC",
+        "size_bytes": 9641144
+      }
+    },
+    "metadata_context": {
+      "authoritative_metrics": {
+        "artifacts": [
+          "reports\\evaluation\\phase4\\final_complete\\plots\\metadata_score_distribution.png",
+          "reports\\evaluation\\phase4\\final_complete\\plots\\metadata_roc.png",
+          "reports\\evaluation\\phase4\\final_complete\\plots\\metadata_pr.png",
+          "reports\\evaluation\\phase4\\final_complete\\plots\\metadata_calibration.png"
+        ],
+        "bootstrap": {
+          "estimate": 0.8337665150530646,
+          "iterations": 1000,
+          "lower": 0.7744431809977619,
+          "metric": "roc_auc",
+          "seed": 42,
+          "unit": "sample-stratified",
+          "upper": 0.8909907226915024
+        },
+        "failures": {},
+        "metrics": {
+          "brier": 0.18132749525271655,
+          "calibration_error": 0.28445717377951973,
+          "confusion_matrix": [
+            [
+              524,
+              205
+            ],
+            [
+              7,
+              31
+            ]
+          ],
+          "f1": 0.22627737226277372,
+          "n": 767,
+          "negative": 729,
+          "positive": 38,
+          "pr_auc": 0.18565119693955895,
+          "precision": 0.13135593220338984,
+          "roc_auc": 0.8337665150530646,
+          "sensitivity": 0.8157894736842105,
+          "specificity": 0.7187928669410151
+        },
+        "n": 767
+      },
+      "contracts": {
+        "features": [
+          "age",
+          "hypertension",
+          "heart_disease",
+          "avg_glucose_level",
+          "bmi",
+          "gender",
+          "ever_married",
+          "work_type",
+          "Residence_type",
+          "smoking_status"
+        ],
+        "input": "DataFrame with ordered features age, hypertension, heart_disease, avg_glucose_level, bmi, gender, ever_married, work_type, Residence_type, smoking_status.",
+        "output": "Contextual stroke-risk ranking score/probability from Logistic Regression; background evidence only, not an acute clinical probability.",
+        "preprocessing": "Median numeric imputation and scaling; most-frequent categorical imputation; one-hot encoding with unknown-category handling."
+      },
+      "logical_model_id": "stage0-metadata_context-mvp_metadata_risk_model",
+      "parity_manifest": {
+        "path": "data/processed/metadata_split_manifest.csv",
+        "sha256": "750110FFF761405C194B3D149918F0D49EB643BAEA6129F39C8E02C3900108CB",
+        "size_bytes": 360929,
+        "split_policy": "existing held-out rows only; no new split"
+      },
+      "source": {
+        "artifact_type": "serialized Pipeline",
+        "framework": "scikit-learn/joblib",
+        "path": "models/experiments/metadata/mvp_metadata_risk_model.pkl",
+        "sha256": "350545A6AB71A58373FD11BC2EF9F37BAADCC8420D66186EB6F4BD2B8AA1E8F5",
+        "size_bytes": 6407
+      }
+    },
+    "speech": {
+      "authoritative_metrics": {
+        "accepted": 2744,
+        "adapter_aware": {
+          "brier": 0.1243919622610949,
+          "calibration_error": 0.1616217201166181,
+          "confusion_matrix": [
+            [
+              1357,
+              508
+            ],
+            [
+              31,
+              848
+            ]
+          ],
+          "f1": 0.7588366890380314,
+          "n": 2744,
+          "negative": 1865,
+          "positive": 879,
+          "pr_auc": 0.8993224002159479,
+          "precision": 0.6253687315634219,
+          "roc_auc": 0.9512442545300381,
+          "sensitivity": 0.9647326507394767,
+          "specificity": 0.7276139410187668
+        },
+        "adapter_failures": {
+          "quality_rejected": 105
+        },
+        "artifacts": [
+          "reports\\evaluation\\phase4\\final_complete\\plots\\speech_score_distribution.png",
+          "reports\\evaluation\\phase4\\final_complete\\plots\\speech_roc.png",
+          "reports\\evaluation\\phase4\\final_complete\\plots\\speech_pr.png",
+          "reports\\evaluation\\phase4\\final_complete\\plots\\speech_calibration.png"
+        ],
+        "coverage": 0.9631449631449631,
+        "direct": {
+          "brier": 0.12458719238719239,
+          "calibration_error": 0.14445536445536447,
+          "confusion_matrix": [
+            [
+              1359,
+              508
+            ],
+            [
+              52,
+              930
+            ]
+          ],
+          "f1": 0.768595041322314,
+          "n": 2849,
+          "negative": 1867,
+          "positive": 982,
+          "pr_auc": 0.8932653414911541,
+          "precision": 0.6467315716272601,
+          "roc_auc": 0.9426279894010781,
+          "sensitivity": 0.9470468431771895,
+          "specificity": 0.727905731119443
+        },
+        "direct_failures": {},
+        "processed_direct": 2849,
+        "quality_states": {
+          "PASS": 2744,
+          "REJECT": 105
+        },
+        "rejected": 105,
+        "speaker_bootstrap": {
+          "estimate": 0.9512442545300381,
+          "iterations": 1000,
+          "lower": 0.8589854288264691,
+          "metric": "roc_auc",
+          "seed": 42,
+          "unit": "group",
+          "upper": 0.9940171249521722
+        },
+        "total_held_out": 2849
+      },
+      "contracts": {
+        "features": [
+          "mfcc_1_mean",
+          "mfcc_2_mean",
+          "mfcc_3_mean",
+          "mfcc_4_mean",
+          "mfcc_5_mean",
+          "mfcc_6_mean",
+          "mfcc_7_mean",
+          "mfcc_8_mean",
+          "mfcc_9_mean",
+          "mfcc_10_mean",
+          "mfcc_11_mean",
+          "mfcc_12_mean",
+          "mfcc_13_mean",
+          "mfcc_1_std",
+          "mfcc_2_std",
+          "mfcc_3_std",
+          "mfcc_4_std",
+          "mfcc_5_std",
+          "mfcc_6_std",
+          "mfcc_7_std",
+          "mfcc_8_std",
+          "mfcc_9_std",
+          "mfcc_10_std",
+          "mfcc_11_std",
+          "mfcc_12_std",
+          "mfcc_13_std",
+          "duration_seconds",
+          "rms_mean",
+          "rms_std",
+          "zcr_mean",
+          "zcr_std",
+          "spectral_centroid_mean",
+          "spectral_centroid_std",
+          "spectral_bandwidth_mean",
+          "spectral_bandwidth_std",
+          "spectral_rolloff_mean",
+          "spectral_rolloff_std"
+        ],
+        "input": "DataFrame with the 37 ordered features listed in the speech feature contract; no path, label, speaker, group, or split columns.",
+        "output": "Binary control/dysarthric class score/probability from a Random Forest pipeline; branch-specific speech abnormality evidence, not stroke probability.",
+        "preprocessing": "Mono audio resampled to 16000 Hz and limited to 5 seconds; 13 MFCC means, 13 MFCC standard deviations, duration, and acoustic summary statistics."
+      },
+      "logical_model_id": "stage0-speech-model",
+      "parity_manifest": {
+        "path": "data/processed/speech_split_manifest.csv",
+        "sha256": "1D8674156A2B8DA590AB512AFFCE749355AE92243609C4BE2E3BA992F516A5E2",
+        "size_bytes": 4303567,
+        "split_policy": "existing held-out rows only; no new split"
+      },
+      "source": {
+        "artifact_type": "serialized Pipeline",
+        "framework": "scikit-learn/joblib",
+        "path": "models/experiments/speech/trial_001_mfcc_random_forest/model.pkl",
+        "sha256": "1BDED0B3850EE71E2B775E7B8E3BF80F708EE2FAEE1F74CA64D8102BAE01C925",
+        "size_bytes": 29499167
+      }
+    }
+  },
+  "schema_version": 1,
+  "source": "config/baseline_registry.json + reports/evaluation/phase4/final_complete",
+  "stage": "stage5"
+}

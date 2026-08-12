@@ -1,0 +1,76 @@
+{
+  "adapter": {
+    "gate": {
+      "checks": {
+        "absolute_roc_auc_drop": true,
+        "adapter_quality_acceptance": true,
+        "failure_semantics": true,
+        "finite_scores": true,
+        "fused_risk_band_agreement": true,
+        "label_agreement": false,
+        "median_absolute_score_difference": true,
+        "preprocessing_contract": true
+      },
+      "fused_risk_band_agreement": true,
+      "pass": false
+    },
+    "metrics": {
+      "failure_semantics_agreement": 1.0,
+      "fused_risk_band_agreement": 1.0,
+      "label_agreement": 0.9842767295597484,
+      "maximum_absolute_score_difference": 0.09645837545394897,
+      "mean_absolute_score_difference": 0.0068442006741867125,
+      "median_absolute_score_difference": 0.0,
+      "nonfinite_score_count": 0,
+      "p95_absolute_score_difference": 0.040217411518096886,
+      "preprocessing_contract_unchanged": true,
+      "quality_acceptance_agreement": 1.0,
+      "roc_auc_drop": 4.370629370631374e-05,
+      "sample_count": 318
+    }
+  },
+  "candidate_id": "face-litert-dynamic-range",
+  "command": [
+    "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+    "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\face_parity_worker.py",
+    "--root",
+    "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist",
+    "--candidate-id",
+    "face-litert-dynamic-range",
+    "--candidate",
+    "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\candidates\\face\\face-litert-dynamic-range.tflite"
+  ],
+  "micro": {
+    "gate": {
+      "checks": {
+        "absolute_roc_auc_drop": true,
+        "adapter_quality_acceptance": true,
+        "failure_semantics": true,
+        "finite_scores": true,
+        "fused_risk_band_agreement": true,
+        "label_agreement": false,
+        "median_absolute_score_difference": false,
+        "preprocessing_contract": true
+      },
+      "fused_risk_band_agreement": true,
+      "pass": false
+    },
+    "metrics": {
+      "failure_semantics_agreement": 1.0,
+      "fused_risk_band_agreement": 1.0,
+      "label_agreement": 0.9811320754716981,
+      "maximum_absolute_score_difference": 0.10558167099952698,
+      "mean_absolute_score_difference": 0.018892270366810612,
+      "median_absolute_score_difference": 0.012584388256072998,
+      "nonfinite_score_count": 0,
+      "p95_absolute_score_difference": 0.05827354043722152,
+      "preprocessing_contract_unchanged": true,
+      "quality_acceptance_agreement": 1.0,
+      "roc_auc_drop": 0.0009178321678321444,
+      "sample_count": 318
+    }
+  },
+  "returncode": 0,
+  "sample_count": 318,
+  "status": "SUCCEEDED"
+}

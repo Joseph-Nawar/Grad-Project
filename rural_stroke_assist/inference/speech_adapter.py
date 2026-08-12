@@ -16,6 +16,7 @@ from rural_stroke_assist.features.speech_features import (
 from rural_stroke_assist.inference.contracts import ModalityEvidence, QualityFinding, QualityStatus
 from rural_stroke_assist.inference.exceptions import ArtifactConfigurationError, FeatureContractError, InferenceFailure
 from rural_stroke_assist.inference.registry import BaselineRegistry, load_baseline_registry
+from rural_stroke_assist.inference.runners import TabularRunner
 from rural_stroke_assist.quality.audio_quality import AudioQualityAssessor, AudioQualityAssessment, DefaultAudioQualityAssessor
 
 
@@ -25,12 +26,14 @@ class SpeechAdapter:
         *,
         registry: BaselineRegistry | None = None,
         model_loader: Callable[[Path], Any] | None = None,
+        runner: TabularRunner | None = None,
         audio_loader: Callable[[str | Path], tuple[np.ndarray, int]] | None = None,
         feature_extractor: Callable[[np.ndarray, int], dict[str, float]] | None = None,
         quality_assessor: AudioQualityAssessor | None = None,
     ) -> None:
         self.registry = registry or load_baseline_registry()
         self._model_loader = model_loader or self._default_model_loader
+        self._runner = runner
         self._audio_loader = audio_loader or load_audio
         self._feature_extractor = feature_extractor or self._extract_features
         self._quality_assessor = quality_assessor or DefaultAudioQualityAssessor()
@@ -62,13 +65,13 @@ class SpeechAdapter:
         features.update(extract_basic_audio_features(signal, sample_rate))
         return features
 
-    def _positive_class_index(self, model: Any) -> int:
+    def _positive_class_index(self, classes: Any) -> int:
         expected = self.registry.component("speech").data["class_mapping"]
         positive_keys = [key for key, value in expected.items() if value == "dysarthric"]
-        if len(positive_keys) != 1 or not hasattr(model, "classes_"):
+        if len(positive_keys) != 1:
             raise FeatureContractError("Speech model does not expose a usable class mapping.")
         target = positive_keys[0]
-        classes = list(model.classes_)
+        classes = list(classes)
         for index, value in enumerate(classes):
             if str(value) == target or str(value).lower() == "dysarthric":
                 return index
@@ -120,11 +123,17 @@ class SpeechAdapter:
         if not np.isfinite(frame.to_numpy(dtype=float)).all():
             raise FeatureContractError("Speech features contain non-finite values.")
 
-        model = self._load_model()
         try:
-            positive_index = self._positive_class_index(model)
-            probabilities = np.asarray(model.predict_proba(frame), dtype=float)
-            if probabilities.shape != (1, len(model.classes_)):
+            if self._runner is not None:
+                probabilities, classes = self._runner.run(frame)
+                probabilities = np.asarray(probabilities, dtype=float)
+                classes = tuple(classes)
+            else:
+                model = self._load_model()
+                probabilities = np.asarray(model.predict_proba(frame), dtype=float)
+                classes = tuple(model.classes_)
+            positive_index = self._positive_class_index(classes)
+            if probabilities.shape != (1, len(classes)):
                 raise FeatureContractError(f"Unexpected speech probability shape: {probabilities.shape}")
             score = float(probabilities[0, positive_index])
         except FeatureContractError:

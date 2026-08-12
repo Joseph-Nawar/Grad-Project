@@ -177,6 +177,8 @@ celerybeat.pid
 .venv
 .venv/
 .phase5-test-venv/
+/.stage5/
+/stage5_workspace/
 *.venv/
 baseline_phase5.log
 env/
@@ -261,3 +263,9 @@ models/
 /reports/production/stage3/ci-runtime-inventory.json
 /reports/production/stage3/*-current.json
 /reports/production/stage3/*-final-current.json
+
+# Stage 5 conversion scratch/candidates; only promoted artifacts may enter models/edge/.
+/models/edge/*
+!/models/edge/.gitkeep
+!/models/edge/face-trial-003-litert-fp32.tflite
+!/models/edge/speech-trial-001-onnx.onnx

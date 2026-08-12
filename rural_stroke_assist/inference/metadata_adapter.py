@@ -12,6 +12,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from rural_stroke_assist.inference.contracts import ModalityEvidence, QualityFinding, QualityStatus
 from rural_stroke_assist.inference.exceptions import ArtifactConfigurationError, FeatureContractError, InferenceFailure
 from rural_stroke_assist.inference.registry import BaselineRegistry, load_baseline_registry
+from rural_stroke_assist.inference.runners import TabularRunner
 
 
 class MetadataInput(BaseModel):
@@ -43,9 +44,11 @@ class MetadataAdapter:
         *,
         registry: BaselineRegistry | None = None,
         model_loader: Callable[[Path], Any] | None = None,
+        runner: TabularRunner | None = None,
     ) -> None:
         self.registry = registry or load_baseline_registry()
         self._model_loader = model_loader or self._default_model_loader
+        self._runner = runner
         self._model: Any | None = None
 
     def _default_model_loader(self, path: Path) -> Any:
@@ -79,10 +82,15 @@ class MetadataAdapter:
             raise FeatureContractError("Metadata input does not match the canonical ten-feature schema.")
         columns = component.feature_columns
         frame = input_data.to_model_frame(columns)
-        model = self._load_model()
         try:
-            probabilities = np.asarray(model.predict_proba(frame), dtype=float)
-            classes = list(model.classes_)
+            if self._runner is not None:
+                probabilities, runner_classes = self._runner.run(frame)
+                probabilities = np.asarray(probabilities, dtype=float)
+                classes = list(runner_classes)
+            else:
+                model = self._load_model()
+                probabilities = np.asarray(model.predict_proba(frame), dtype=float)
+                classes = list(model.classes_)
             mapping = component.data["class_mapping"]
             positive_keys = [key for key, value in mapping.items() if value == "stroke"]
             if len(positive_keys) != 1:

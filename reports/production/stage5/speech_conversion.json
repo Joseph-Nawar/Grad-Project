@@ -1,0 +1,45 @@
+{
+  "command": [
+    "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\conversion-env\\Scripts\\python.exe",
+    "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\scripts\\stage5\\speech_conversion_worker.py",
+    "--source",
+    "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\models\\experiments\\speech\\trial_001_mfcc_random_forest\\model.pkl",
+    "--output",
+    "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\candidates\\speech\\speech-onnx-random-forest-pipeline.onnx"
+  ],
+  "modality": "speech",
+  "record": {
+    "benchmark": null,
+    "candidate_artifact": "C:\\Users\\Asus\\Downloads\\Uni_work\\Grad-Project\\rural-stroke-assist\\.stage5\\candidates\\speech\\speech-onnx-random-forest-pipeline.onnx",
+    "candidate_id": "speech-onnx-random-forest-pipeline",
+    "candidate_sha256": "D08170F592DD1D45B7B86109077E1FC7EF14A58EC6EF51893CF04EE1B5CE7287",
+    "conversion_options": {
+      "opset": 17,
+      "zipmap": false
+    },
+    "conversion_status": "SUCCEEDED",
+    "converter_name": "skl2onnx.convert_sklearn",
+    "converter_version": "1.18.0",
+    "failure_reason": null,
+    "input_signature": "(batch,37) float32",
+    "modality": "speech",
+    "output_signature": "(batch,2) probability matrix",
+    "parity": null,
+    "runtime_name": "onnxruntime",
+    "runtime_version": "1.20.1",
+    "source_artifact": "models/experiments/speech/trial_001_mfcc_random_forest/model.pkl",
+    "source_sha256": "1BDED0B3850EE71E2B775E7B8E3BF80F708EE2FAEE1F74CA64D8102BAE01C925"
+  },
+  "returncode": 0,
+  "schema_version": 1,
+  "worker": {
+    "conversion_options": {
+      "opset": 17,
+      "zipmap": false
+    },
+    "converter_name": "skl2onnx.convert_sklearn",
+    "converter_version": "1.18.0",
+    "runtime_version": "1.20.1",
+    "status": "SUCCEEDED"
+  }
+}

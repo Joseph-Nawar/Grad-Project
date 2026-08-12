@@ -24,3 +24,4 @@ def test_compose_has_independent_edge_and_single_worker_named_volumes() -> None:
     assert any("collector-sqlite" in item for item in services["collector-edge"]["volumes"])
     assert any("collector-media" in item for item in services["collector-edge"]["volumes"])
     assert services["clinician"]["image"] == "ruralstroke-ui:stage3-local"
+    assert services["collector-edge"]["environment"]["RURALSTROKE_EDGE_RUNTIME_PROFILE"] == "optimized"
