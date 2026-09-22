@@ -6,18 +6,18 @@ an immutable validation-evidence gate.
 """
 from __future__ import annotations
 
-import csv
 import argparse
+import csv
+from datetime import datetime, timezone
 import hashlib
 import importlib.metadata
 import json
 import math
 import os
+from pathlib import Path
 import platform
 import sys
 import time
-from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any, Callable, Iterable, Sequence
 
 import numpy as np
@@ -31,7 +31,6 @@ from rural_stroke_assist.preprocessing.metadata import (
     NUMERIC_FEATURES,
     TARGET_COLUMN,
 )
-
 
 ROOT = Path(__file__).resolve().parents[1]
 EXPERIMENT_ID = "metadata_pretrained_foundation_trial_001"
@@ -52,6 +51,12 @@ SELECTION_MARGIN = 0.01
 TABPFN_PACKAGE_VERSION = "9.0.0"
 TABICL_PACKAGE_VERSION = "2.2.0"
 TABICL_CHECKPOINT = "tabicl-classifier-v2-20260212.ckpt"
+TABPFN_SOURCE_REPOSITORY = "https://huggingface.co/Prior-Labs/TabPFN-v2-clf"
+TABPFN_LICENSE = "Prior Labs License (Apache 2.0 with additional attribution requirement)"
+TABPFN_LICENSE_URL = "https://huggingface.co/Prior-Labs/TabPFN-v2-clf/blob/main/LICENSE.txt"
+TABICL_SOURCE_REPOSITORY = "https://huggingface.co/jingang/TabICL"
+TABICL_LICENSE = "BSD-3-Clause (official TabICL model card/repository)"
+TABICL_LICENSE_URL = "https://github.com/soda-inria/tabicl/blob/main/LICENSE"
 
 
 def stable_json_bytes(payload: object) -> bytes:
@@ -250,12 +255,58 @@ def positive_class_scores(model: Any, frame: pd.DataFrame) -> np.ndarray:
     return probabilities[:, int(matches[0])]
 
 
+def _model_paths(model: Any) -> list[Path]:
+    paths: list[Path] = []
+    for attribute in ("model_path_", "model_path", "checkpoint_path"):
+        value = getattr(model, attribute, None)
+        values = value if isinstance(value, (list, tuple)) else [value]
+        for item in values:
+            if item is not None:
+                path = Path(str(item))
+                if path.is_file() and path not in paths:
+                    paths.append(path)
+    return paths
+
+
+def _checkpoint_revision(path: Path) -> str | None:
+    parts = path.parts
+    if "snapshots" in parts:
+        index = parts.index("snapshots")
+        if index + 1 < len(parts):
+            return parts[index + 1]
+    return None
+
+
+def _configured_model_identity(candidate_id: str, device: str) -> dict[str, object]:
+    if candidate_id == "tabpfn_v2":
+        return {
+            "model_id": "TabPFN v2 classifier",
+            "package": "tabpfn",
+            "package_version": TABPFN_PACKAGE_VERSION,
+            "model_version": "ModelVersion.V2",
+            "device": device,
+            "ignore_pretraining_limits": device == "cpu",
+            "source_repository": TABPFN_SOURCE_REPOSITORY,
+            "model_weight_license": TABPFN_LICENSE,
+            "model_weight_license_url": TABPFN_LICENSE_URL,
+        }
+    return {
+        "model_id": "TabICLv2 classifier",
+        "package": "tabicl",
+        "package_version": TABICL_PACKAGE_VERSION,
+        "checkpoint_version": TABICL_CHECKPOINT,
+        "device": device,
+        "source_repository": TABICL_SOURCE_REPOSITORY,
+        "model_weight_license": TABICL_LICENSE,
+        "model_weight_license_url": TABICL_LICENSE_URL,
+    }
+
+
 def candidate_provenance(model: Any, candidate_id: str, device: str) -> dict[str, object]:
-    package = "tabpfn" if candidate_id == "tabpfn_v2" else "tabicl"
     metadata: dict[str, object] = {
         "candidate_id": candidate_id,
-        "package": package,
-        "package_version": importlib.metadata.version(package),
+        **_configured_model_identity(candidate_id, device),
+        "package_version": importlib.metadata.version("tabpfn" if candidate_id == "tabpfn_v2" else "tabicl"),
         "device": device,
         "feature_columns": FEATURE_COLUMNS,
         "numeric_features": NUMERIC_FEATURES,
@@ -264,23 +315,31 @@ def candidate_provenance(model: Any, candidate_id: str, device: str) -> dict[str
         "input_dtypes": {name: "numeric" for name in NUMERIC_FEATURES}
         | {name: "object/string" for name in CATEGORICAL_FEATURES},
         "model_settings": {},
-        "model_weight_license": (
-            "Prior Labs License (Apache 2.0 with attribution)"
-            if candidate_id == "tabpfn_v2" else "Checkpoint license to be recorded from upstream artifact"
-        ),
     }
     if candidate_id == "tabpfn_v2":
-        metadata["model_id"] = "TabPFN v2"
         metadata["model_settings"] = {
             "model_version": "v2",
             "ignore_pretraining_limits": device == "cpu",
             "random_state": SEED,
         }
     else:
-        metadata["model_id"] = "TabICLv2"
-        metadata["checkpoint_version"] = TABICL_CHECKPOINT
         metadata["model_settings"] = {"checkpoint_version": TABICL_CHECKPOINT, "random_state": SEED, "verbose": False}
-    for attribute in ("model_path", "checkpoint_version", "model_name"):
+    paths = _model_paths(model)
+    metadata["checkpoint_files"] = [
+        {
+            "basename": path.name,
+            "path_not_committed": str(path),
+            "size_bytes": path.stat().st_size,
+            "sha256": sha256_file(path),
+            "cache_revision": _checkpoint_revision(path),
+        }
+        for path in paths
+    ]
+    metadata["checkpoint_revision"] = next(
+        (revision for revision in (_checkpoint_revision(path) for path in paths) if revision),
+        None,
+    )
+    for attribute in ("checkpoint_version", "model_name"):
         value = getattr(model, attribute, None)
         if value is not None:
             metadata[attribute] = str(value)
@@ -341,6 +400,7 @@ def measure_candidate(
     return {
         "candidate_id": candidate_id,
         "fit_seconds": fit_seconds,
+        "context_fit_seconds": fit_seconds,
         "validation_inference_seconds": whole_seconds,
         "validation_inference_p50_ms": float(np.median(durations_ms)),
         "validation_inference_repetitions_ms": durations_ms,
@@ -357,12 +417,7 @@ def _write_predictions(path: Path, y_true: Sequence[int], scores: Sequence[float
 
 
 def _model_file_size(model: Any) -> int | None:
-    candidates = []
-    for attribute in ("model_path", "checkpoint_path"):
-        value = getattr(model, attribute, None)
-        if value:
-            candidates.extend(value if isinstance(value, (list, tuple)) else [value])
-    sizes = [Path(value).stat().st_size for value in candidates if Path(value).is_file()]
+    sizes = [path.stat().st_size for path in _model_paths(model)]
     return int(sum(sizes)) if sizes else None
 
 
@@ -372,7 +427,11 @@ def _read_json(path: Path) -> dict[str, object]:
 
 def _write_resource_comparison(output_dir: Path, resources: list[dict[str, object]]) -> None:
     path = output_dir / "resource_comparison.csv"
-    columns = ["candidate_id", "checkpoint_size_bytes", "validation_inference_p50_ms", "peak_rss_bytes"]
+    columns = [
+        "candidate_id", "checkpoint_size_bytes", "model_initialization_seconds",
+        "context_fit_seconds", "validation_inference_seconds",
+        "validation_inference_p50_ms", "peak_rss_bytes",
+    ]
     with path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=columns)
         writer.writeheader()
@@ -436,11 +495,14 @@ def run_candidate_validation(
     X_validation = prepare_candidate_frame(validation)
     y_train = train[TARGET_COLUMN].astype(int).to_numpy()
     y_validation = validation[TARGET_COLUMN].astype(int).to_numpy()
+    initialization_started = time.perf_counter()
     model = build_tabpfn_v2(device) if candidate_id == "tabpfn_v2" else build_tabicl_v2(device)
-    provenance = candidate_provenance(model, candidate_id, device)
+    initialization_seconds = time.perf_counter() - initialization_started
     measured = measure_candidate(
         model, X_train, y_train, X_validation, candidate_id, protocol["resource_protocol"],
     )
+    measured["model_initialization_seconds"] = initialization_seconds
+    provenance = candidate_provenance(model, candidate_id, device)
     scores = np.asarray(measured.pop("scores"), dtype=float)
     metrics = calculate_binary_metrics(y_validation, scores)
     prediction = _write_predictions(output_dir / f"predictions_{candidate_id}.csv", y_validation, scores)
@@ -449,6 +511,9 @@ def run_candidate_validation(
     resource = {
         "candidate_id": candidate_id,
         "checkpoint_size_bytes": checkpoint_size if checkpoint_size is not None else "",
+        "model_initialization_seconds": initialization_seconds,
+        "context_fit_seconds": measured["context_fit_seconds"],
+        "validation_inference_seconds": measured["validation_inference_seconds"],
         "validation_inference_p50_ms": measured["validation_inference_p50_ms"],
         "peak_rss_bytes": measured["peak_rss_bytes"],
     }
@@ -466,7 +531,13 @@ def run_candidate_validation(
     }
 
 
-def _failure_payload(candidate_id: str, stage: str, error: Exception, output_dir: Path) -> tuple[dict[str, object], dict[str, object]]:
+def _failure_payload(
+    candidate_id: str,
+    stage: str,
+    error: Exception,
+    output_dir: Path,
+    device: str,
+) -> tuple[dict[str, object], dict[str, object]]:
     failure = {
         "candidate_id": candidate_id,
         "stage": stage,
@@ -481,15 +552,13 @@ def _failure_payload(candidate_id: str, stage: str, error: Exception, output_dir
             ),
         },
     }
+    failure["model_identity"] = _configured_model_identity(candidate_id, device)
     failure_path = output_dir / f"failure_{candidate_id}.json"
     write_json_atomic(failure_path, failure)
     terminal = {
         "candidate_id": candidate_id,
         "status": "failed",
-        "model_identity": {
-            "model_id": candidate_id,
-            "package": "tabpfn" if candidate_id == "tabpfn_v2" else "tabicl",
-        },
+        "model_identity": failure["model_identity"],
         "failure_artifact": failure_path.name,
         "failure_artifact_sha256": sha256_file(failure_path),
     }
@@ -531,7 +600,7 @@ def run_validation(
                 raise ValueError("candidate runner returned a non-completed result without failure evidence")
             terminal = dict(result)
         except Exception as error:
-            terminal, _ = _failure_payload(candidate_id, "validation", error, output_dir)
+            terminal, _ = _failure_payload(candidate_id, "validation", error, output_dir, device)
         write_json_atomic(terminal_path, terminal)
         results.append(terminal)
         if terminal.get("status") == "completed" and isinstance(terminal.get("resource"), dict):
@@ -591,7 +660,11 @@ def run_selection(output_dir: Path) -> dict[str, object]:
             if not isinstance(metrics, dict) or metrics.get("pr_auc") is None:
                 raise ValueError(f"completed candidate lacks validation PR-AUC: {candidate_id}")
             record["metrics"] = metrics
+            record["validation_metrics_artifact_sha256"] = sha256_file(terminal_path)
             record["prediction_artifact"] = terminal.get("prediction_artifact", {})
+            prediction_artifact = terminal.get("prediction_artifact", {})
+            if isinstance(prediction_artifact, dict):
+                record["prediction_artifact_sha256"] = prediction_artifact.get("sha256")
             record["resource"] = terminal.get("resource", resources.get(candidate_id, {}))
             completed.append({"candidate_id": candidate_id, "pr_auc": float(metrics["pr_auc"]), "resource": record["resource"]})
         elif terminal.get("status") == "failed":
@@ -628,6 +701,9 @@ def run_selection(output_dir: Path) -> dict[str, object]:
         "manifest_sha256": protocol["manifest_sha256"],
         "protocol_sha256": sha256_file(protocol_path),
         "resource_comparison_sha256": sha256_file(resource_path),
+        "candidate_terminal_artifact_hashes": {
+            candidate_id: record["terminal_artifact_sha256"] for candidate_id, record in evidence.items()
+        },
         "validation_evidence": evidence,
     }
     write_json_atomic(selection_path, snapshot)
@@ -711,3 +787,231 @@ def run_test(output_dir: Path, manifest_path: Path, *, device: str = "cpu", load
         "created_utc": datetime.now(timezone.utc).isoformat(),
     })
     return result
+
+
+def _optional_json(path: Path) -> dict[str, object]:
+    return _read_json(path) if path.exists() else {}
+
+
+def write_plots(output_dir: Path) -> list[str]:
+    import matplotlib.pyplot as plt
+    from sklearn.metrics import precision_recall_curve, roc_curve
+
+    plot_dir = output_dir / "plots"
+    plot_dir.mkdir(parents=True, exist_ok=True)
+    generated: list[str] = []
+    for prediction_path in sorted(output_dir.glob("predictions_*.csv")):
+        data = pd.read_csv(prediction_path)
+        if data["y_true"].nunique() < 2:
+            continue
+        y = data["y_true"].to_numpy(dtype=int)
+        p = data["score"].to_numpy(dtype=float)
+        label = prediction_path.stem.removeprefix("predictions_")
+        fpr, tpr, _ = roc_curve(y, p)
+        precision, recall, _ = precision_recall_curve(y, p)
+        for suffix, x, series, title, xlabel, ylabel in (
+            ("roc", fpr, tpr, "ROC curve", "False positive rate", "True positive rate"),
+            ("pr", recall, precision, "Precision-recall curve", "Recall", "Precision"),
+        ):
+            figure, axis = plt.subplots(figsize=(5, 4))
+            axis.plot(x, series)
+            axis.set_title(f"{label} {title}")
+            axis.set_xlabel(xlabel)
+            axis.set_ylabel(ylabel)
+            figure.tight_layout()
+            path = plot_dir / f"{label}_{suffix}.png"
+            figure.savefig(path, dpi=150)
+            plt.close(figure)
+            generated.append(path.relative_to(output_dir).as_posix())
+        bins = np.linspace(0.0, 1.0, 11)
+        centers: list[float] = []
+        observed: list[float] = []
+        for lower, upper in zip(bins[:-1], bins[1:]):
+            mask = (p >= lower) & ((p < upper) if upper < 1 else (p <= upper))
+            if mask.any():
+                centers.append(float(p[mask].mean()))
+                observed.append(float(y[mask].mean()))
+        figure, axis = plt.subplots(figsize=(5, 4))
+        axis.plot([0, 1], [0, 1], "--", color="gray")
+        axis.plot(centers, observed, marker="o")
+        axis.set_title(f"{label} calibration")
+        axis.set_xlabel("Mean predicted score")
+        axis.set_ylabel("Observed positive frequency")
+        figure.tight_layout()
+        path = plot_dir / f"{label}_calibration.png"
+        figure.savefig(path, dpi=150)
+        plt.close(figure)
+        generated.append(path.relative_to(output_dir).as_posix())
+    return generated
+
+
+def write_provenance_manifest(output_dir: Path) -> dict[str, object]:
+    protocol = _optional_json(output_dir / "protocol.json")
+    start_state = _optional_json(output_dir / "implementation_start_state.json")
+    candidate_evidence = {}
+    for candidate_id in CANDIDATE_IDS:
+        path = output_dir / f"validation_{candidate_id}.json"
+        if path.exists():
+            candidate_evidence[candidate_id] = _read_json(path)
+    package_versions = {}
+    for package in ("tabpfn", "tabicl", "scikit-learn", "numpy", "pandas", "torch", "psutil", "matplotlib"):
+        try:
+            package_versions[package] = importlib.metadata.version(package)
+        except importlib.metadata.PackageNotFoundError:
+            package_versions[package] = None
+    manifest = {
+        "experiment_id": EXPERIMENT_ID,
+        "created_utc": datetime.now(timezone.utc).isoformat(),
+        "repository_start_state": start_state,
+        "environment": {
+            "python": sys.version,
+            "platform": platform.platform(),
+            "package_versions": package_versions,
+            "pip_check_path": "pip_check.txt",
+            "pip_freeze_path": "environment_freeze.txt",
+            "pip_check": (output_dir / "pip_check.txt").read_text(encoding="utf-8") if (output_dir / "pip_check.txt").exists() else None,
+        },
+        "protocol_sha256": sha256_file(output_dir / "protocol.json") if (output_dir / "protocol.json").exists() else None,
+        "protocol": protocol,
+        "manifest_sha256": protocol.get("manifest_sha256"),
+        "feature_contract": {
+            "target_column": TARGET_COLUMN,
+            "feature_columns": FEATURE_COLUMNS,
+            "numeric_features": NUMERIC_FEATURES,
+            "categorical_features": CATEGORICAL_FEATURES,
+            "categorical_feature_indices": CATEGORICAL_FEATURE_INDICES,
+        },
+        "metric_implementation": {
+            "classification": "rural_stroke_assist.evaluation.metrics.classification_metrics",
+            "calibration": "rural_stroke_assist.evaluation.metrics.calibration_error",
+            "bootstrap": "rural_stroke_assist.evaluation.bootstrap.stratified_bootstrap_ci",
+        },
+        "canonical_baseline": {
+            "path": str(CANONICAL_BASELINE),
+            "sha256": sha256_file(CANONICAL_BASELINE) if CANONICAL_BASELINE.exists() else None,
+            "historical_test_source": str(HISTORICAL_PHASE4),
+        },
+        "candidate_terminal_evidence": candidate_evidence,
+    }
+    write_json_atomic(output_dir / "provenance_manifest.json", manifest)
+    return manifest
+
+
+def write_artifact_hash_manifest(output_dir: Path) -> dict[str, str]:
+    manifest: dict[str, str] = {}
+    for path in sorted(output_dir.rglob("*")):
+        if not path.is_file() or path.name == "artifact_hashes.json":
+            continue
+        manifest[path.relative_to(output_dir).as_posix()] = sha256_file(path)
+    write_json_atomic(output_dir / "artifact_hashes.json", manifest)
+    return manifest
+
+
+def _format_metric_value(value: object) -> str:
+    if value is None:
+        return "n/a"
+    if isinstance(value, float):
+        return f"{value:.6f}"
+    return str(value)
+
+
+def write_report(output_dir: Path) -> str:
+    selection = _optional_json(output_dir / "selection_frozen.json")
+    selected_test = _optional_json(output_dir / "selected_test_metrics.json")
+    historical = _optional_json(HISTORICAL_PHASE4)
+    historical_metrics = historical.get("metrics", {}) if isinstance(historical.get("metrics", {}), dict) else {}
+    lines = [
+        "# Metadata Pretrained Foundation Trial 001",
+        "",
+        "This is a research-only evaluation of contextual/background-risk evidence from structured metadata. It does not diagnose acute stroke, change fusion, or modify production inference.",
+        "",
+        "## Baseline",
+        "",
+        "The frozen Logistic Regression artifact was replayed on validation only. Its Phase 4 test metrics are shown only as historical/previously exposed context; this trial did not freshly load or evaluate Logistic Regression on test.",
+        "",
+        f"Historical Phase 4 baseline test ROC-AUC: {_format_metric_value(historical_metrics.get('roc_auc'))}; PR-AUC: {_format_metric_value(historical_metrics.get('pr_auc'))}; precision: {_format_metric_value(historical_metrics.get('precision'))}.",
+        "",
+        "## Pretrained candidates",
+        "",
+        "TabPFN v2 was explicitly selected through ModelVersion.V2 with canonical categorical positions and the CPU pretraining-limit override recorded when applicable. TabICLv2 used the pinned classification checkpoint `tabicl-classifier-v2-20260212.ckpt`. Neither candidate was fine-tuned, oversampled, or broadly searched.",
+        "",
+        "## Validation comparison",
+        "",
+        "Validation PR-AUC/average precision is primary because the positive class is rare. ROC-AUC can remain high while precision and PR-AUC remain modest because most thresholded positives can be false positives under severe imbalance.",
+        "",
+        "| Candidate | Status | Validation PR-AUC | Validation ROC-AUC | N | Positive prevalence |",
+        "|---|---|---:|---:|---:|---:|",
+    ]
+    comparison_path = output_dir / "validation_comparison.csv"
+    if comparison_path.exists():
+        for row in csv.DictReader(comparison_path.open("r", newline="", encoding="utf-8")):
+            lines.append("| {candidate_id} | {status} | {validation_pr_auc} | {validation_roc_auc} | {n} | {positive_prevalence} |".format(**{key: row.get(key, "") for key in ("candidate_id", "status", "validation_pr_auc", "validation_roc_auc", "n", "positive_prevalence")}))
+    lines += [
+        "",
+        "## Validation decision",
+        "",
+        f"Selected pretrained candidate: `{selection.get('candidate_id', 'not frozen')}`. The decision used validation PR-AUC first, the inclusive 0.01 absolute near-tie margin, and the predeclared resource tie-break. Selection was frozen before test access.",
+        "",
+        "Terminal evidence for both pretrained candidates is hash-bound in `selection_frozen.json`; failed candidates remain explicit evidence rather than being silently omitted.",
+        "",
+        "## Final frozen test result",
+        "",
+        f"Selected candidate: `{selected_test.get('candidate_id', selection.get('candidate_id', 'not evaluated'))}`. Test evaluation was limited to the frozen selected pretrained candidate after evidence verification.",
+        "",
+    ]
+    test_metrics = selected_test.get("metrics", {}) if isinstance(selected_test.get("metrics", {}), dict) else {}
+    if test_metrics:
+        lines.append("Test metrics: " + "; ".join(f"{key}={_format_metric_value(value)}" for key, value in test_metrics.items() if key not in {"confusion_matrix"}) + ".")
+    else:
+        lines.append("Selected-candidate test metrics were not present in this fixture/output directory.")
+    lines += [
+        "",
+        "## Calibration and class-imbalance interpretation",
+        "",
+        "Calibration diagnostics are reported for score behavior only. A foundation-model score is not a calibrated acute stroke probability. Improved ranking, if observed, does not change the contextual-risk interpretation or establish clinical diagnostic performance.",
+        "",
+        "## Engineering trade-off",
+        "",
+        "Measured local checkpoint size, initialization/context-fit cost, fixed-batch latency, whole-validation latency, and peak RSS are separated from upstream/documented model characteristics. Desktop measurements do not establish smartphone feasibility.",
+        "",
+        "## Final model-role recommendation",
+        "",
+        f"Reference/research metadata model: `{selection.get('candidate_id', 'selected pretrained candidate')}` subject to the validation evidence and resource costs recorded here.",
+        "Lightweight edge/deployment metadata model: retain the canonical Logistic Regression alternative unless a separate production approval changes that role. No production integration is performed by this experiment.",
+        "",
+        "## Limitations",
+        "",
+        "- Severe class imbalance and only a small number of positive examples make precision, PR-AUC, calibration, and bootstrap intervals uncertain.",
+        "- The target and metadata branch are proxy/contextual risk evidence, not acute stroke diagnosis or a clinical probability.",
+        "- There is no paired multimodal clinical validation and no clinical probability interpretation.",
+        "- The historical Phase 4 baseline test metrics were previously exposed; the new trial uses them only as labeled context.",
+        "- Runtime and memory measurements are local desktop/process observations, not deployment feasibility claims.",
+        "",
+    ]
+    report = "\n".join(lines)
+    (output_dir / "REPORT.md").write_text(report, encoding="utf-8")
+    return report
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("stage", choices=("validate", "select", "test"))
+    parser.add_argument("--device", choices=("cpu", "cuda"), default="cpu")
+    parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
+    parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
+    args = parser.parse_args(argv)
+    if args.stage == "validate":
+        run_validation(args.output_dir, args.manifest, device=args.device)
+    elif args.stage == "select":
+        run_selection(args.output_dir)
+    else:
+        run_test(args.output_dir, args.manifest, device=args.device)
+        write_plots(args.output_dir)
+        write_provenance_manifest(args.output_dir)
+        write_report(args.output_dir)
+        write_artifact_hash_manifest(args.output_dir)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

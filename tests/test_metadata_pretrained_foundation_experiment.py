@@ -1,11 +1,10 @@
 import json
+from pathlib import Path
 import sys
 import types
-from pathlib import Path
 
 import pandas as pd
 import pytest
-
 import scripts.metadata_pretrained_foundation_experiment as experiment
 
 
@@ -354,3 +353,45 @@ def write_completed_validation_and_test_fixture(root):
         json.dumps({"candidate_id": "tabicl_v2", "status": "completed"}, sort_keys=True) + "\n",
         encoding="utf-8",
     )
+
+
+def test_report_contains_required_sections_and_contextual_semantics(tmp_path):
+    write_completed_validation_and_test_fixture(tmp_path)
+
+    experiment.write_report(tmp_path)
+    report = (tmp_path / "REPORT.md").read_text(encoding="utf-8")
+
+    for heading in (
+        "## Baseline", "## Pretrained candidates", "## Validation comparison",
+        "## Validation decision", "## Final frozen test result",
+        "## Calibration and class-imbalance interpretation",
+        "## Engineering trade-off", "## Final model-role recommendation",
+        "## Limitations",
+    ):
+        assert heading in report
+    assert "contextual" in report.lower()
+    assert "acute stroke probability" in report.lower()
+    assert "clinical" in report.lower()
+
+
+def test_artifact_hash_manifest_excludes_itself(tmp_path):
+    (tmp_path / "validation_comparison.csv").write_text("candidate_id\n", encoding="utf-8")
+    (tmp_path / "validation_metrics.json").write_text("{}\n", encoding="utf-8")
+    (tmp_path / "artifact_hashes.json").write_text("{}\n", encoding="utf-8")
+
+    manifest = experiment.write_artifact_hash_manifest(tmp_path)
+
+    assert manifest["validation_comparison.csv"]
+    assert manifest["validation_metrics.json"]
+    assert "artifact_hashes.json" not in manifest
+
+
+def test_selection_checksum_is_one_way(tmp_path):
+    write_completed_validation_fixture(tmp_path)
+    experiment.run_selection(tmp_path)
+
+    snapshot = json.loads((tmp_path / "selection_frozen.json").read_text(encoding="utf-8"))
+    checksum = (tmp_path / "selection_frozen.sha256").read_text(encoding="utf-8").strip()
+
+    assert "selection_frozen.sha256" not in snapshot
+    assert checksum == experiment.sha256_file(tmp_path / "selection_frozen.json")
