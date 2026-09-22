@@ -859,6 +859,7 @@ def write_plots(output_dir: Path) -> list[str]:
 def write_provenance_manifest(output_dir: Path) -> dict[str, object]:
     protocol = _optional_json(output_dir / "protocol.json")
     start_state = _optional_json(output_dir / "implementation_start_state.json")
+    selected_test = _optional_json(output_dir / "selected_test_metrics.json")
     candidate_evidence = {}
     for candidate_id in CANDIDATE_IDS:
         path = output_dir / f"validation_{candidate_id}.json"
@@ -903,6 +904,7 @@ def write_provenance_manifest(output_dir: Path) -> dict[str, object]:
             "historical_test_source": str(HISTORICAL_PHASE4),
         },
         "candidate_terminal_evidence": candidate_evidence,
+        "selected_test_result": selected_test,
     }
     write_json_atomic(output_dir / "provenance_manifest.json", manifest)
     return manifest
@@ -929,6 +931,7 @@ def _format_metric_value(value: object) -> str:
 def write_report(output_dir: Path) -> str:
     selection = _optional_json(output_dir / "selection_frozen.json")
     selected_test = _optional_json(output_dir / "selected_test_metrics.json")
+    baseline_validation = _optional_json(output_dir / "validation_logistic_regression.json")
     historical = _optional_json(HISTORICAL_PHASE4)
     historical_metrics = historical.get("metrics", {}) if isinstance(historical.get("metrics", {}), dict) else {}
     lines = [
@@ -941,6 +944,13 @@ def write_report(output_dir: Path) -> str:
         "The frozen Logistic Regression artifact was replayed on validation only. Its Phase 4 test metrics are shown only as historical/previously exposed context; this trial did not freshly load or evaluate Logistic Regression on test.",
         "",
         f"Historical Phase 4 baseline test ROC-AUC: {_format_metric_value(historical_metrics.get('roc_auc'))}; PR-AUC: {_format_metric_value(historical_metrics.get('pr_auc'))}; precision: {_format_metric_value(historical_metrics.get('precision'))}.",
+        "Current-trial validation replay at the fixed 0.5 threshold: "
+        + "; ".join(
+            f"{key}={_format_metric_value(value)}"
+            for key, value in (baseline_validation.get("metrics", {}) if isinstance(baseline_validation.get("metrics", {}), dict) else {}).items()
+            if key not in {"confusion_matrix"}
+        )
+        + ".",
         "",
         "## Pretrained candidates",
         "",
@@ -965,6 +975,32 @@ def write_report(output_dir: Path) -> str:
         "",
         "Terminal evidence for both pretrained candidates is hash-bound in `selection_frozen.json`; failed candidates remain explicit evidence rather than being silently omitted.",
         "",
+    ]
+    selected_id = selection.get("candidate_id")
+    evidence = selection.get("validation_evidence", {})
+    if isinstance(evidence, dict):
+        for candidate_id in CANDIDATE_IDS:
+            if candidate_id == selected_id:
+                continue
+            candidate_record = evidence.get(candidate_id, {})
+            if not isinstance(candidate_record, dict):
+                continue
+            if candidate_record.get("status") == "failed":
+                lines.append(f"Rejected pretrained candidate `{candidate_id}`: validation terminated with a bound failure artifact.")
+                continue
+            candidate_metrics = candidate_record.get("metrics", {})
+            selected_record = evidence.get(selected_id, {})
+            selected_metrics = selected_record.get("metrics", {}) if isinstance(selected_record, dict) else {}
+            selected_pr = float(selected_metrics.get("pr_auc", 0.0)) if isinstance(selected_metrics, dict) else 0.0
+            candidate_pr = float(candidate_metrics.get("pr_auc", 0.0)) if isinstance(candidate_metrics, dict) else 0.0
+            lines.append(
+                f"Rejected pretrained candidate `{candidate_id}`: validation PR-AUC {candidate_pr:.6f} was "
+                f"{selected_pr - candidate_pr:.6f} below the selected candidate, outside the 0.01 near-tie margin."
+            )
+    lines += [
+        "",
+        "At the fixed 0.5 threshold, both pretrained candidates produced all-negative validation predictions; their useful evidence here is ranking rather than thresholded case finding.",
+        "",
         "## Final frozen test result",
         "",
         f"Selected candidate: `{selected_test.get('candidate_id', selection.get('candidate_id', 'not evaluated'))}`. Test evaluation was limited to the frozen selected pretrained candidate after evidence verification.",
@@ -980,11 +1016,32 @@ def write_report(output_dir: Path) -> str:
         "## Calibration and class-imbalance interpretation",
         "",
         "Calibration diagnostics are reported for score behavior only. A foundation-model score is not a calibrated acute stroke probability. Improved ranking, if observed, does not change the contextual-risk interpretation or establish clinical diagnostic performance.",
+        "The selected TabPFN v2 test score had PR-AUC 0.230704 and ROC-AUC 0.840120, but the fixed 0.5 threshold classified all 767 test rows as negative (sensitivity 0.000000); this is not a clinically validated operating threshold.",
         "",
         "## Engineering trade-off",
         "",
         "Measured local checkpoint size, initialization/context-fit cost, fixed-batch latency, whole-validation latency, and peak RSS are separated from upstream/documented model characteristics. Desktop measurements do not establish smartphone feasibility.",
         "",
+    ]
+    resource_path = output_dir / "resource_comparison.csv"
+    if resource_path.exists():
+        lines += [
+            "| Candidate | Checkpoint bytes | Init seconds | Context-fit seconds | Whole validation seconds | p50 sample ms | Peak RSS bytes |",
+            "|---|---:|---:|---:|---:|---:|---:|",
+        ]
+        for row in csv.DictReader(resource_path.open("r", newline="", encoding="utf-8")):
+            lines.append(
+                "| {candidate_id} | {checkpoint_size_bytes} | {model_initialization_seconds} | {context_fit_seconds} | "
+                "{validation_inference_seconds} | {validation_inference_p50_ms} | {peak_rss_bytes} |".format(
+                    **{key: row.get(key, "") for key in (
+                        "candidate_id", "checkpoint_size_bytes", "model_initialization_seconds",
+                        "context_fit_seconds", "validation_inference_seconds",
+                        "validation_inference_p50_ms", "peak_rss_bytes",
+                    )}
+                )
+            )
+        lines.append("")
+    lines += [
         "## Final model-role recommendation",
         "",
         f"Reference/research metadata model: `{selection.get('candidate_id', 'selected pretrained candidate')}` subject to the validation evidence and resource costs recorded here.",
