@@ -10,6 +10,7 @@ import argparse
 import csv
 from datetime import datetime, timezone
 import hashlib
+import importlib
 import importlib.metadata
 import json
 import math
@@ -23,16 +24,21 @@ from typing import Any, Callable, Iterable, Sequence
 import numpy as np
 import pandas as pd
 
-from rural_stroke_assist.evaluation.bootstrap import stratified_bootstrap_ci
-from rural_stroke_assist.evaluation.metrics import classification_metrics, metric_dict
-from rural_stroke_assist.preprocessing.metadata import (
-    CATEGORICAL_FEATURES,
-    FEATURE_COLUMNS,
-    NUMERIC_FEATURES,
-    TARGET_COLUMN,
-)
-
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+_bootstrap_module = importlib.import_module("rural_stroke_assist.evaluation.bootstrap")
+_metrics_module = importlib.import_module("rural_stroke_assist.evaluation.metrics")
+_metadata_module = importlib.import_module("rural_stroke_assist.preprocessing.metadata")
+stratified_bootstrap_ci = _bootstrap_module.stratified_bootstrap_ci
+classification_metrics = _metrics_module.classification_metrics
+metric_dict = _metrics_module.metric_dict
+CATEGORICAL_FEATURES = _metadata_module.CATEGORICAL_FEATURES
+FEATURE_COLUMNS = _metadata_module.FEATURE_COLUMNS
+NUMERIC_FEATURES = _metadata_module.NUMERIC_FEATURES
+TARGET_COLUMN = _metadata_module.TARGET_COLUMN
+
 EXPERIMENT_ID = "metadata_pretrained_foundation_trial_001"
 DEFAULT_OUTPUT_DIR = ROOT / "reports" / "experiments" / EXPERIMENT_ID
 DEFAULT_CACHE_DIR = ROOT / "data" / "processed" / "experiments" / EXPERIMENT_ID
