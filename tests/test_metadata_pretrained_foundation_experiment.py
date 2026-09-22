@@ -153,3 +153,204 @@ def test_training_subset_fingerprint_binds_order_schema_dtypes_and_contract():
     assert first["sha256"]
     assert first["feature_columns"] == experiment.FEATURE_COLUMNS
     assert first["dtypes"]["age"] == "float64"
+
+
+def test_validation_requests_only_train_and_val(monkeypatch, tmp_path):
+    requested = []
+
+    def fake_loader(path, splits):
+        requested.append(tuple(splits))
+        return pd.DataFrame({
+            "age": [40.0, 70.0], "hypertension": [0, 1], "heart_disease": [0, 0],
+            "avg_glucose_level": [90.0, 180.0], "bmi": [25.0, 31.0],
+            "gender": ["Female", "Male"], "ever_married": ["No", "Yes"],
+            "work_type": ["Private", "Private"], "Residence_type": ["Rural", "Urban"],
+            "smoking_status": ["never smoked", "formerly smoked"],
+            "stroke": [0, 1], "split": ["train", "val"],
+        })
+
+    def fake_baseline_runner(frame, output_dir):
+        return {"candidate_id": "logistic_regression", "status": "completed", "metrics": {"pr_auc": 0.2}}
+
+    def fake_candidate_runner(frame, output_dir, candidate_id):
+        return {"candidate_id": candidate_id, "status": "completed", "metrics": {"pr_auc": 0.1}}
+
+    monkeypatch.setattr(experiment, "load_requested_splits", fake_loader)
+
+    experiment.run_validation(
+        tmp_path,
+        Path("data/processed/metadata_split_manifest.csv"),
+        candidate_ids=("tabpfn_v2", "tabicl_v2"),
+        loader=fake_loader,
+        baseline_runner=fake_baseline_runner,
+        candidate_runner=fake_candidate_runner,
+    )
+
+    assert requested == [("train", "val")]
+
+
+def test_selection_snapshot_binds_candidate_and_resource_hashes(tmp_path):
+    write_completed_validation_fixture(tmp_path)
+
+    selection = experiment.run_selection(tmp_path)
+
+    assert selection["test_used_for_selection"] is False
+    assert selection["candidate_id"] == "tabicl_v2"
+    assert selection["protocol_sha256"]
+    assert set(selection["validation_evidence"]) == {"tabpfn_v2", "tabicl_v2"}
+    assert all(item["status"] == "completed" for item in selection["validation_evidence"].values())
+    assert selection["resource_comparison_sha256"]
+
+
+def test_material_pr_auc_gap_selects_best_candidate_before_resources(tmp_path):
+    write_completed_validation_fixture(tmp_path)
+    set_validation_pr_auc(tmp_path, "tabicl_v2", 0.10)
+
+    selection = experiment.run_selection(tmp_path)
+
+    assert selection["candidate_id"] == "tabpfn_v2"
+
+
+def test_tampered_validation_evidence_blocks_test_before_test_rows(monkeypatch, tmp_path):
+    write_completed_validation_fixture(tmp_path)
+    experiment.run_selection(tmp_path)
+    (tmp_path / "validation_tabpfn_v2.json").write_text("{}\n", encoding="utf-8")
+    loaded = False
+
+    def fail_if_test_loaded(*args, **kwargs):
+        nonlocal loaded
+        loaded = True
+        raise AssertionError("test rows were loaded before hash verification")
+
+    monkeypatch.setattr(experiment, "load_requested_splits", fail_if_test_loaded)
+
+    with pytest.raises(ValueError, match="validation evidence hash mismatch"):
+        experiment.run_test(tmp_path, Path("manifest.csv"))
+
+    assert loaded is False
+
+
+def test_one_failed_candidate_selects_completed_candidate_and_binds_failure(tmp_path):
+    write_one_failed_validation_fixture(tmp_path)
+
+    selection = experiment.run_selection(tmp_path)
+
+    assert selection["candidate_id"] == "tabpfn_v2"
+    assert selection["validation_evidence"]["tabicl_v2"]["status"] == "failed"
+    assert selection["validation_evidence"]["tabicl_v2"]["failure_artifact_sha256"]
+
+
+def test_zero_completed_candidates_prohibits_selection_and_test(tmp_path):
+    write_zero_completed_validation_fixture(tmp_path)
+
+    with pytest.raises(ValueError, match="zero completed pretrained candidates"):
+        experiment.run_selection(tmp_path)
+    assert not (tmp_path / "selection_frozen.json").exists()
+    with pytest.raises(ValueError, match="selection is not frozen"):
+        experiment.run_test(tmp_path, Path("manifest.csv"))
+
+
+def test_selection_and_test_are_one_time_operations(tmp_path):
+    write_completed_validation_fixture(tmp_path)
+    experiment.run_selection(tmp_path)
+    with pytest.raises(ValueError, match="selection is already frozen"):
+        experiment.run_selection(tmp_path)
+    mark_test_completed(tmp_path)
+    with pytest.raises(ValueError, match="test stage has already run"):
+        experiment.run_test(tmp_path, Path("manifest.csv"))
+
+
+def write_completed_validation_fixture(root):
+    (root / "protocol.json").write_text(json.dumps({
+        "protocol_version": "metadata_pretrained_foundation_trial_001",
+        "manifest_sha256": "manifest-hash",
+        "selection_margin": 0.01,
+    }, sort_keys=True) + "\n", encoding="utf-8")
+
+    resource_rows = []
+    for candidate_id, pr_auc, size_bytes in (
+        ("tabpfn_v2", 0.22, 200),
+        ("tabicl_v2", 0.21, 100),
+    ):
+        prediction_path = root / f"predictions_{candidate_id}.csv"
+        prediction_path.write_text("y_true,score\n0,0.1\n1,0.9\n", encoding="utf-8")
+        metric_path = root / f"validation_{candidate_id}.json"
+        metric_path.write_text(json.dumps({
+            "candidate_id": candidate_id,
+            "status": "completed",
+            "metrics": {"pr_auc": pr_auc},
+            "prediction_artifact": prediction_path.name,
+            "prediction_artifact_sha256": experiment.sha256_file(prediction_path),
+            "model_identity": {
+                "model_id": candidate_id,
+                "checkpoint_id": f"{candidate_id}-checkpoint",
+                "package_version": "pinned-test-version",
+            },
+        }, sort_keys=True) + "\n", encoding="utf-8")
+        resource_rows.append(f"{candidate_id},{size_bytes},1.0,1000\n")
+
+    (root / "validation_comparison.csv").write_text(
+        "candidate_id,pr_auc\ntabpfn_v2,0.22\ntabicl_v2,0.21\n",
+        encoding="utf-8",
+    )
+    (root / "resource_comparison.csv").write_text(
+        "candidate_id,checkpoint_size_bytes,validation_inference_p50_ms,peak_rss_bytes\n"
+        + "".join(resource_rows),
+        encoding="utf-8",
+    )
+
+
+def mark_test_completed(root):
+    (root / "test_lock.json").write_text(
+        json.dumps({"status": "completed"}, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def replace_candidate_with_failure(root, candidate_id):
+    failure_path = root / f"failure_{candidate_id}.json"
+    failure_path.write_text(json.dumps({
+        "candidate_id": candidate_id,
+        "stage": "validation_inference",
+        "error_type": "RuntimeError",
+        "sanitized_message": "synthetic test failure",
+        "environment": {"python": "test", "package_version": "pinned-test-version"},
+    }, sort_keys=True) + "\n", encoding="utf-8")
+    (root / f"validation_{candidate_id}.json").write_text(json.dumps({
+        "candidate_id": candidate_id,
+        "status": "failed",
+        "model_identity": {
+            "model_id": candidate_id,
+            "checkpoint_id": f"{candidate_id}-checkpoint",
+            "package_version": "pinned-test-version",
+        },
+        "failure_artifact": failure_path.name,
+        "failure_artifact_sha256": experiment.sha256_file(failure_path),
+    }, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def set_validation_pr_auc(root, candidate_id, pr_auc):
+    path = root / f"validation_{candidate_id}.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["metrics"]["pr_auc"] = pr_auc
+    path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def write_one_failed_validation_fixture(root):
+    write_completed_validation_fixture(root)
+    replace_candidate_with_failure(root, "tabicl_v2")
+
+
+def write_zero_completed_validation_fixture(root):
+    write_completed_validation_fixture(root)
+    replace_candidate_with_failure(root, "tabpfn_v2")
+    replace_candidate_with_failure(root, "tabicl_v2")
+
+
+def write_completed_validation_and_test_fixture(root):
+    write_completed_validation_fixture(root)
+    experiment.run_selection(root)
+    (root / "selected_test_metrics.json").write_text(
+        json.dumps({"candidate_id": "tabicl_v2", "status": "completed"}, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
