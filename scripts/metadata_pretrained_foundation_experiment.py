@@ -433,7 +433,7 @@ def _model_file_size(model: Any) -> int | None:
 
 
 def _read_json(path: Path) -> dict[str, object]:
-    return json.loads(path.read_text(encoding="utf-8"))
+    return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
 def _write_resource_comparison(output_dir: Path, resources: list[dict[str, object]]) -> None:

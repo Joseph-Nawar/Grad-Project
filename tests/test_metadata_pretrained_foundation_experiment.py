@@ -406,3 +406,10 @@ def test_runner_imports_torch_before_sklearn_backed_project_modules():
         check=False,
     )
     assert result.returncode == 0, result.stderr
+
+
+def test_json_reader_accepts_windows_utf8_bom(tmp_path):
+    path = tmp_path / "bom.json"
+    path.write_text(json.dumps({"ok": True}), encoding="utf-8-sig")
+
+    assert experiment._read_json(path) == {"ok": True}
