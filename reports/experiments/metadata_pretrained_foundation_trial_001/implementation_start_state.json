@@ -1,0 +1,235 @@
+﻿{
+    "captured_utc":  "2026-09-22T10:39:05.7117966Z",
+    "branch":  "prod_drift_eval",
+    "head_sha":  "5cf62f83fe407bb02aef7897590cfc2a48fe0ae3",
+    "upstream":  "origin/prod_drift_eval",
+    "status_short":  [
+                         " M .dockerignore",
+                         " M .gitignore",
+                         " M compose.yaml",
+                         " M docs/production/ROADMAP_TRACEABILITY.md",
+                         " M reports/production/stage4/compose-e2e.json",
+                         " M requirements-api-runtime.txt",
+                         " M requirements-edge-runtime.txt",
+                         " M requirements-ui-runtime.txt",
+                         " M requirements.txt",
+                         " M rural_stroke_assist/assessment/factory.py",
+                         " M rural_stroke_assist/assessment/service.py",
+                         " M rural_stroke_assist/client/sync_http.py",
+                         " M rural_stroke_assist/offline/worker.py",
+                         " M rural_stroke_assist/server/api/schemas/assessments.py",
+                         " M rural_stroke_assist/server/api/schemas/common.py",
+                         " M rural_stroke_assist/server/app.py",
+                         " M scripts/check_repo_hygiene.py",
+                         " M scripts/run_collector_sync.py",
+                         " M scripts/stack.py",
+                         "?? compose.stage7.toxiproxy.yaml",
+                         "?? docs/operations/",
+                         "?? docs/security/",
+                         "?? docs/superpowers/",
+                         "?? observability/",
+                         "?? performance/",
+                         "?? reports/production/stage6/",
+                         "?? reports/production/stage7/",
+                         "?? requirements-pretrained-speech-experiment.txt",
+                         "?? rural_stroke_assist/observability/",
+                         "?? scripts/speech_pretrained_representation_experiment.py",
+                         "?? scripts/stage6/",
+                         "?? scripts/stage7/",
+                         "?? tests/observability/",
+                         "?? tests/stage7/",
+                         "?? tests/test_speech_pretrained_representation_experiment.py"
+                     ],
+    "staged_paths":  [
+
+                     ],
+    "deleted_or_renamed_paths":  [
+
+                                 ],
+    "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unstaged_diff_sha256":  "456f5833ed0f97eed1b62fed069237eb2f62dd07aadaa8c09ed873cc6f49a1a6",
+    "preexisting_tracked":  {
+                                ".dockerignore":  {
+                                                      "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                      "unstaged_diff_sha256":  "1c74225d00821a551a4b69470bd04361d666a17af791121a509338167480c3f6"
+                                                  },
+                                ".gitignore":  {
+                                                   "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                   "unstaged_diff_sha256":  "73d6ebf68041b7d2550c5716306f7438eac2925aaf53945c2dfe8408443d0531"
+                                               },
+                                "compose.yaml":  {
+                                                     "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                     "unstaged_diff_sha256":  "8a17c995b94fd3e2acbf7639da3e71b0f70982999488febebcc0de0ca1d7c842"
+                                                 },
+                                "docs/production/ROADMAP_TRACEABILITY.md":  {
+                                                                                "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                                "unstaged_diff_sha256":  "66630fbc4d43b1de223b1733c0f785b8ef71b771c2d86fc402801402e6d51049"
+                                                                            },
+                                "reports/production/stage4/compose-e2e.json":  {
+                                                                                   "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                                   "unstaged_diff_sha256":  "ad92ba38e76bd679ffc1246f4a94a9d1ad9fa39b67afc2e5816e0c11682a210f"
+                                                                               },
+                                "requirements.txt":  {
+                                                         "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                         "unstaged_diff_sha256":  "b9748ae93e46bd60972a5f1470f79581c8ee4fc6a53e21025038d29db4ad0306"
+                                                     },
+                                "requirements-api-runtime.txt":  {
+                                                                     "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                     "unstaged_diff_sha256":  "f0a3823015c16980db363b1303d11b18c2cf3629cbd31d8ea8959e2e7fab4c1f"
+                                                                 },
+                                "requirements-edge-runtime.txt":  {
+                                                                      "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                      "unstaged_diff_sha256":  "640b0e35122d7e39b96c6919d18531b42cc16c38b5d964b6a24f2095a964ac27"
+                                                                  },
+                                "requirements-ui-runtime.txt":  {
+                                                                    "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                    "unstaged_diff_sha256":  "30f46cdaddbd7a44f7c87526e85dd25ba9a401b4b5c6425cbeb735cbc693ca95"
+                                                                },
+                                "rural_stroke_assist/assessment/factory.py":  {
+                                                                                  "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                                  "unstaged_diff_sha256":  "ad5ae90d27b7dc0f26e2f80a7e9aeb731afcc129b38ad52de1c201f252c2680c"
+                                                                              },
+                                "rural_stroke_assist/assessment/service.py":  {
+                                                                                  "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                                  "unstaged_diff_sha256":  "d8ee58cde6777da79ab89a4a4a2f78246e4286bc6f9dc99ef6fe3b173fe70569"
+                                                                              },
+                                "rural_stroke_assist/client/sync_http.py":  {
+                                                                                "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                                "unstaged_diff_sha256":  "f777dc54346344fce5c424793451e6ced5e15137a0d9b925850b8cd7e0da6463"
+                                                                            },
+                                "rural_stroke_assist/offline/worker.py":  {
+                                                                              "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                              "unstaged_diff_sha256":  "87306263877f19350cb16d3d86dbc54c4ccf9ab641ed15ee8f334c4c8b688e8e"
+                                                                          },
+                                "rural_stroke_assist/server/api/schemas/assessments.py":  {
+                                                                                              "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                                              "unstaged_diff_sha256":  "2d9ad17e7dd4d120d223f693b7eaee4673ef2d674ec624377a89c9b18f109e51"
+                                                                                          },
+                                "rural_stroke_assist/server/api/schemas/common.py":  {
+                                                                                         "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                                         "unstaged_diff_sha256":  "ecedb8fa4feda0a14cd781221ec4805e4d4887e6043273c847f74ba5be13d77b"
+                                                                                     },
+                                "rural_stroke_assist/server/app.py":  {
+                                                                          "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                          "unstaged_diff_sha256":  "427116fbbefe60732785b5b942af4831bd13e5cb9ec1491064b90f6516b21f25"
+                                                                      },
+                                "scripts/check_repo_hygiene.py":  {
+                                                                      "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                      "unstaged_diff_sha256":  "ad17730b88e0debd5e666276740c4b10bf7867999685337ff0d9f1328d63ca73"
+                                                                  },
+                                "scripts/run_collector_sync.py":  {
+                                                                      "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                                      "unstaged_diff_sha256":  "ccb77af11de4dcca5ebecbd0ad8c04c1acec2ed822e7fc3daefa4e42eab4a6d0"
+                                                                  },
+                                "scripts/stack.py":  {
+                                                         "staged_diff_sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                                         "unstaged_diff_sha256":  "05ce2df69edc6c48e6939d784d123d70b26bc88b6b2230ae7b7c1548bf688eb5"
+                                                     }
+                            },
+    "preexisting_untracked_regular":  {
+                                          "compose.stage7.toxiproxy.yaml":  "13bb1ba0c4128e2db1d051c30c1e5b05acd1c71b8db6985c71a6be1e60e8ede9",
+                                          "docs/operations/OBSERVABILITY_RUNBOOK.md":  "4b8a4e2987910007307ce5ec200856aca2e24093972fd6bc218bbde6fa576ad4",
+                                          "docs/security/SECURITY_LIMITATIONS.md":  "9c3ad1e17d1505bb64b3b2481bbae34a970af77a47d7b7376a3b9a5acd82fbb1",
+                                          "docs/security/THREAT_MODEL.md":  "87ecec5a9935f0781f3320b4be93874334b16d2bea163a8e7cf91b56411fe8bc",
+                                          "docs/superpowers/plans/2026-09-22-metadata-pretrained-foundation-trial-001.md":  "58e857bed9822ec0776d22555c5086c7de99db911d323ef019a0deea23079c71",
+                                          "docs/superpowers/specs/2026-09-22-metadata-pretrained-foundation-trial-001-design.md":  "f7c90ce138a21396dc568fe18b144beffaa352d06bb9d5abae5d6d159aafd46e",
+                                          "observability/grafana/dashboards/ml-input-quality.json":  "0a6c05b71dae544af601df9a7a05dbfef54860b01d064b738b8beafbfca867f7",
+                                          "observability/grafana/dashboards/system-operations.json":  "a1570660a93e44c279f0e8bda7733dc63c536f1c546167ce72a6c1633baa59e6",
+                                          "observability/grafana/provisioning/dashboards/dashboards.yml":  "ef9c9da12f32ba99de2ffe2c5ed7691b8658982da2d76c41b7d883ef1779f94e",
+                                          "observability/grafana/provisioning/datasources/datasources.yml":  "6cf74a7c70976a1756e8587b3b9cdb6de296dee416d3f71ff868d8fe88d72a6c",
+                                          "observability/otel-collector-config.yaml":  "885d46626f7eb195ed2f2732019aec99670ada8baae036f9ecf12fed730c74ef",
+                                          "observability/prometheus/prometheus.yml":  "bb6fd663ef8d9b51c2d2eb6a2f9ec3d5165500d680f91cc9147c67d35672731c",
+                                          "observability/prometheus/rules/ruralstroke.yml":  "7d988c5d1a9da0237d3b7516f58dd7b67e5596bc586f74d57ec2dc20a8fcd694",
+                                          "observability/prometheus/tests/ruralstroke_rules.yml":  "edf2dbb28ebbfd592425bf86df1189cc802f55ce63ec38a681e426f48873809e",
+                                          "performance/k6/burst.js":  "f7190b0d220ee27f762d70dbd818d39501910f087784d474edd697c144e44bcb",
+                                          "performance/k6/capacity.js":  "9111c4e81e04ee715571046c75614f58f5e3e876e6373d669c9a502c04d5431f",
+                                          "performance/k6/helpers.js":  "b9e23bafdf4a22b07100b1741216db49fcc1d7330b77ef997d3890a2f1b23185",
+                                          "performance/k6/reference.js":  "85de6776c455757598ce8bb230b464dcba869d86c0d13f5b5c00a9d875eeb459",
+                                          "performance/k6/smoke.js":  "64601a97cd9993c644044ab7d5c47cabfb3b802aaa306571af63e2c02eca4bfb",
+                                          "reports/production/stage6/README.md":  "d0162fbc597210ec32c02dcab89828a07892b335f9c545e1b789d0ca9ed6745c",
+                                          "reports/production/stage6/bad_audio.json":  "8871f3d6fefd699e2989ee1b4e47bc32a7c30acd9a161291f6c651d4287db73a",
+                                          "reports/production/stage6/bad_audio.md":  "6ab04f19076870ba97976576dc6dd72ac0f70acc7af9b74289d285e9ce5fbc5c",
+                                          "reports/production/stage6/blurred_face.json":  "06bee37bdd171ca3e1dd47cfd31ece749d9dabd2796684fe0abad8ae10f98bff",
+                                          "reports/production/stage6/blurred_face.md":  "391433514e56abd161d2a317b4c723002bdbda24b1cb591b1edff2e74031f1a8",
+                                          "reports/production/stage6/compose-verification.json":  "fd7e4e22f24f872e49ea61e159b7b2d803807ed7bfeaee462ec94ef6d17bac57",
+                                          "reports/production/stage6/missing_api.json":  "a60a73413af64d92123ce86ed70051f3c38334b9ec48a3f3cb79d3a06cb1da50",
+                                          "reports/production/stage6/missing_api.md":  "0aed14ecccedf90edb5f250c3e3b0a6c221bed4b88837894e67bbafa0589770d",
+                                          "reports/production/stage6/production-image/bad_audio.json":  "254a925e8fa50a259bdf22af9dbbd0c10a927361fa4894eeedc76311db60ea20",
+                                          "reports/production/stage6/production-image/bad_audio.md":  "85f1327c5adbb6d487dd1f23f55292dd92cf467e3c81d9223ed289f73e9509b7",
+                                          "reports/production/stage6/production-image/blurred_face.json":  "928b48f45f5a13adf19fea273a7d186abc1303c548407990cbc17ecde10cf486",
+                                          "reports/production/stage6/production-image/blurred_face.md":  "beb308dcb5a853d4e7a0fec393ca1783a225ddc3f95451a8f930a0862b157512",
+                                          "reports/production/stage6/production-image/closure.json":  "f5e8af603c25dbb12a9bb860918b4dd79200a5de8cf6dcbf6e71b77159a11f14",
+                                          "reports/production/stage6/production-image/closure.md":  "731e0b77f0b9c9e4b360dad60b53da383d1f0a0fd20dbe1e1a6f9a270e9090b8",
+                                          "reports/production/stage6/production-image/missing_api.json":  "957eb88cbd204dedfe2184474077d5e86a509b596a3bcd7d669f47b2e6c9ca99",
+                                          "reports/production/stage6/production-image/missing_api.md":  "49e474e8a6fe9c2dc3b542d43d71a5abcc3e51a4f9c7e1e451e287b3ad1df4f2",
+                                          "reports/production/stage6/production-image/telemetry-outage-isolation.json":  "6099453a3f5533c48d6b012ea6437284aca99ceedd1370adeb3e09e91df783d3",
+                                          "reports/production/stage6/telemetry-outage-isolation.json":  "8669d1f7359d4a12e1c32d3e61290e6d0bdbf9f0118eca90b0f08d8e048b576d",
+                                          "reports/production/stage7/README.md":  "bf725a369941861d9b9526ec61b2c0a76ae623ad8196c2a098f20bc9195a1cd2",
+                                          "reports/production/stage7/environment.json":  "610ff16a2ce596269516943f7aa3496387ddc41943cd1eda5472ac8e18353050",
+                                          "reports/production/stage7/performance/README.md":  "5b59589e501e90c802a059e996f6ffca0dbf270e674306e186b6b4c680b42031",
+                                          "reports/production/stage7/performance/burst.json":  "371d69a6f90f55dd8abc05a45b9b7bc181ef102cef1b31c31483e6a02063f222",
+                                          "reports/production/stage7/performance/capacity.json":  "5f6000b722df801b8c417c45213b5711420cff956d98028730b61325e1f03c7e",
+                                          "reports/production/stage7/performance/reference.json":  "07a15c5d91bafc6ef7936fd4e98ede365764018a9ac1daf510d981402c255297",
+                                          "reports/production/stage7/performance/smoke.json":  "9c53aab691e33d878cb3ab162195c462721846fcf27cdc9a2687b07124703700",
+                                          "reports/production/stage7/reliability/faults.json":  "d8dd478a412db42bce57a51038ab07a2a36728bf9f78196f4190f22f270ed91e",
+                                          "reports/production/stage7/reliability/integrity.json":  "a00ae7388d214307326b2cbc146a9bb156aa7931d9684db6ad9ca74c1d6857ed",
+                                          "reports/production/stage7/security/authorization.json":  "0ca56727344dbe6fde11b06b28b6745ed7ee82cbb06fa7396d905c2026879847",
+                                          "reports/production/stage7/security/malformed_inputs.json":  "d13283f63de19dd9cd5a61b587968a3f939b225ede6d86cfa77067781f90fad0",
+                                          "reports/production/stage7/security/pip_audit.json":  "06ee585d1db14684df540e89cc625ba1aa5a3c61b30b73415d224d1c8449c84c",
+                                          "reports/production/stage7/security/trivy_api.json":  "eb896b2174b7a553846e88c2bf95065b4261c0710db2c6fe94e5841b183956cb",
+                                          "reports/production/stage7/security/trivy_collector.json":  "9bf454d7c0c88d3e80114ab17cc28fa39934f93e7a414253796311c0c812f410",
+                                          "reports/production/stage7/security/trivy_filesystem.json":  "f6c3e6e17bbb29ececb162505e8880b7f1fb75a4144ff8b87600c728cfbefbc1",
+                                          "reports/production/stage7/security/trivy_ui.json":  "c96bddce0502f4379a97cb92c9d02bc9bf1e70cd7aff3519a6b32063c7b4677f",
+                                          "reports/production/stage7/stage7_summary.json":  "e8a3a66bb33543ac0ac3cadecb847b2f2412c65c9daf9c99046881c501e7697f",
+                                          "requirements-pretrained-speech-experiment.txt":  "20e888b28447578c21674cc66c1402b0795ce9de18f3f5a75e6161a279570296",
+                                          "rural_stroke_assist/observability/__init__.py":  "06af6e219e1d0e86a39f915b0c2454b0b7026fe02c75c4759941afa271f319b4",
+                                          "rural_stroke_assist/observability/config.py":  "997cab8e94b4f36a744f75b3e48f78327f19182e9129a42df1ab3cbac4599c19",
+                                          "rural_stroke_assist/observability/logging.py":  "7c8bb4522990ded91e1ce1f15986f55202e5b0340f66038dbbc8023c251d8625",
+                                          "rural_stroke_assist/observability/metrics.py":  "be491a606a4a23d3bcb86f3058ed0d666a6daa1c862af1f11dd9689a0dbdaebb",
+                                          "rural_stroke_assist/observability/privacy.py":  "ea4a56b6f65bc5581479e6556c74d31624fa50bfd207ad1e2286bb35f187f125",
+                                          "rural_stroke_assist/observability/sqlalchemy.py":  "fabacbf324c52302685842a0b94b8344d42351c29cdec0c3310d5012331ed1b1",
+                                          "rural_stroke_assist/observability/telemetry.py":  "bc94d3275549533e52c153911aa0496baae6270d90202bb8e3a069a9a4a1c245",
+                                          "rural_stroke_assist/observability/tracing.py":  "26168f975069504c843d796f012c8cccd21640ad60eeee4875e08dad615e1122",
+                                          "scripts/speech_pretrained_representation_experiment.py":  "d608b11a6311bcfa76deeb6eabf84f1bf613628bb0ced58c6b1b6d70d95cec49",
+                                          "scripts/stage6/__init__.py":  "6d803459231af41f922d6deeed182f7c7cbd39fecc6c08b457160ccef4be0b2c",
+                                          "scripts/stage6/run_incident.py":  "06d1316bd624c8419f58083a39a1aba292586db44bb183d8c255414d448cb0b6",
+                                          "scripts/stage6/run_real_outage_isolation.py":  "14a7cac37333e81541e77b5da49dc2c180b3cb76842f2276ba71d8f6a48f0e39",
+                                          "scripts/stage6/serve_test_api.py":  "0872a8c1716d5245c5378ca582f683884a0d945fd4704e955dc546cfaa5332d7",
+                                          "scripts/stage7/__init__.py":  "6732e79bb105afc45e67fb65b1343e71693d78a8a475b4556ff283b25f16f3f7",
+                                          "scripts/stage7/collect_environment.py":  "a6a295a5873b020494d150e1959f22fe45552b1f95a0adcacff42e56f3a982bb",
+                                          "scripts/stage7/common.py":  "a912f1a77a164ef4049748deca6bee3856481d2d2c8925a97458defcf90d00cc",
+                                          "scripts/stage7/finalize.py":  "d4f21eb6a2a146d0348a06ae19aeba2519cdc94b5b9984247a8e3e3ede40bdbc",
+                                          "scripts/stage7/run_faults.py":  "6649e7b64e665ac7de1f714e76d828f9a1407bfc7df17cebeb862ef610f5591a",
+                                          "scripts/stage7/run_integrity_stress.py":  "5f684e64b0f7b7aa73055653e88d92570fb5970df692207b497c59a2ec2ebb44",
+                                          "scripts/stage7/run_live_security.py":  "595fc71d79b8b78e62b3f9c83ad6b320c8b2f2c87ae252efe6c04e4c01a986f2",
+                                          "scripts/stage7/run_performance.py":  "daad286e1817be6365a7d3c9cbaa08afde5eef8e00a73f687e9c67d82d1cc602",
+                                          "scripts/stage7/run_scans.py":  "8f99f052ec07efd5a1725475404b5d87be01fb5f0ee86bdd826b59fb5ca80fa7",
+                                          "scripts/stage7/security_matrix.py":  "5afcae8f0d6f784cd2965f4af802ca5ca723decf70c5f690b7b1ed6c61bf1448",
+                                          "tests/observability/__init__.py":  "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                                          "tests/observability/test_compose_profile.py":  "971877691247e0a5baea0d9f90749f818ea21b8b8592286e93cb9f7e67bdfb6a",
+                                          "tests/observability/test_evidence_privacy.py":  "5535ddda27db4f3dbc514eeb4784f6d12c66dda34957e5bd9bd1883b54418d65",
+                                          "tests/observability/test_incident_generator.py":  "c54260ab6cd3df09371890ec58724181f138a8f711852e1bee6247af7408bfc0",
+                                          "tests/observability/test_instrumentation.py":  "121f64fa42b62150311b37debf24edfe5661464d877f5251fc6aef8334b897ad",
+                                          "tests/observability/test_logging.py":  "ad29bc599c1bca91ccce2116aab3cca43ed73e0136eda8d77d3e0745bfd7eca2",
+                                          "tests/observability/test_metrics.py":  "8dbcc3aa5c715c1ee0b53b2a0665294acd8f0ba70f298a548b577767cb74bea9",
+                                          "tests/observability/test_outage_isolation.py":  "ef23aa2807c9804db162ce790585acb20d2d5733e6f76f3499e44070bb093309",
+                                          "tests/observability/test_privacy.py":  "ae5654b63f2e19c9dbc5fa88ce6fd3ae943040120670c6936a02bd9acbbd6ed2",
+                                          "tests/observability/test_prometheus_config.py":  "66bc2a36aedb59f2426724231c6873454a7fbc1d0c2056d7bb2f5170a32b86f1",
+                                          "tests/observability/test_runbook.py":  "9726e81fcbfe32994912e6b6eaafc566923bfd4dbeda45e33205524492e45571",
+                                          "tests/observability/test_telemetry_contract.py":  "fe9900a8b452b0d749746f35db8820a1708c655239e4da40af9176dc079e5812",
+                                          "tests/observability/test_test_route.py":  "4db799ec236f25ed4be9d53097011208526e9d83848c2ab46b05cb5ebe39d11a",
+                                          "tests/observability/test_tracing.py":  "f5cae2e9ac3fa4db82c3edacfaf1dfcad480b2e32e9750384f56b9cbd6db30ad",
+                                          "tests/observability/test_transport_instrumentation.py":  "edfcc9af4940a5521bd26f1027b30f22491e3b03ed4af4a5a716f44cdb3e9196",
+                                          "tests/stage7/__init__.py":  "42218bcaa8676ec583270f4290b1661d60035e955f960378a702e8d54294dd1d",
+                                          "tests/stage7/test_bounded_schema.py":  "7ac3acd6c580be31fff4ed3456e86c022d82038fe8e9ffc94a9f156e7fe6a304",
+                                          "tests/stage7/test_evidence_contracts.py":  "a5136636fc6c1afc2224c1b61bf298524d78f10f62b407b6884df8d8f743cf3a",
+                                          "tests/stage7/test_fault_harness.py":  "110b69d1555aa40c9845fd5b2502c9d0a7c2426e987d925c1042543048d6e989",
+                                          "tests/stage7/test_integrity_harness.py":  "d2d06cc2bce8f78c4bd7165add23fd406199474aa3860c9572b95a4149601d44",
+                                          "tests/stage7/test_k6_workloads.py":  "7d275167dabf1356d240721ae548ce20dbc4a10f3fbfd5ab36d72542e9b4c7bf",
+                                          "tests/stage7/test_performance_runner.py":  "1e3b621d281118caa6e3ed5441fe28d001999d8a0d010be73b5c2f2f1125e303",
+                                          "tests/stage7/test_scan_contracts.py":  "a1f3fe8fc53b44f094887a8e482460f789710391e3f05b430eea13c886d6d634",
+                                          "tests/stage7/test_security_docs.py":  "15d56ecce54afc55077658e9b10cc43be182463f91ffb1c5a92b37d9d1430f2d",
+                                          "tests/stage7/test_security_matrix.py":  "300b1f63925b85b7a0a0beab0e87e2bb4592b14974b1bd9dfaf0122094bf68c2",
+                                          "tests/test_speech_pretrained_representation_experiment.py":  "789a1efb6420e679c56a1c632c9d161b5110452f14fc8e01cd80061ad6e92031"
+                                      }
+}

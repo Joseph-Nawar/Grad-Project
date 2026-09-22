@@ -1,0 +1,1 @@
+candidate_id,checkpoint_size_bytes,model_initialization_seconds,context_fit_seconds,validation_inference_seconds,validation_inference_p50_ms,peak_rss_bytes

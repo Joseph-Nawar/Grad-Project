@@ -1,0 +1,4 @@
+candidate_id,status,validation_pr_auc,validation_roc_auc,n,positive_prevalence
+logistic_regression,completed,0.29657693527785456,0.8451785118451786,766,0.048302872062663184
+tabpfn_v2,failed,,,,
+tabicl_v2,failed,,,,
