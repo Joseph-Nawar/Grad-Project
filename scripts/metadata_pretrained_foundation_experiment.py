@@ -24,6 +24,11 @@ from typing import Any, Callable, Iterable, Sequence
 import numpy as np
 import pandas as pd
 
+# Import PyTorch before sklearn-backed project evaluation modules. On Windows,
+# the CPU torch DLL can fail to initialize if Intel/OpenMP libraries are loaded
+# first by scipy/sklearn.
+import torch  # noqa: F401
+
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))

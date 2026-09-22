@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import subprocess
 import sys
 import types
 
@@ -395,3 +396,13 @@ def test_selection_checksum_is_one_way(tmp_path):
 
     assert "selection_frozen.sha256" not in snapshot
     assert checksum == experiment.sha256_file(tmp_path / "selection_frozen.json")
+
+
+def test_runner_imports_torch_before_sklearn_backed_project_modules():
+    result = subprocess.run(
+        [sys.executable, "-c", "import scripts.metadata_pretrained_foundation_experiment; import torch"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
