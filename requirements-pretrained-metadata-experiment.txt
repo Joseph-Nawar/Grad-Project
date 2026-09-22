@@ -1,0 +1,11 @@
+tabpfn==9.0.0
+tabicl==2.2.0
+scikit-learn==1.4.2
+numpy
+pandas
+joblib
+torch
+psutil==7.1.0
+matplotlib==3.9.2
+pytest
+ruff==0.12.8

@@ -8,11 +8,13 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import importlib.metadata
 import json
 import math
 import os
 import platform
 import sys
+import time
 from pathlib import Path
 from typing import Any, Callable, Iterable, Sequence
 
@@ -209,4 +211,138 @@ def build_protocol_payload(device: str = "cpu") -> dict[str, object]:
             "tabpfn_v2": {"package": "tabpfn", "version": TABPFN_PACKAGE_VERSION, "model_version": "v2"},
             "tabicl_v2": {"package": "tabicl", "version": TABICL_PACKAGE_VERSION, "checkpoint": TABICL_CHECKPOINT},
         },
+    }
+
+
+def build_tabpfn_v2(device: str) -> Any:
+    from tabpfn import TabPFNClassifier
+    from tabpfn.constants import ModelVersion
+
+    overrides: dict[str, object] = {
+        "categorical_features_indices": CATEGORICAL_FEATURE_INDICES,
+        "device": device,
+        "random_state": SEED,
+    }
+    if device == "cpu":
+        overrides["ignore_pretraining_limits"] = True
+    return TabPFNClassifier.create_default_for_version(ModelVersion.V2, **overrides)
+
+
+def build_tabicl_v2(device: str) -> Any:
+    from tabicl import TabICLClassifier
+
+    return TabICLClassifier(
+        checkpoint_version=TABICL_CHECKPOINT,
+        device=device,
+        random_state=SEED,
+        verbose=False,
+    )
+
+
+def positive_class_scores(model: Any, frame: pd.DataFrame) -> np.ndarray:
+    probabilities = np.asarray(model.predict_proba(frame), dtype=float)
+    classes = np.asarray(getattr(model, "classes_", [0, 1]))
+    matches = np.flatnonzero(classes == 1)
+    if len(matches) != 1:
+        raise ValueError("Candidate model did not expose exactly one positive class")
+    return probabilities[:, int(matches[0])]
+
+
+def candidate_provenance(model: Any, candidate_id: str, device: str) -> dict[str, object]:
+    package = "tabpfn" if candidate_id == "tabpfn_v2" else "tabicl"
+    metadata: dict[str, object] = {
+        "candidate_id": candidate_id,
+        "package": package,
+        "package_version": importlib.metadata.version(package),
+        "device": device,
+        "feature_columns": FEATURE_COLUMNS,
+        "numeric_features": NUMERIC_FEATURES,
+        "categorical_features": CATEGORICAL_FEATURES,
+        "categorical_feature_indices": CATEGORICAL_FEATURE_INDICES,
+        "input_dtypes": {name: "numeric" for name in NUMERIC_FEATURES}
+        | {name: "object/string" for name in CATEGORICAL_FEATURES},
+        "model_settings": {},
+        "model_weight_license": (
+            "Prior Labs License (Apache 2.0 with attribution)"
+            if candidate_id == "tabpfn_v2" else "Checkpoint license to be recorded from upstream artifact"
+        ),
+    }
+    if candidate_id == "tabpfn_v2":
+        metadata["model_id"] = "TabPFN v2"
+        metadata["model_settings"] = {
+            "model_version": "v2",
+            "ignore_pretraining_limits": device == "cpu",
+            "random_state": SEED,
+        }
+    else:
+        metadata["model_id"] = "TabICLv2"
+        metadata["checkpoint_version"] = TABICL_CHECKPOINT
+        metadata["model_settings"] = {"checkpoint_version": TABICL_CHECKPOINT, "random_state": SEED, "verbose": False}
+    for attribute in ("model_path", "checkpoint_version", "model_name"):
+        value = getattr(model, attribute, None)
+        if value is not None:
+            metadata[attribute] = str(value)
+    return metadata
+
+
+def training_subset_fingerprint(frame: pd.DataFrame) -> dict[str, object]:
+    ordered_columns = FEATURE_COLUMNS + [TARGET_COLUMN]
+    if "split" in frame.columns:
+        ordered_columns.append("split")
+    ordered = frame.loc[:, ordered_columns].copy()
+    rows = ordered.astype(object).where(pd.notna(ordered), None).to_dict(orient="records")
+    payload = {
+        "feature_columns": FEATURE_COLUMNS,
+        "target_column": TARGET_COLUMN,
+        "ordered_columns": ordered_columns,
+        "dtypes": {name: str(ordered[name].dtype) for name in ordered_columns},
+        "rows": rows,
+    }
+    return {
+        "sha256": sha256_bytes(stable_json_bytes(payload)),
+        "row_count": int(len(ordered)),
+        "feature_columns": FEATURE_COLUMNS,
+        "target_column": TARGET_COLUMN,
+        "ordered_columns": ordered_columns,
+        "dtypes": payload["dtypes"],
+    }
+
+
+def measure_candidate(
+    model: Any,
+    X_train: pd.DataFrame,
+    y_train: Sequence[int],
+    X_eval: pd.DataFrame,
+    candidate_id: str,
+    resource_protocol: dict[str, object],
+) -> dict[str, object]:
+    import psutil
+
+    process = psutil.Process(os.getpid())
+    fit_start = time.perf_counter()
+    model.fit(X_train, np.asarray(y_train, dtype=int))
+    fit_seconds = time.perf_counter() - fit_start
+    peak_rss = int(process.memory_info().rss)
+    positions = list(resource_protocol["validation_sample_positions"])
+    sample = X_eval.iloc[: min(len(X_eval), len(positions))]
+    for _ in range(int(resource_protocol["warmup_runs"])):
+        model.predict_proba(sample)
+    durations_ms: list[float] = []
+    for _ in range(int(resource_protocol["timed_repetitions"])):
+        started = time.perf_counter()
+        model.predict_proba(sample)
+        durations_ms.append((time.perf_counter() - started) * 1000.0)
+        peak_rss = max(peak_rss, int(process.memory_info().rss))
+    whole_started = time.perf_counter()
+    scores = positive_class_scores(model, X_eval)
+    whole_seconds = time.perf_counter() - whole_started
+    return {
+        "candidate_id": candidate_id,
+        "fit_seconds": fit_seconds,
+        "validation_inference_seconds": whole_seconds,
+        "validation_inference_p50_ms": float(np.median(durations_ms)),
+        "validation_inference_repetitions_ms": durations_ms,
+        "peak_rss_bytes": peak_rss,
+        "resource_protocol": resource_protocol,
+        "scores": scores.tolist(),
     }
