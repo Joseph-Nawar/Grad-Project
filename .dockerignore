@@ -24,7 +24,10 @@ stage5_workspace/
 .ruff_cache/
 .mypy_cache/
 __pycache__/
+**/__pycache__/
 *.py[cod]
+**/*.pyc
+**/*.pyo
 *.ipynb
 *.log
 *.swp

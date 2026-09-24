@@ -199,7 +199,9 @@ def main(argv: list[str] | None = None) -> int:
     subparsers.add_parser("reset")
     subparsers.add_parser("reset-collector")
     args = parser.parse_args(argv)
-    return {"up": up, "status": status, "down": down, "reset": reset, "reset-collector": reset_collector}.get(args.command, lambda: logs(args.services))()
+    if args.command == "up":
+        return up()
+    return {"status": status, "down": down, "reset": reset, "reset-collector": reset_collector}.get(args.command, lambda: logs(args.services))()
 
 
 if __name__ == "__main__":

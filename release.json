@@ -1,8 +1,0 @@
-{
-  "product": "RuralStroke-Assist",
-  "stage": "stage3",
-  "api_contract": "stage2-api-v1",
-  "model_policy": "frozen-canonical-artifacts",
-  "python": "3.11.9",
-  "default_aws_region": "eu-central-1"
-}

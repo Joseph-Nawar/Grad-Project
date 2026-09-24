@@ -1,0 +1,5 @@
+# Optional research/reference runtime only; the validated edge/default runtime
+# does not install or select these dependencies.
+-r requirements.txt
+-r requirements-pretrained-speech-experiment.txt
+tabpfn==9.0.0

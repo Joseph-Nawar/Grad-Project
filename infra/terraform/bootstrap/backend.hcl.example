@@ -1,4 +1,0 @@
-bucket       = "replace-with-bootstrap-state-bucket"
-key          = "stage3/bootstrap/terraform.tfstate"
-region       = "eu-central-1"
-use_lockfile = true

@@ -5,10 +5,9 @@ from __future__ import annotations
 from typing import Any, Literal
 from uuid import UUID
 
-from pydantic import ConfigDict, Field, model_validator
+from pydantic import ConfigDict, Field, field_validator, model_validator
 
-from rural_stroke_assist.server.api.schemas.common import ApiSchema
-
+from rural_stroke_assist.server.api.schemas.common import ApiSchema, validate_bounded_json
 
 APPROVED_ASSESSMENT_SCHEMA_VERSION = 1
 APPROVED_MODEL_IDS = {
@@ -19,13 +18,28 @@ APPROVED_MODEL_IDS = {
 }
 APPROVED_FUSION_ID = "canonical-fusion-v1"
 APPROVED_EDGE_ARTIFACTS = {
-    "face": {"artifact": "models/edge/face-trial-003-litert-fp32.tflite", "sha256": "12AAFECA62C02EC97741F89CEDDB1393684F175B32D15BFA8DD5B00F49A62F2E"},
-    "speech": {"artifact": "models/edge/speech-trial-001-onnx.onnx", "sha256": "D08170F592DD1D45B7B86109077E1FC7EF14A58EC6EF51893CF04EE1B5CE7287"},
-    "metadata_context": {"artifact": "models/experiments/metadata/mvp_metadata_risk_model.pkl", "sha256": "350545A6AB71A58373FD11BC2EF9F37BAADCC8420D66186EB6F4BD2B8AA1E8F5"},
+    "face": {
+        "artifact": "models/edge/face-trial-003-litert-fp32.tflite",
+        "sha256": "12AAFECA62C02EC97741F89CEDDB1393684F175B32D15BFA8DD5B00F49A62F2E",
+    },
+    "speech": {
+        "artifact": "models/edge/speech-trial-001-onnx.onnx",
+        "sha256": "D08170F592DD1D45B7B86109077E1FC7EF14A58EC6EF51893CF04EE1B5CE7287",
+    },
+    "metadata_context": {
+        "artifact": "models/experiments/metadata/mvp_metadata_risk_model.pkl",
+        "sha256": "350545A6AB71A58373FD11BC2EF9F37BAADCC8420D66186EB6F4BD2B8AA1E8F5",
+    },
 }
 APPROVED_ORIGINAL_ARTIFACTS = {
-    "face": {"artifact": "models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras", "sha256": "C969C473CD369AEFE11815208407320D559AA7683998CA0EE28C53280C7011AC"},
-    "speech": {"artifact": "models/experiments/speech/trial_001_mfcc_random_forest/model.pkl", "sha256": "1BDED0B3850EE71E2B775E7B8E3BF80F708EE2FAEE1F74CA64D8102BAE01C925"},
+    "face": {
+        "artifact": "models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras",
+        "sha256": "C969C473CD369AEFE11815208407320D559AA7683998CA0EE28C53280C7011AC",
+    },
+    "speech": {
+        "artifact": "models/experiments/speech/trial_001_mfcc_random_forest/model.pkl",
+        "sha256": "1BDED0B3850EE71E2B775E7B8E3BF80F708EE2FAEE1F74CA64D8102BAE01C925",
+    },
     "metadata_context": APPROVED_EDGE_ARTIFACTS["metadata_context"],
 }
 
@@ -42,7 +56,9 @@ class MetadataInputSchema(ApiSchema):
     bmi: float | None = Field(default=None, ge=0)
     gender: Literal["Female", "Male", "Other"] | None = None
     ever_married: Literal["No", "Yes"] | None = None
-    work_type: Literal["Govt_job", "Never_worked", "Private", "Self-employed", "children"] | None = None
+    work_type: (
+        Literal["Govt_job", "Never_worked", "Private", "Self-employed", "children"] | None
+    ) = None
     residence_type: Literal["Rural", "Urban"] | None = Field(default=None, alias="Residence_type")
     smoking_status: Literal["Unknown", "formerly smoked", "never smoked", "smokes"] | None = None
 
@@ -77,6 +93,11 @@ class AssessmentImportRequest(ApiSchema):
     envelope: dict[str, Any]
     assessment_hash: str = Field(pattern=r"^[0-9a-fA-F]{64}$")
 
+    @field_validator("envelope", mode="before")
+    @classmethod
+    def validate_bounded_envelope(cls, value: Any) -> Any:
+        return validate_bounded_json(value)
+
     @model_validator(mode="after")
     def validate_trusted_envelope(self) -> "AssessmentImportRequest":
         from rural_stroke_assist.offline.contracts import AssessmentEnvelope
@@ -90,17 +111,28 @@ class AssessmentImportRequest(ApiSchema):
         if provenance.get("fusion_id") != APPROVED_FUSION_ID:
             raise ValueError("assessment provenance fusion identifier is not approved")
         model_ids = provenance.get("model_ids")
-        if not isinstance(model_ids, dict) or any(APPROVED_MODEL_IDS.get(key) != value for key, value in model_ids.items()):
+        if not isinstance(model_ids, dict) or any(
+            APPROVED_MODEL_IDS.get(key) != value for key, value in model_ids.items()
+        ):
             raise ValueError("assessment provenance model identifiers are not approved")
         runtime_artifacts = provenance.get("runtime_artifacts")
         if runtime_artifacts is not None:
-            if provenance.get("profile") not in {"original", "optimized"} or not isinstance(runtime_artifacts, dict):
+            if provenance.get("profile") not in {"original", "optimized"} or not isinstance(
+                runtime_artifacts, dict
+            ):
                 raise ValueError("assessment runtime provenance is not approved")
             for modality, artifact in runtime_artifacts.items():
-                approved = (APPROVED_EDGE_ARTIFACTS if provenance.get("profile") == "optimized" else APPROVED_ORIGINAL_ARTIFACTS).get(modality)
+                approved = (
+                    APPROVED_EDGE_ARTIFACTS
+                    if provenance.get("profile") == "optimized"
+                    else APPROVED_ORIGINAL_ARTIFACTS
+                ).get(modality)
                 if approved is None or not isinstance(artifact, dict):
                     raise ValueError("assessment runtime artifact is not approved")
-                if artifact.get("artifact") != approved["artifact"] or artifact.get("artifact_sha256") != approved["sha256"]:
+                if (
+                    artifact.get("artifact") != approved["artifact"]
+                    or artifact.get("artifact_sha256") != approved["sha256"]
+                ):
                     raise ValueError("assessment runtime artifact hash is not approved")
         return self
 

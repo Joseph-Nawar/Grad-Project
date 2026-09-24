@@ -16,7 +16,7 @@ RUN groupadd --system ruralstroke && useradd --system --gid ruralstroke --home-d
     && chown -R ruralstroke:ruralstroke /app /tmp/ruralstroke
 COPY --chown=ruralstroke:ruralstroke rural_stroke_assist /app/rural_stroke_assist
 COPY --chown=ruralstroke:ruralstroke alembic /app/alembic
-COPY --chown=ruralstroke:ruralstroke alembic.ini pyproject.toml release.json /app/
+COPY --chown=ruralstroke:ruralstroke alembic.ini pyproject.toml /app/
 COPY --chown=ruralstroke:ruralstroke config/baseline_registry.json /app/config/baseline_registry.json
 COPY --chown=ruralstroke:ruralstroke models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras /app/models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras
 COPY --chown=ruralstroke:ruralstroke models/experiments/speech/trial_001_mfcc_random_forest/model.pkl /app/models/experiments/speech/trial_001_mfcc_random_forest/model.pkl

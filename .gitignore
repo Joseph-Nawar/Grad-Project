@@ -179,6 +179,8 @@ celerybeat.pid
 .phase5-test-venv/
 /.stage5/
 /stage5_workspace/
+/.stage7-test-venv*/
+/stage7-work/
 *.venv/
 baseline_phase5.log
 env/
@@ -258,6 +260,13 @@ models/
 !models/experiments/fer2013/trial_001_mobilenetv2_160/
 /models/experiments/fer2013/trial_001_mobilenetv2_160/*
 !models/experiments/fer2013/trial_001_mobilenetv2_160/model.keras
+
+# Explicit pretrained reference profile artifacts; upstream weights remain in ignored external caches.
+!models/reference/
+/models/reference/*
+!models/reference/speech_distilhubert_logistic_regression.joblib
+!models/reference/tabpfn_v2_training_context.csv
+!models/reference/pretrained_reference_artifacts.json
 
 # CI scratch output and superseded local evidence captures.
 /reports/production/stage3/ci-runtime-inventory.json

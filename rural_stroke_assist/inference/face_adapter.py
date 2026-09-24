@@ -16,6 +16,10 @@ from rural_stroke_assist.modeling.face_inference import preprocess_face_image
 from rural_stroke_assist.quality.face_quality import FaceQualityAssessor, OpenCVFaceQualityAssessor
 
 
+def _component_provenance(component: Any) -> str:
+    return str(getattr(component, "provenance", component.path))
+
+
 class FaceAdapter:
     def __init__(
         self,
@@ -57,14 +61,14 @@ class FaceAdapter:
             return ModalityEvidence.unavailable(
                 modality="face",
                 score_semantics="visual_proxy_evidence",
-                provenance=component.path,
+                provenance=_component_provenance(component),
                 warning="No face image was provided.",
             )
 
         image_path = Path(input_data)
         if not image_path.is_file():
             return ModalityEvidence.unavailable(
-                modality="face", score_semantics="visual_proxy_evidence", provenance=component.path,
+                modality="face", score_semantics="visual_proxy_evidence", provenance=_component_provenance(component),
                 warning=f"Face image was not found: {image_path}", quality_status=QualityStatus.REJECT,
                 findings=(QualityFinding("missing_file", "Face image file does not exist.", QualityStatus.REJECT),),
             )
@@ -75,7 +79,7 @@ class FaceAdapter:
                 decoded.load()
         except (UnidentifiedImageError, OSError, ValueError) as exc:
             return ModalityEvidence.unavailable(
-                modality="face", score_semantics="visual_proxy_evidence", provenance=component.path,
+                modality="face", score_semantics="visual_proxy_evidence", provenance=_component_provenance(component),
                 warning=f"Face image could not be decoded: {image_path}", quality_status=QualityStatus.REJECT,
                 findings=(QualityFinding("decode_failed", str(exc), QualityStatus.REJECT),),
             )
@@ -83,7 +87,7 @@ class FaceAdapter:
         quality = self._quality_assessor(decoded)
         if quality.status is QualityStatus.REJECT:
             return ModalityEvidence.unavailable(
-                modality="face", score_semantics="visual_proxy_evidence", provenance=component.path,
+                modality="face", score_semantics="visual_proxy_evidence", provenance=_component_provenance(component),
                 warning="Face image was rejected by quality assessment.", quality_status=quality.status,
                 findings=quality.findings,
             )
@@ -92,7 +96,7 @@ class FaceAdapter:
             batch = preprocess_face_image(image_path, image_size=(160, 160))
         except Exception as exc:
             return ModalityEvidence.unavailable(
-                modality="face", score_semantics="visual_proxy_evidence", provenance=component.path,
+                modality="face", score_semantics="visual_proxy_evidence", provenance=_component_provenance(component),
                 warning="Face image preprocessing failed.", quality_status=QualityStatus.REJECT,
                 findings=(QualityFinding("preprocessing_failed", str(exc), QualityStatus.REJECT),),
             )
@@ -123,5 +127,5 @@ class FaceAdapter:
         return ModalityEvidence(
             modality="face", available=True, score=score, score_semantics="visual_proxy_evidence",
             label=label, confidence=confidence, quality_status=quality.status,
-            quality_findings=quality.findings, warnings=warnings, provenance=component.path,
+            quality_findings=quality.findings, warnings=warnings, provenance=_component_provenance(component),
         )

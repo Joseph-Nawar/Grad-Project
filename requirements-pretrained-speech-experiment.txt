@@ -1,0 +1,11 @@
+# Optional, research-only dependencies for scripts/speech_pretrained_representation_experiment.py.
+# Install the PyTorch CPU wheel from its official CPU index; the remaining packages use PyPI.
+# The existing project ML environment provides TensorFlow, librosa, NumPy, pandas and sklearn.
+torch==2.8.0+cpu
+transformers==4.57.6
+huggingface-hub==0.36.2
+accelerate==1.10.1
+safetensors==0.6.2
+tensorflow-hub==0.16.1
+tf-keras==2.19.0
+psutil==7.1.0

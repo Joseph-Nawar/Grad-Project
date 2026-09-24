@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile": "pretrained_reference",
+  "project_owned_artifacts": {
+    "speech_classifier": {
+      "path": "models/reference/speech_distilhubert_logistic_regression.joblib",
+      "sha256": "ebe96acae05aba37387c87d74ca213490b8c3025f5887a907511134e8d6400b1",
+      "source": "reports/experiments/speech_pretrained_representation_trial_001/classifiers/distilhubert.joblib",
+      "selection_experiment_id": "speech_pretrained_representation_trial_001"
+    },
+    "metadata_training_context": {
+      "path": "models/reference/tabpfn_v2_training_context.csv",
+      "sha256": "29bc5ef21b3c3b96161ebfdfa498975c8eb141cc12aff46a880061571b252212",
+      "source_manifest": "data/processed/metadata_split_manifest.csv",
+      "source_manifest_sha256": "750110fff761405c194b3d149918f0d49eb643baea6129f39c8e02c3900108cb",
+      "training_context_fingerprint": "389693811457126741dccd6edbdeb892f3c17149ae69069fd7ef23b34a289f3d",
+      "selection_experiment_id": "metadata_pretrained_foundation_trial_001",
+      "rows": 3577,
+      "columns": ["age", "hypertension", "heart_disease", "avg_glucose_level", "bmi", "gender", "ever_married", "work_type", "Residence_type", "smoking_status", "stroke"]
+    }
+  },
+  "upstream_weights": "External ignored caches only; no upstream DistilHuBERT or TabPFN checkpoint is committed."
+}

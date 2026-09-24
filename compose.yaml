@@ -206,9 +206,8 @@ services:
       - demo_token
     tmpfs:
       - /tmp
-    # The edge image's UI dependencies are installed in the system runtime;
-    # use that same runtime explicitly for the long-lived sync process.
-    entrypoint: ["/usr/local/bin/python", "/app/scripts/run_collector_sync.py"]
+    # Use the edge image virtualenv that contains the pinned HTTPX runtime.
+    entrypoint: ["/opt/venv/bin/python", "/app/scripts/run_collector_sync.py"]
     healthcheck:
       disable: true
 

@@ -1,6 +1,6 @@
 {
   "central_assessment_count": 1,
-  "central_assessment_hash": "947507c4364f8c8dfecef2cf5a97f4771142e89b2805359ac53f04811efbec54",
+  "central_assessment_hash": "b3f33a37be1c12a78f818d6c4273885ec2d28afebecb13d0c2578ff2af312b15",
   "central_attachment_count": 1,
   "central_case_count": 1,
   "central_submission_count": 1,
@@ -8,7 +8,7 @@
   "collector_restart_persistence": true,
   "gate": "stage3a-compose-offline-reconnect",
   "hash_parity": true,
-  "local_assessment_hash": "947507c4364f8c8dfecef2cf5a97f4771142e89b2805359ac53f04811efbec54",
+  "local_assessment_hash": "b3f33a37be1c12a78f818d6c4273885ec2d28afebecb13d0c2578ff2af312b15",
   "raw_media_or_tokens": false,
   "response_lost_after_commit_recovered": true,
   "worker_lease_recovery": true
