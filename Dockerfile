@@ -96,7 +96,7 @@ RUN /usr/local/bin/python -m pip install --no-cache-dir --target /opt/venv/lib/p
     && /usr/local/bin/python -m pip uninstall -y pip setuptools wheel
 WORKDIR /app
 RUN groupadd --system ruralstroke && useradd --system --gid ruralstroke --home-dir /nonexistent --shell /usr/sbin/nologin ruralstroke \
-    && mkdir -p /app/runtime_data /var/lib/ruralstroke /tmp/ruralstroke /tmp/numba-cache \
+    && mkdir -p /app/runtime_data /var/lib/ruralstroke/media /tmp/ruralstroke /tmp/numba-cache \
     && chown -R ruralstroke:ruralstroke /app /var/lib/ruralstroke /tmp/ruralstroke /tmp/numba-cache
 COPY --chown=ruralstroke:ruralstroke apps /app/apps
 COPY --chown=ruralstroke:ruralstroke rural_stroke_assist /app/rural_stroke_assist

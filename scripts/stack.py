@@ -28,6 +28,7 @@ COMPOSE_FILE = ROOT / "compose.yaml"
 SECRET_DIR = ROOT / ".runtime-secrets"
 PROJECT_NAME = "ruralstroke-stage3"
 STAGE4_VOLUMES = ("ruralstroke-stage4-collector-sqlite", "ruralstroke-stage4-collector-media")
+DEMO_TOKEN_TTL_SECONDS = 6 * 60 * 60
 
 
 def _urlsafe_json(payload: dict[str, object]) -> str:
@@ -45,7 +46,7 @@ def _demo_token(secret: str) -> str:
         "iss": "ruralstroke-local",
         "aud": "ruralstroke-api",
         "iat": now,
-        "exp": now + 3600,
+        "exp": now + DEMO_TOKEN_TTL_SECONDS,
     })
     unsigned = f"{header}.{payload}".encode("ascii")
     signature = hmac.new(secret.encode("utf-8"), unsigned, hashlib.sha256).digest()

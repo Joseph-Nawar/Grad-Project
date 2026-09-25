@@ -25,6 +25,13 @@ def test_ensure_demo_secrets_generates_gitignored_local_values(tmp_path: Path) -
     assert payload["facilities"] == ["*"]
 
 
+def test_local_demo_token_lifetime_is_six_hours(tmp_path: Path) -> None:
+    secrets = ensure_demo_secrets(tmp_path)
+    payload = _decode_payload(secrets["demo_token"].read_text(encoding="utf-8").strip())
+
+    assert payload["exp"] - payload["iat"] == 6 * 60 * 60
+
+
 def test_ensure_demo_secrets_reuses_existing_values(tmp_path: Path) -> None:
     first = ensure_demo_secrets(tmp_path)
     values = {name: path.read_text(encoding="utf-8") for name, path in first.items()}

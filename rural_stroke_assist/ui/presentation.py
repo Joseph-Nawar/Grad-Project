@@ -207,4 +207,103 @@ def humanize_explanation(item: Mapping[str, Any], result: Mapping[str, Any]) -> 
     message = str(item.get("message", ""))
     for internal, readable in _MODALITY_LABELS.items():
         message = message.replace(internal, readable)
-    return message.replace("evidence band", "evidence level")
+    message = message.replace("evidence band", "evidence level")
+    if code == "renormalized_weights":
+        return "Available branch weights were renormalized after missing or failed inputs."
+    if code == "urgent_override":
+        return "The deterministic acute symptom safeguard triggered the urgent override."
+    if code == "corroboration_floor":
+        return "The acute evidence corroboration floor was applied."
+    if code == "insufficient_evidence":
+        return "No branch produced usable evidence, so no fused score or risk band was produced."
+    return message
+
+
+def runtime_profile_for_result(
+    result: Mapping[str, Any], runtime_provenance: Mapping[str, Any] | None = None,
+) -> str:
+    """Return only the profile recorded with this assessment snapshot."""
+    if runtime_provenance and runtime_provenance.get("profile"):
+        return str(runtime_provenance["profile"])
+    provenance = result.get("provenance", ())
+    values = (provenance,) if isinstance(provenance, str) else provenance
+    if isinstance(values, (list, tuple)):
+        for item in values:
+            value = str(item)
+            if value.startswith("profile="):
+                return value.partition("=")[2].split(";", 1)[0]
+    return "unspecified"
+
+
+def profile_label(profile: str) -> str:
+    labels = {
+        "pretrained_reference": "Research reference profile",
+        "original": "Deployment-oriented profile · original runtime",
+        "optimized": "Deployment-oriented profile · optimized runtime",
+    }
+    return labels.get(profile, f"Runtime profile · {humanize_value(profile)}")
+
+
+def model_label(modality: str, execution: Mapping[str, Any], profile: str) -> str:
+    """Summarize the model actually named by per-case provenance."""
+    details = execution.get("details") or {}
+    source = " ".join((
+        str(execution.get("provenance", "")),
+        str(details),
+    )).lower()
+    if modality == "acute_symptoms":
+        return "Deterministic symptom rules"
+    if modality == "face":
+        if "mobilenetv2" in source or "stage0-face-trial-003" in source:
+            return "ImageNet-pretrained MobileNetV2" if profile == "pretrained_reference" else "MobileNetV2"
+        if profile == "optimized":
+            return "Optimized edge visual artifact"
+        if profile == "original":
+            return "MobileNetV2"
+        return "Visual model"
+    if modality == "speech":
+        if "distilhubert" in source or details.get("upstream_model_id"):
+            return "DistilHuBERT"
+        if "random_forest" in source or profile in {"original", "optimized"}:
+            return "ONNX speech artifact" if profile == "optimized" else "MFCC + Random Forest"
+        return "Speech model"
+    if modality == "metadata_context":
+        if "tabpfn" in source or details.get("model_version"):
+            return "TabPFN v2"
+        if "logistic" in source or profile in {"original", "optimized"}:
+            return "Logistic Regression"
+        return "Structured-data model"
+    return "Model not identified"
+
+
+def format_evidence_score(score: object) -> str | None:
+    """Format a branch evidence score without presenting it as a probability."""
+    if score is None:
+        return None
+    try:
+        number = float(score)
+    except (TypeError, ValueError):
+        return None
+    if number != number or number in {float("inf"), float("-inf")}:
+        return None
+    return f"{number:.3f}"
+
+
+def acute_escalation_triggered(result: Mapping[str, Any]) -> bool | None:
+    execution = (result.get("modality_executions") or {}).get("acute_symptoms") or {}
+    if not execution.get("available"):
+        return None
+    details = execution.get("details") or {}
+    return bool(details.get("hard_escalation"))
+
+
+def result_explanation_lines(result: Mapping[str, Any]) -> tuple[str, ...]:
+    """Return concise, user-facing explanations already recorded by the service."""
+    lines: list[str] = []
+    for item in result.get("explanations", ()):
+        if item.get("code") == "non_diagnostic":
+            continue
+        line = humanize_explanation(item, result)
+        if line and line not in lines:
+            lines.append(line)
+    return tuple(lines)

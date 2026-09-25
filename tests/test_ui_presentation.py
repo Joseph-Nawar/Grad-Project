@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 
+from rural_stroke_assist.ui.common import render_assessment_result
 from rural_stroke_assist.ui.presentation import (
     band_guidance,
     build_context_rows,
@@ -10,8 +11,36 @@ from rural_stroke_assist.ui.presentation import (
     humanize_explanation,
     humanize_key,
     humanize_value,
+    model_label,
+    profile_label,
+    runtime_profile_for_result,
     short_case_reference,
 )
+
+
+class _CaptureColumn:
+    def __init__(self, app: "_CaptureStreamlit") -> None:
+        self.app = app
+
+    def __enter__(self) -> "_CaptureStreamlit":
+        return self.app
+
+    def __exit__(self, *_: object) -> bool:
+        return False
+
+
+class _CaptureStreamlit:
+    def __init__(self) -> None:
+        self.markdown_calls: list[str] = []
+
+    def markdown(self, value: str, **_: object) -> None:
+        self.markdown_calls.append(value)
+
+    def columns(self, count: int, **_: object) -> list[_CaptureColumn]:
+        return [_CaptureColumn(self) for _ in range(count)]
+
+    def caption(self, _: str) -> None:
+        pass
 
 
 def result_snapshot() -> dict:
@@ -110,3 +139,61 @@ def test_context_rows_omit_internal_fields_and_humanize_values_without_mutation(
     assert all("session" not in row.label.lower() for row in context + symptoms)
     assert all("path" not in row.label.lower() for row in context + symptoms)
     assert payload == before
+
+
+def test_runtime_profile_and_model_labels_follow_actual_case_provenance() -> None:
+    reference = {
+        "provenance": ["profile=pretrained_reference"],
+        "modality_executions": {
+            "face": {"provenance": "artifact=...mobilenetv2..."},
+            "speech": {"provenance": "model_id=ntu-spml/distilhubert", "details": {"upstream_model_id": "ntu-spml/distilhubert"}},
+            "metadata_context": {"provenance": "model_id=TabPFN v2", "details": {"model_version": "ModelVersion.V2"}},
+            "acute_symptoms": {},
+        },
+    }
+    assert runtime_profile_for_result(reference) == "pretrained_reference"
+    assert profile_label("pretrained_reference") == "Research reference profile"
+    assert model_label("face", reference["modality_executions"]["face"], "pretrained_reference") == "ImageNet-pretrained MobileNetV2"
+    assert model_label("speech", reference["modality_executions"]["speech"], "pretrained_reference") == "DistilHuBERT"
+    assert model_label("metadata_context", reference["modality_executions"]["metadata_context"], "pretrained_reference") == "TabPFN v2"
+    assert model_label("acute_symptoms", {}, "pretrained_reference") == "Deterministic symptom rules"
+
+
+def test_deployment_profile_model_names_and_edge_profile_are_not_mislabeled() -> None:
+    result = {"provenance": ["profile=original"]}
+    assert runtime_profile_for_result(result) == "original"
+    assert profile_label("original") == "Deployment-oriented profile · original runtime"
+    assert model_label("speech", {"provenance": "trial_001_mfcc_random_forest/model.pkl"}, "original") == "MFCC + Random Forest"
+    assert model_label("metadata_context", {"provenance": "mvp_metadata_risk_model.pkl"}, "original") == "Logistic Regression"
+    assert runtime_profile_for_result({}, {"profile": "optimized"}) == "optimized"
+    assert profile_label("optimized") == "Deployment-oriented profile · optimized runtime"
+
+
+def test_urgent_partial_result_keeps_assessment_completeness_visible() -> None:
+    result = {
+        "status": "partial",
+        "provenance": ["profile=original"],
+        "fusion": {
+            "risk_band": "URGENT",
+            "evidence_score": 0.85,
+            "modality_contributions": {"acute_symptoms": 0.85},
+            "normalized_weights_used": {"acute_symptoms": 1.0},
+        },
+        "modality_executions": {
+            "acute_symptoms": {
+                "available": True,
+                "score": 0.85,
+                "quality_status": "PASS",
+                "score_semantics": "deterministic_acute_symptom_evidence",
+                "details": {"hard_escalation": True, "evidence": ["Face drooping"]},
+                "provenance": "acute_symptom_module.py",
+            }
+        },
+    }
+    app = _CaptureStreamlit()
+
+    render_assessment_result(app, result, include_limitations=False)
+
+    hero = app.markdown_calls[0]
+    assert "rsa-status-pill urgent'>URGENT</span>" in hero
+    assert "rsa-status-pill partial'>PARTIAL</span>" in hero

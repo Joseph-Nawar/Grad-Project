@@ -1,5 +1,25 @@
-# Optional research/reference runtime only; the validated edge/default runtime
-# does not install or select these dependencies.
--r requirements.txt
--r requirements-pretrained-speech-experiment.txt
+# Optional CPU reference AssessmentService runtime only.
+# Install with:
+#   python -m pip install --extra-index-url https://download.pytorch.org/whl/cpu -r requirements-pretrained-reference-runtime.txt
+# This environment is separate from the default API and lightweight edge images.
+
+numpy==1.26.4
+pandas==2.2.3
+pillow==10.4.0
+opencv-python-headless==4.10.0.84
+scikit-learn==1.4.2
+joblib==1.5.3
+librosa==0.11.0
+soundfile==0.14.0
+pydantic==2.13.4
+
+tensorflow==2.19.1
+keras==3.14.1
+
+torch==2.8.0+cpu
+transformers==4.57.6
+huggingface-hub==0.36.2
+accelerate==1.10.1
+safetensors==0.6.2
+sympy==1.13.3
 tabpfn==9.0.0
