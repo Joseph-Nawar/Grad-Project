@@ -2,7 +2,7 @@
 
 ## Intended use
 
-Research-only visual proxy evidence for the RuralStroke-Assist face branch.
+Research-only visual proxy evidence for the RuralStroke-Triage face branch.
 
 ## Out of scope
 
@@ -18,7 +18,7 @@ Sigmoid Stroke-class score interpreted as `visual_proxy_evidence`, not a calibra
 
 ## Data and direct results
 
-The canonical manifest is [`data/processed/face_split_manifest.csv`](../../data/processed/face_split_manifest.csv). The held-out test partition contains 318 images. Direct ROC-AUC is `0.9818`, sensitivity `0.9000`, and specificity `0.9471`.
+The canonical manifest is [`data/processed/face_split_manifest.csv`](../../data/processed/face_split_manifest.csv). The held-out test partition contains 318 images. Direct ROC-AUC is `0.9818`, PR-AUC is `0.9716`, sensitivity is `0.9000`, and specificity is `0.9471`.
 
 ## Runtime adapter coverage
 
@@ -29,7 +29,7 @@ The adapter accepted 107/318 images (`33.65%`) and rejected 211. Accepted-subset
 - Artifact: [`model.keras`](../../models/experiments/face/trial_003_mobilenetv2_balanced_160/model.keras)
 - SHA256: `C969C473CD369AEFE11815208407320D559AA7683998CA0EE28C53280C7011AC`
 - Size: 9,641,144 bytes
-- Phase 4 evidence: [`face.json`](../../reports/evaluation/phase4/final_complete/face.json)
+- Final held-out evidence: [`face.json`](../../reports/evaluation/phase4/final_complete/face.json)
 
 ## Limitations
 

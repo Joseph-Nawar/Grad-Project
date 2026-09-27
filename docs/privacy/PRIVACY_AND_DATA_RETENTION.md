@@ -1,13 +1,9 @@
 # Privacy and data retention
 
-RuralStroke-Assist is a local demonstration. SQLite case records and managed media are stored under the configured `runtime_data/` directory. Attachments are kept outside SQLite and referenced by generated relative paths.
+RuralStroke-Triage is a local research demonstration. The standard collector and clinician applications exchange data with the FastAPI service. In the Compose stack, PostgreSQL holds central case records and MinIO holds managed attachments. The edge collector stores cases, assessment snapshots, and media in local SQLite-backed storage and synchronizes its durable outbox to the API when connectivity returns. The default Compose setup is local; it does not upload data to an externally hosted service.
 
-Use only pseudonymous case codes and public, non-identifying demonstration media. Do not enter full names, national identifiers, addresses, or other unnecessary personal data. The project does not provide production authentication, encryption at rest, cloud synchronization, audit compliance, or clinical data governance.
+Use pseudonymous case codes and public, non-identifying demonstration media. Do not enter full names, national identifiers, addresses, or other unnecessary personal data. This prototype does not provide production identity management, encryption-at-rest guarantees, clinical data governance, or compliance controls.
 
-Retention is manual. Review and clear demonstration data after use with:
+Compose data is stored in named Docker volumes and survives `python scripts/stack.py down`. The command `python scripts/stack.py reset` removes the Compose volumes and generated local demo secrets; this permanently erases the local demonstration data. Use it only when that is intended.
 
-```powershell
-python scripts/clear_runtime_data.py
-```
-
-The command defaults to a dry run. Actual deletion requires `--confirm` and is restricted to the repository's `runtime_data/` directory. Never use it with a system or user-data path.
+The separate `python scripts/clear_runtime_data.py` utility applies to repository-local `runtime_data/` files and does not clear Compose named volumes. It defaults to a dry run, requires `--confirm` for deletion, and is restricted to the repository `runtime_data/` directory.

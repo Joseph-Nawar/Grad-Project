@@ -142,7 +142,7 @@ def create_app(
             if engine is not None:
                 engine.dispose()
 
-    app = FastAPI(title="RuralStroke-Assist API", version=app_settings.version, lifespan=lifespan)
+    app = FastAPI(title="RuralStroke-Triage API", version=app_settings.version, lifespan=lifespan)
     app.add_middleware(CorrelationIdMiddleware)
     app.add_exception_handler(ApiError, error_response)
     app.add_exception_handler(RequestValidationError, _validation_response)

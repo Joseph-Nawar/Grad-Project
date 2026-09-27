@@ -1,56 +1,30 @@
-# RuralStroke-Assist System Architecture
+# RuralStroke-Triage architecture
 
-## Objective
+RuralStroke-Triage is a multimodal prehospital triage-support research prototype. Its architecture keeps capture, model execution, evidence fusion, persistence, and clinician review in separate, auditable boundaries.
 
-RuralStroke-Assist is an offline-capable multimodal research prototype for stroke screening and triage support. It does not diagnose stroke.
+## Assessment path
 
-## Phase 0 canonical architecture
-
-Canonical modalities are face, speech, acute symptoms, and contextual metadata. The canonical fusion source is `rural_stroke_assist/modules/fusion_module.py`. The older `rural_stroke_assist/fusion/fusion_engine.py` is retained as a legacy compatibility path with its older result contract and weights.
+The standard collector sends case inputs to the FastAPI service. `AssessmentService` invokes independent adapters for visual/facial evidence, dysarthria-related speech evidence, contextual risk metadata, and deterministic acute symptoms. Adapters emit the shared immutable `ModalityEvidence` contract. Late fusion records branch contributions and provenance, handles missing or rejected inputs, and produces an immutable assessment result.
 
 ```text
-raw input and structured symptoms
-  -> manifests/preprocessing
-  -> branch-specific research artifacts
-  -> normalized branch evidence
-  -> canonical four-input fusion
-  -> research screening result
+Collector UI -> FastAPI -> AssessmentService -> modality adapters
+                                      -> common ModalityEvidence contract
+                                      -> late fusion and symptom safeguards
+                                      -> immutable assessment snapshot
+API persistence -> PostgreSQL records + managed object-store attachments
+Clinician UI <- submitted snapshot and separate agree/override decision
 ```
 
-The selected artifacts and exact hashes are recorded in `config/baseline_registry.json`.
+The edge collector uses the same assessment and fusion boundary locally. It stores assessment events and media durably in local SQLite-backed storage while the API is unavailable, then a synchronization worker retries delivery when connectivity returns. The local outbox and central API use stable event identities and provenance to support replay and audit.
 
-## Current integration boundary
+## Research-reference orchestration
 
-The Phase 1 adapters are artifact-backed and independently testable. Phase 2 adds the sequential `AssessmentService`, but no UI, API, deployment layer, or new model.
+The `pretrained_reference` runtime profile is the Project Template 4.1 orchestration demonstration. It joins ImageNet-pretrained MobileNetV2 visual evidence, a frozen DistilHuBERT speech representation with a logistic-regression classifier, and TabPFN v2 contextual-risk evidence through independent adapters. Deterministic acute-symptom rules remain a separate fourth branch.
 
-Phase 1 adapters live under `rural_stroke_assist/inference/` and return the common immutable `ModalityEvidence` contract. `rural_stroke_assist/quality/` contains pluggable face and audio quality checks. Phase 2 `rural_stroke_assist/assessment/` composes those adapters with `CanonicalLateFusionStrategy`, which wraps `rural_stroke_assist/modules/fusion_module.py`. The legacy `rural_stroke_assist/fusion/fusion_engine.py` is not imported by the new service and emits a deprecation warning when called.
+The `optimized` profile is used by the Compose edge collector. It uses an optimized MobileNetV2 LiteRT artifact, MFCC plus Random Forest speech inference through ONNX Runtime, the Logistic Regression metadata artifact, and the same symptom rules. Model and runtime provenance is attached to each result. See [`config/pretrained_reference_registry.json`](../config/pretrained_reference_registry.json) and [`config/edge_runtime_registry.json`](../config/edge_runtime_registry.json).
 
-The executable developer smoke path is `python scripts/run_assessment_smoke.py`. It runs all four modalities against canonical manifest examples and prints only structured scores, bands, quality states, explanations, and timings; it does not expose input paths.
+## Review and persistence
 
-## Phase 3 case workflow
+Collector submissions create immutable assessment snapshots. The clinician application reads the submitted snapshot and records agreement or override as a separate review event; it does not rerun or edit the assessment. The Compose API uses PostgreSQL for central records and MinIO for attachments. The edge collector has separate local durable storage and a retrying synchronization worker.
 
-`rural_stroke_assist/cases/` is the replaceable case/workflow layer. `CaseWorkflowService` is the only component that calls `AssessmentService`; the collector creates and assesses drafts, while the clinician application reads the immutable submitted assessment snapshot and records a separate review decision. `SQLiteCaseRepository` stores JSON snapshots and audit events with WAL mode and parameterized transactions. `AttachmentStore` keeps generated relative references under ignored `runtime_data/cases/<case-id>/`.
-
-The role-specific entrypoints are `apps/collector_app.py` and `apps/clinician_app.py`. Launch both with `python scripts/run_phase3_apps.py`, or run each Streamlit app individually on ports 8501 and 8502. This is a local workflow demonstration only; it has no API, remote synchronization, production authentication, or deployment infrastructure.
-
-The Streamlit presentation layer is centralized in `rural_stroke_assist/ui/presentation.py` and `rural_stroke_assist/ui/common.py`. It humanizes stored fields, groups warnings, displays evidence-band guidance, and resolves managed media without changing assessment snapshots.
-
-## Baseline verification
-
-From the repository root, use the validated Python 3.11 environment and run:
-
-```powershell
-python scripts/verify_baseline.py
-```
-
-See `docs/project_audit/PHASE_0_BASELINE.md` for scope, limitations, and canonical/legacy distinctions.
-## Phase 4 evaluation
-
-The isolated `rural_stroke_assist.evaluation` package evaluates the canonical
-held-out proxy partitions and deterministic scenario behavior. Run
-`python scripts/run_phase4_evaluation.py --suite smoke` for a fast check, or
-`--suite modality`, `--suite system`, and `--suite full` for progressively
-broader runs. Outputs are immutable run directories under
-`reports/evaluation/phase4/`. These results are engineering evidence only;
-the repository has no paired multimodal clinical dataset and therefore does
-not report end-to-end diagnostic accuracy or fusion clinical improvement.
+See the [system architecture diagram](diagrams/system_architecture.md), [case data flow](diagrams/case_data_flow.md), [testing guide](testing/TESTING.md), and [final evaluation report](../reports/evaluation/phase4/final_complete/PHASE_4_EVALUATION_REPORT.md). These boundaries support traceability; they do not establish clinical validity.

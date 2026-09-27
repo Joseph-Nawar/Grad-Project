@@ -57,7 +57,7 @@ def main() -> int:
         [str(verify_python), str(root / "scripts" / "check_release_readiness.py")], check=True
     )
     print("Local environment is ready.")
-    print("Launch both apps with: python scripts/run_phase3_apps.py")
+    print("For the current local stack, run: python scripts/stack.py up")
     print("Run baseline verification with: python scripts/verify_baseline.py")
     return 0
 

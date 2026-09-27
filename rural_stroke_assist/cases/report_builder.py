@@ -28,7 +28,7 @@ def render_markdown(case: Case) -> str:
     view = build_report_view(case)
     result = view["assessment_result"] or {}
     fusion = result.get("fusion") or {}
-    lines = ["# RuralStroke-Assist Case Report", "", f"- Case ID: `{case.case_id}`", f"- Status: `{case.status.value}`", f"- Facility: {case.facility}", "", "## Assessment", f"- Evidence band: **{fusion.get('risk_band', 'INSUFFICIENT_EVIDENCE')}**", f"- Evidence score: `{fusion.get('evidence_score', 'n/a')}`", "", "## Technical result", "```json", json.dumps(result, indent=2, sort_keys=True), "```", "", "## Safety", view["non_diagnostic_statement"]]
+    lines = ["# RuralStroke-Triage Case Report", "", f"- Case ID: `{case.case_id}`", f"- Status: `{case.status.value}`", f"- Facility: {case.facility}", "", "## Assessment", f"- Evidence band: **{fusion.get('risk_band', 'INSUFFICIENT_EVIDENCE')}**", f"- Evidence score: `{fusion.get('evidence_score', 'n/a')}`", "", "## Technical result", "```json", json.dumps(result, indent=2, sort_keys=True), "```", "", "## Safety", view["non_diagnostic_statement"]]
     if case.clinician_review:
         lines.extend(["", "## Clinician review", f"- Decision: {case.clinician_review.decision}", f"- Reviewer: {case.clinician_review.clinician_name}", f"- Notes: {case.clinician_review.notes}"])
     return "\n".join(lines)

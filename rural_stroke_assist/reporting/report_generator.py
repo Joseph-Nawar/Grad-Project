@@ -7,7 +7,7 @@ def generate_text_report(fusion_result: FusionResult) -> str:
     warnings_text = "\n".join(f"- {item}" for item in fusion_result.warnings) or "- No warnings."
 
     return f"""
-RuralStroke-Assist Triage Report
+RuralStroke-Triage Report
 
 Triage Level:
 {fusion_result.triage_level}

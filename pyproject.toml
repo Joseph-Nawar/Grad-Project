@@ -5,7 +5,7 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "rural-stroke-assist"
 version = "0.0.1"
-description = "A short description of the project."
+description = "Multimodal prehospital stroke-triage decision-support research prototype."
 authors = [
   { name = "Joseph" },
 ]

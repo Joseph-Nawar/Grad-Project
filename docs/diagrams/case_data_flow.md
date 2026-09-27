@@ -2,18 +2,23 @@
 
 ```mermaid
 flowchart TD
-  Draft[Draft case] --> Inputs[Metadata, symptoms, image, audio]
-  Inputs --> Assess[AssessmentService]
-  Assess --> Result[AssessmentResult]
-  Result --> Submitted[Submitted immutable snapshot]
-  Inputs --> Media[(Managed media attachments)]
-  Submitted --> Repo[(SQLite repository)]
-  Media --> Repo
-  Repo --> Queue[Clinician queue]
-  Queue --> Review[Clinician review]
-  Review --> Agree[Reviewed agreed]
-  Review --> Override[Reviewed overridden]
-  Review -. never mutates .-> Submitted
+  Collector[Collector UI] --> AssessAPI[Assessment API]
+  AssessAPI --> Service[AssessmentService and four modality adapters]
+  Service --> Fusion[Late fusion and deterministic symptom safeguard]
+  Fusion --> CentralSnapshot[Immutable assessment snapshot]
+  CentralSnapshot --> Central[(PostgreSQL case and assessment records)]
+  CentralSnapshot --> Attachments[(MinIO attachments)]
+  Edge[Edge collector] --> Offline[Offline workflow and local assessment]
+  Offline --> LocalSnapshot[Local immutable snapshot and media]
+  LocalSnapshot --> Outbox[(Durable SQLite-backed outbox)]
+  Outbox --> Sync[Retrying synchronization worker]
+  Sync --> Ingest[FastAPI sync routes]
+  Ingest --> Central
+  Ingest --> Attachments
+  Central --> Queue[Clinician review queue]
+  Attachments --> Queue
+  Queue --> Decision[Separate agree or override review]
+  Decision -. does not mutate .-> CentralSnapshot
 ```
 
-Clinician agreement or override is stored separately from the submitted assessment snapshot.
+The edge workflow saves its local assessment snapshot and media before synchronization. The sync routes persist that submitted evidence centrally; they do not rerun the assessment. Clinician review is stored separately and does not modify the snapshot.
