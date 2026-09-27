@@ -25,12 +25,12 @@ def run_app(path: Path, tmp_path: Path) -> AppTest:
 def test_collector_app_starts_with_shared_product_identity(tmp_path: Path) -> None:
     at = run_app(ROOT / "apps" / "collector_app.py", tmp_path)
     assert not at.exception
-    assert any("RuralStroke-Assist" in item.value for item in at.markdown)
+    assert any("RuralStroke-Triage" in item.value for item in at.markdown)
     assert any("Draft list is temporarily unavailable" in item.value for item in at.error)
 
 
 def test_clinician_app_has_shared_identity_and_empty_queue_state(tmp_path: Path) -> None:
     at = run_app(ROOT / "apps" / "clinician_app.py", tmp_path)
     assert not at.exception
-    assert any("RuralStroke-Assist" in item.value for item in at.markdown)
+    assert any("RuralStroke-Triage" in item.value for item in at.markdown)
     assert any("Clinician case queue is temporarily unavailable" in item.value for item in at.error)

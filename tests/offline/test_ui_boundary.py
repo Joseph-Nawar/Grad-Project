@@ -23,7 +23,7 @@ def test_edge_collector_starts_offline_and_exposes_safe_sync_controls(tmp_path: 
 
     assert not at.exception
     rendered = " ".join(item.value for item in at.markdown)
-    assert "RuralStroke-Assist" in rendered
+    assert "RuralStroke-Triage" in rendered
     assert "Decision support" in rendered
     assert "Offline" in rendered
     labels = {item.label for item in at.button}

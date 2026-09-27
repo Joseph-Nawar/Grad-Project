@@ -25,7 +25,7 @@ from rural_stroke_assist.ui.common import apply_theme, render_assessment_result,
 
 
 LOGGER = logging.getLogger(__name__)
-st.set_page_config(page_title="RuralStroke-Assist Edge Collector", page_icon="🩺", layout="wide")
+st.set_page_config(page_title="RuralStroke-Triage Edge Collector", page_icon="🩺", layout="wide")
 apply_theme(st)
 
 

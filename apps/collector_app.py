@@ -19,7 +19,7 @@ from rural_stroke_assist.ui.payloads import build_case_assessment_input_payload
 from rural_stroke_assist.ui.presentation import short_case_reference
 
 
-st.set_page_config(page_title="RuralStroke-Assist Collector", page_icon="🩺", layout="wide")
+st.set_page_config(page_title="RuralStroke-Triage Collector", page_icon="🩺", layout="wide")
 apply_theme(st)
 
 

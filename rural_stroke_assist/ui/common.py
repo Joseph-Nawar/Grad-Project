@@ -188,7 +188,7 @@ def render_product_header(
     title = roles.get(role, roles["collector"])
     st.markdown(
         "<div class='rsa-header'><div class='rsa-head-row'>"
-        f"<div><div class='rsa-brand'>RuralStroke-Assist</div><p class='rsa-subtitle'>{escape(title)}</p></div>"
+        f"<div><div class='rsa-brand'>RuralStroke-Triage</div><p class='rsa-subtitle'>{escape(title)}</p></div>"
         "<div class='rsa-badges'><span class='rsa-badge research'>Research prototype</span>"
         "<span class='rsa-badge safety'>Decision support — not diagnosis</span>"
         f"{status_badge}</div></div><div class='rsa-workflow'>{workflow}</div></div>",

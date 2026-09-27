@@ -23,7 +23,7 @@ def preferred_case_id(case_ids: list[str], current_case_id: str | None) -> str |
     return case_ids[0] if case_ids else None
 
 
-st.set_page_config(page_title="RuralStroke-Assist Clinician", page_icon="🩺", layout="wide")
+st.set_page_config(page_title="RuralStroke-Triage Clinician", page_icon="🩺", layout="wide")
 apply_theme(st)
 
 
