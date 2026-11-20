@@ -18,7 +18,7 @@ Sigmoid Stroke-class score interpreted as `visual_proxy_evidence`, not a calibra
 
 ## Data and direct results
 
-The canonical manifest is [`data/processed/face_split_manifest.csv`](../../data/processed/face_split_manifest.csv). The held-out test partition contains 318 images. Direct ROC-AUC is `0.9818`, PR-AUC is `0.9716`, sensitivity is `0.9000`, and specificity is `0.9471`.
+The canonical manifest path is `data/processed/face_split_manifest.csv`; the manifest and source data are not included in this Git repository. The held-out test partition contains 318 images. Direct ROC-AUC is `0.9818`, PR-AUC is `0.9716`, sensitivity is `0.9000`, and specificity is `0.9471`.
 
 ## Runtime adapter coverage
 

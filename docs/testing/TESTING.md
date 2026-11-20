@@ -17,6 +17,6 @@ python -m compileall -q rural_stroke_assist apps scripts tests
 python scripts/check_release_readiness.py
 ```
 
-CI runs the non-slow, non-evaluation, non-integration tier because canonical model artifacts are not provisioned in CI. Real-artifact verification remains a local/manual gate.
+CI installs `requirements-baseline.txt`, `requirements-ci.txt`, and `requirements-dev.txt`, then runs the non-slow, non-evaluation, non-integration tier plus the synthetic offline local-assessment integration test. The CI group adds the API runtime imports used during test collection and CPU PyTorch required by the standalone metadata experiment contract tests. It does not install the optional pretrained-reference model stack or run held-out model-backed evaluation. Canonical evaluation artifact verification remains a separate gate.
 
 Expected warnings include the sklearn 1.4.2/1.5.2 artifact warning and existing third-party deprecations.

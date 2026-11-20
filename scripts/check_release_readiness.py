@@ -90,35 +90,51 @@ def main() -> int:
         require(path)
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     headings = [
-        "## 1. Problem",
-        "## 2. Product demonstration",
-        "## 3. Architecture",
-        "## 4. Technical contribution",
-        "## 5. Results",
-        "## 6. Limitations",
-        "## 7. Setup",
-        "## 8. Repository structure",
+        "## Overview",
+        "## Key capabilities",
+        "## Architecture",
+        "## Model profiles",
+        "## Evaluation highlights",
+        "## Working application",
+        "## Quick start",
+        "## Testing and reproducibility",
+        "## Limitations and responsible use",
     ]
     positions = [readme.find(item) for item in headings]
     if any(position < 0 for position in positions) or positions != sorted(positions):
-        errors.append("README narrative headings are missing or out of order.")
-    if "PHASE4_RESULTS_START" not in readme or "PHASE4_RESULTS_END" not in readme:
-        errors.append("README is missing Phase 4 generated-result markers.")
+        errors.append("README current narrative headings are missing or out of order.")
     try:
         final_root = ROOT / "reports/evaluation/phase4/final_complete"
         face = json.loads((final_root / "face.json").read_text(encoding="utf-8"))
-        speech = json.loads((final_root / "speech.json").read_text(encoding="utf-8"))
+        bundles = json.loads(
+            (ROOT / "reports/production/stage5/bundle_benchmarks.json").read_text(encoding="utf-8")
+        )
+        by_name = {item["bundle"]: item for item in bundles["bundles"]}
+        baseline = by_name["baseline"]
+        optimized = by_name["mixed-litert"]
         expected_results = (
-            "33.65%",
             f"{face['direct']['roc_auc']:.4f}",
-            f"{speech['direct']['roc_auc']:.10f}",
-            f"{speech['adapter_aware']['roc_auc']:.4f}",
+            f"{face['direct']['pr_auc']:.4f}",
+            f"{face['adapter_coverage']['accepted']}/{face['total_held_out']} accepted",
+            f"({face['adapter_coverage']['coverage'] * 100:.2f}%)",
+            f"{baseline['artifact_bytes'] / 1_000_000:.2f} MB",
+            f"{optimized['artifact_bytes'] / 1_000_000:.2f} MB",
+            f"{baseline['warm_p50_assessment_ms']:.1f} ms",
+            f"{optimized['warm_p50_assessment_ms']:.1f} ms",
         )
         for value in expected_results:
             if value not in readme:
-                errors.append(f"README result is not synchronized with final_complete: {value}")
+                errors.append(f"README result is not synchronized with its source report: {value}")
     except (OSError, KeyError, TypeError, ValueError):
-        errors.append("Could not validate README values against final_complete artifacts.")
+        errors.append("Could not validate README values against Phase 4 and Stage 5 artifacts.")
+    for required_scope in (
+        "not a diagnostic system",
+        "not a native smartphone benchmark",
+        "not a claim of IEEE Xplore indexing",
+        "no prospective rural or external clinical validation",
+    ):
+        if required_scope.casefold() not in readme.casefold():
+            errors.append(f"README is missing required scope qualification: {required_scope}")
     if re.search(r"[A-Za-z]:\\|/Users/|/home/|C:/Users/", readme):
         errors.append("README contains an absolute local path.")
     if re.search(r"\b(TODO|TBD|PLACEHOLDER|Lorem ipsum)\b", readme, re.I):
@@ -192,7 +208,7 @@ def main() -> int:
         return 1
     print("RELEASE READINESS: PASS")
     print(
-        "Validated catalog, README markers/order, supported claim evidence, privacy wording, and active fusion boundary."
+        "Validated catalog, current README structure and source metrics, supported claim evidence, privacy wording, and active fusion boundary."
     )
     return 0
 

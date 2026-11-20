@@ -18,7 +18,7 @@ The output is `contextual_risk_evidence`. Positive class: `stroke`. It is backgr
 
 ## Data and results
 
-The canonical manifest is [`data/processed/metadata_split_manifest.csv`](../../data/processed/metadata_split_manifest.csv), with 767 held-out rows. ROC-AUC is `0.8338`; precision is `0.1314` because the data are severely imbalanced.
+The canonical manifest path is `data/processed/metadata_split_manifest.csv` (the manifest and source data are not included in this Git repository), with 767 held-out rows. ROC-AUC is `0.8338`; precision is `0.1314` because the data are severely imbalanced.
 
 ## Artifact and runtime
 
