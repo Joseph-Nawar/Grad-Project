@@ -1,7 +1,7 @@
 # Speech dataset card
 
-- Repository location: [`data/raw/torgo_audio`](../../data/raw/torgo_audio)
-- Processed manifest: [`data/processed/speech_split_manifest.csv`](../../data/processed/speech_split_manifest.csv)
+- Expected local repository location: `data/raw/torgo_audio` (raw data are not included in this Git repository).
+- Processed manifest: `data/processed/speech_split_manifest.csv` (not included in this Git repository).
 - Role: speaker-held-out speech branch training and evaluation.
 - Test partition: 2,849 recordings.
 - Source, license, demographics, and consent details: not fully documented in this repository.

@@ -1,0 +1,8 @@
+# Runtime dependencies needed by the unchanged fast test collection/execution.
+# Keep the large pretrained-reference stack optional; the fast tier only needs
+# PyTorch for import-order and experiment-contract tests.
+-c constraints-baseline.txt
+-r requirements-api-runtime.txt
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.8.0+cpu ; sys_platform == "linux"
+torch==2.8.0 ; sys_platform == "darwin"

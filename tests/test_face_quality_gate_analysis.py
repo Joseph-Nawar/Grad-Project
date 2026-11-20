@@ -33,6 +33,7 @@ def _example_frame() -> pd.DataFrame:
     )
 
 
+@pytest.mark.evaluation
 def test_canonical_test_ids_are_unique_and_match_manifest_class_counts() -> None:
     manifest = pd.read_csv(ROOT / "data/processed/face_split_manifest.csv")
     test_samples = analysis.canonical_test_samples(manifest)
@@ -128,6 +129,7 @@ def test_stratified_bootstrap_is_deterministic_for_fixed_seed() -> None:
     assert first == second
 
 
+@pytest.mark.evaluation
 def test_test_analysis_excludes_train_and_validation_ids() -> None:
     manifest = pd.read_csv(ROOT / "data/processed/face_split_manifest.csv")
     test_samples = analysis.canonical_test_samples(manifest)
@@ -149,6 +151,7 @@ def test_analysis_script_does_not_call_model_training_apis() -> None:
     assert not forbidden.intersection(calls)
 
 
+@pytest.mark.evaluation
 def test_production_and_model_fingerprints_match_external_start_snapshot() -> None:
     snapshot = json.loads(SNAPSHOT.read_text(encoding="utf-8"))
     assert analysis.verify_starting_fingerprints(ROOT, snapshot) == []
@@ -176,6 +179,7 @@ def test_analysis_script_can_start_from_scripts_directory() -> None:
     assert "--fingerprint-snapshot" in result.stdout
 
 
+@pytest.mark.evaluation
 def test_nonreproducing_persisted_prediction_export_is_marked_nonreusable() -> None:
     manifest = pd.read_csv(ROOT / "data/processed/face_split_manifest.csv")
     predictions = pd.read_csv(
@@ -193,6 +197,7 @@ def test_nonreproducing_persisted_prediction_export_is_marked_nonreusable() -> N
     assert result["failed_metric_count"] > 0
 
 
+@pytest.mark.evaluation
 def test_historical_rejection_reproduction_exposes_passed_invariant() -> None:
     manifest = pd.read_csv(ROOT / "data/processed/face_split_manifest.csv")
     samples = analysis.canonical_test_samples(manifest)

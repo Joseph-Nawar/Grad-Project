@@ -1,10 +1,13 @@
 from pathlib import Path
 import json
 
+import pytest
+
 from rural_stroke_assist.evaluation.gap_closure import _FixedAdapter, missing_modality_audit
 from rural_stroke_assist.inference.registry import load_baseline_registry
 
 
+@pytest.mark.evaluation
 def test_missing_modality_matrix_executes_all_fifteen_combinations(tmp_path: Path):
     result = missing_modality_audit(tmp_path, load_baseline_registry())
     assert result["combination_count"] == 16

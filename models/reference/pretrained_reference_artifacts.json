@@ -10,7 +10,7 @@
     },
     "metadata_training_context": {
       "path": "models/reference/tabpfn_v2_training_context.csv",
-      "sha256": "29bc5ef21b3c3b96161ebfdfa498975c8eb141cc12aff46a880061571b252212",
+      "sha256": "97e70099617adb9acd2797d49b7feea1b03f11270c724557a099a04c759f7672",
       "source_manifest": "data/processed/metadata_split_manifest.csv",
       "source_manifest_sha256": "750110fff761405c194b3d149918f0d49eb643baea6129f39c8e02c3900108cb",
       "training_context_fingerprint": "389693811457126741dccd6edbdeb892f3c17149ae69069fd7ef23b34a289f3d",

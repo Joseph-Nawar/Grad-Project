@@ -35,6 +35,7 @@ def test_registry_structure_rejects_missing_required_sections(tmp_path: Path) ->
         validate_registry_structure(json.loads(invalid_path.read_text(encoding="utf-8")))
 
 
+@pytest.mark.evaluation
 def test_registry_hash_matches_canonical_face_manifest() -> None:
     registry = load_registry(REGISTRY_PATH)
     manifest = ROOT / registry["manifests"]["face_split"]["path"]
