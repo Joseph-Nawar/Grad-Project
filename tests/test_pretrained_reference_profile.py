@@ -306,6 +306,7 @@ def test_distilhubert_runner_reproduces_mean_pooling_and_classifier_identity(
     assert captured["kwargs"]["sampling_rate"] == 16_000
 
 
+@pytest.mark.integration
 def test_tabpfn_runner_verifies_frozen_context_and_v2_settings() -> None:
     registry = ReferenceProfileRegistry.from_file(REFERENCE_CONFIG)
     captured: dict[str, object] = {}

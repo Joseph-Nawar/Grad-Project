@@ -88,6 +88,7 @@ def test_targeted_vectors_preserve_non_target_ratios_and_allow_zero_metadata() -
     assert metadata_minus_tenth.weights["metadata_context"] == 0.0
 
 
+@pytest.mark.evaluation
 def test_compatibility_scenarios_are_reused_with_explicit_profile_mapping() -> None:
     source = analysis.load_compatibility_sources(SOURCE_DIR)
     hand = source["hand_authored"]
@@ -107,6 +108,7 @@ def test_compatibility_scenarios_are_reused_with_explicit_profile_mapping() -> N
     assert reference_low.scores["speech"] == pytest.approx(2.0744423826726132e-10)
 
 
+@pytest.mark.evaluation
 def test_source_loader_opens_only_scenarios_and_provenance(monkeypatch: pytest.MonkeyPatch) -> None:
     opened: list[str] = []
     real_open = Path.open
@@ -126,6 +128,7 @@ def test_source_loader_opens_only_scenarios_and_provenance(monkeypatch: pytest.M
     assert len(opened) == 3
 
 
+@pytest.mark.evaluation
 def test_scenario_set_adds_all_sixteen_masks_from_each_conflict_tuple() -> None:
     source = analysis.load_compatibility_sources(SOURCE_DIR)
     scenarios = analysis.build_all_scenarios(source)
@@ -154,6 +157,7 @@ def test_scenario_set_adds_all_sixteen_masks_from_each_conflict_tuple() -> None:
                     assert value == conflict.scores[modality]
 
 
+@pytest.mark.evaluation
 def test_evaluation_calls_the_canonical_fusion_function(monkeypatch: pytest.MonkeyPatch) -> None:
     scenario = next(
         item
@@ -178,6 +182,7 @@ def test_evaluation_calls_the_canonical_fusion_function(monkeypatch: pytest.Monk
     assert 0.0 <= result["fused_score"] <= 1.0
 
 
+@pytest.mark.evaluation
 def test_acute_and_no_evidence_invariants_hold_for_every_valid_vector() -> None:
     sources = analysis.load_compatibility_sources(SOURCE_DIR)
     scenarios = analysis.build_all_scenarios(sources)
@@ -210,6 +215,7 @@ def test_acute_and_no_evidence_invariants_hold_for_every_valid_vector() -> None:
             assert result["fused_score"] is None
 
 
+@pytest.mark.evaluation
 def test_representative_replay_is_deterministic_and_hashes_stay_fixed() -> None:
     policy = analysis.load_frozen_policy(REPO_ROOT)
     sources = analysis.load_compatibility_sources(SOURCE_DIR)
@@ -246,6 +252,7 @@ def test_transition_labels_and_threshold_margin_boundaries() -> None:
     assert analysis.threshold_margin_bin(0.100) == "[0.100, infinity)"
 
 
+@pytest.mark.evaluation
 def test_replayed_comparisons_have_bounded_scores_and_actual_transition_labels() -> None:
     sources = analysis.load_compatibility_sources(SOURCE_DIR)
     scenario = next(
@@ -302,6 +309,7 @@ def test_stability_summary_can_isolate_full_mask_sensitivity_and_excludes_target
     assert isolated["mean_absolute_score_change"] == 0.01
 
 
+@pytest.mark.evaluation
 def test_production_fusion_inputs_remain_unchanged_after_sample_calls() -> None:
     policy_before = analysis.load_frozen_policy(REPO_ROOT)
     registry_path = REPO_ROOT / "config/baseline_registry.json"
@@ -321,6 +329,7 @@ def test_production_fusion_inputs_remain_unchanged_after_sample_calls() -> None:
     assert analysis.sha256_file(fusion_path) == fusion_hash_before
 
 
+@pytest.mark.evaluation
 def test_human_report_renders_descriptive_scenario_rows() -> None:
     policy = analysis.load_frozen_policy(REPO_ROOT)
     sources = analysis.load_compatibility_sources(SOURCE_DIR)
